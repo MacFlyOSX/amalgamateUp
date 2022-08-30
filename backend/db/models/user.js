@@ -12,7 +12,17 @@ module.exports = (sequelize, DataTypes) => {
       return id;
     }
     static associate(models) {
-      // define association here
+      User.hasMany(models.Group, {
+        foreignKey: 'organizerId'
+      });
+      User.belongsToMany(models.Group, {
+        through: models.Membership,
+        foreignKey: 'userId',
+        otherKey: 'groupId'
+      });
+      User.hasMany(models.Membership, {
+        foreignKey: 'userId'
+      });
     }
     validatePassword(password) {
       return bcrypt.compareSync(password, this.hashedPassword.toString());

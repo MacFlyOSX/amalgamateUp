@@ -392,40 +392,40 @@ const nuts = ['WALNUT', 'PEANUT', 'CASHEW', 'PISTACHIO', 'PECAN', 'ALMOND', 'MAC
 
 const privacy = [true, false];
 
-// let groups = [];
+let groups = [];
 
-// for (let i = 0; i < 25; i++) {
-//     const randID = Math.floor(Math.random() * 25);
-//     const randG = Math.floor(Math.random() * 10);
-//     const randLoc = Math.floor(Math.random() * 50);
-//     const randLogic = Math.floor(Math.random() * 2);
-
-//     groups.push({
-//         organizerId: randID,
-//         name: groupNames[randG],
-//         about: abouts[randG],
-//         type: types[randG],
-//         private: privacy[randLogic],
-//         city: locations[randLoc].capital,
-//         state: locations[randLoc].abbr
-//     })
-// }
-// console.log(groups);
-
-let venues = [];
-for (let i = 0; i < 25; i++) {
-    const randID = Math.floor(Math.random() * 25);
+for (let i = 0; i < 5; i++) {
+    const randID = Math.ceil(Math.random() * 3);
+    const randG = Math.floor(Math.random() * 10);
     const randLoc = Math.floor(Math.random() * 50);
-    const randNut = Math.floor(Math.random() * 9);
-    const randAdd = Math.floor(Math.random() * 10000);
+    const randLogic = Math.floor(Math.random() * 2);
 
-    venues.push({
-        groupId: randID,
-        address: `${randAdd} ${nuts[randNut]} ${streetEnds[randNut]}`,
+    groups.push({
+        organizerId: randID,
+        name: groupNames[randG],
+        about: abouts[randG],
+        type: 'In person',
+        private: privacy[randLogic],
         city: locations[randLoc].capital,
-        state: locations[randLoc].abbr,
-        lat: locations[randLoc].lat,
-        lng: locations[randLoc].long
+        state: locations[randLoc].abbr
     })
 }
-console.log(venues);
+console.log(groups);
+
+// let venues = [];
+// for (let i = 0; i < 25; i++) {
+//     const randID = Math.floor(Math.random() * 25);
+//     const randLoc = Math.floor(Math.random() * 50);
+//     const randNut = Math.floor(Math.random() * 9);
+//     const randAdd = Math.floor(Math.random() * 10000);
+
+//     venues.push({
+//         groupId: randID,
+//         address: `${randAdd} ${nuts[randNut]} ${streetEnds[randNut]}`,
+//         city: locations[randLoc].capital,
+//         state: locations[randLoc].abbr,
+//         lat: locations[randLoc].lat,
+//         lng: locations[randLoc].long
+//     })
+// }
+// console.log(venues);
