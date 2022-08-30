@@ -1,7 +1,7 @@
 // backend/routes/api/groups.js
 const express = require('express');
 const { setTokenCookie, restoreUser } = require('../../utils/auth');
-const { Group, User, Membership, sequelize } = require('../../db/models');
+const { Group, User, Membership, Venue, sequelize } = require('../../db/models');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const { Op } = require('sequelize');
@@ -38,20 +38,24 @@ router.get('/current', async (req, res) => {
     }
 );
 
-// router.get('/:groupId', async (req, res) => {
-//     const group = await Group.findByPk(req.params.groupId, {
-//         include: [{model: GroupImage}, {model: User, as: 'Organizer'}, {model: Venue}]
-//     });
-//     if (group) {
-//         res.json(group);
-//     } else {
-//         res.status(404);
-//         res.json({
-//             "message": "Group couldn't be found",
-//             "statusCode": 404
-//           });
-//     }
-// });
+router.get('/:groupId', async (req, res) => {
+    const group = await Group.findByPk(req.params.groupId, {
+        include: [
+            {model: User,
+                as: 'Organizer'},
+            {model: Venue
+            }]
+    });
+    if (group) {
+        res.json(group);
+    } else {
+        res.status(404);
+        res.json({
+            "message": "Group couldn't be found",
+            "statusCode": 404
+          });
+    }
+});
 
 router.get('/', async (req, res) => {
     const groups = await Group.findAll({

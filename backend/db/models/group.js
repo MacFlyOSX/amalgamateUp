@@ -11,7 +11,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Group.belongsTo(models.User, {
-        foreignKey: 'organizerId'
+        foreignKey: 'organizerId',
+        as: 'Organizer'
       });
       Group.belongsToMany(models.User, {
         through: models.Membership,
@@ -42,7 +43,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       validate: {
         isValid(val) {
-          const types = ['Online', 'In person', 'Hybrid'];
+          const types = ['Online', 'In person'];
           if (!types.includes(val)) {
             throw new Error('Must be a valid type')
           }

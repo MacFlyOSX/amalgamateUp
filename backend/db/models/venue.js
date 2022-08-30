@@ -13,13 +13,13 @@ module.exports = (sequelize, DataTypes) => {
       Venue.belongsTo(models.Group, {
         foreignKey: 'groupId'
       });
+      Venue.hasMany(models.Event, {
+        foreignKey: 'venueId'
+      });
       Venue.belongsToMany(models.Group, {
         through: models.Event,
         foreignKey: 'venueId',
         otherKey: 'groupId'
-      });
-      Venue.hasMany(models.Event, {
-        foreignKey: 'venueId'
       });
     }
   }
@@ -33,6 +33,11 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Venue',
+    defaultScope: {
+      attributes: {
+        exclude: ["createdAt", "updatedAt"]
+      }
+    },
   });
   return Venue;
 };
