@@ -1699,7 +1699,7 @@ Request attendance for an event specified by id.
 * Require Authorization: Current User must be a member of the group
 * Request
   * Method: POST
-  * URL: /api/events/:eventId/attendees
+  * URL: /api/events/:eventId/attendance
   * Headers:
     * Content-Type: application/json
   * Body: none
@@ -1767,7 +1767,7 @@ Change the status of an attendance for an event specified by id.
   have a membership to the group with the status of "co-host"
 * Request
   * Method: PUT
-  * URL: /api/events/:eventId/attendees
+  * URL: /api/events/:eventId/attendance
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -1842,7 +1842,7 @@ Delete an attendance to an event specified by id.
   the user whose attendance is being deleted
 * Request
   * Method: DELETE
-  * URL: /api/events/:eventId/attendees
+  * URL: /api/events/:eventId/attendance
   * Headers:
     * Content-Type: application/json
   * Body:
