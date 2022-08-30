@@ -13,6 +13,14 @@ module.exports = (sequelize, DataTypes) => {
       Venue.belongsTo(models.Group, {
         foreignKey: 'groupId'
       });
+      Venue.belongsToMany(models.Group, {
+        through: models.Event,
+        foreignKey: 'venueId',
+        otherKey: 'groupId'
+      });
+      Venue.hasMany(models.Event, {
+        foreignKey: 'venueId'
+      });
     }
   }
   Venue.init({

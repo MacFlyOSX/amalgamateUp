@@ -23,10 +23,12 @@ module.exports = (sequelize, DataTypes) => {
     groupId: DataTypes.INTEGER,
     status: {
       type: DataTypes.STRING,
-      isValid(val) {
-        const okayValues = ['member', 'co-host', 'pending', 'organizer'];
-        if (!okayValues.includes(val)) {
-          throw new Error('Please provide proper membership status.')
+      validate: {
+        isValid(val) {
+          const okayValues = ['member', 'co-host', 'pending', 'organizer'];
+          if (!okayValues.includes(val)) {
+            throw new Error('Please provide proper membership status.')
+          }
         }
       }
     }

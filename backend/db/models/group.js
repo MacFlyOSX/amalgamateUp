@@ -24,13 +24,31 @@ module.exports = (sequelize, DataTypes) => {
       Group.hasMany(models.Venue, {
         foreignKey: 'groupId'
       });
+      Group.belongsToMany(models.Venue, {
+        through: models.Event,
+        foreignKey: 'groupId',
+        otherKey: 'venueId'
+      });
+      Group.hasMany(models.Event, {
+        foreignKey: 'groupId'
+      });
     }
   }
   Group.init({
     organizerId: DataTypes.INTEGER,
     name: DataTypes.STRING,
     about: DataTypes.TEXT,
-    type: DataTypes.STRING,
+    type: {
+      type: DataTypes.STRING,
+      validate: {
+        isValid(val) {
+          const types = ['Online', 'In person', 'Hybrid'];
+          if (!types.includes(val)) {
+            throw new Error('Must be a valid type')
+          }
+        }
+      }
+    },
     private: DataTypes.BOOLEAN,
     city: DataTypes.STRING,
     state: DataTypes.STRING
