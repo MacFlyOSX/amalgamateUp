@@ -39,7 +39,10 @@ router.post(
     await setTokenCookie(res, user);
 
     return res.json({
-      user
+      id: user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email
     });
   }
 );
@@ -60,9 +63,7 @@ router.get(
     (req, res) => {
       const { user } = req;
       if (user) {
-        return res.json({
-          user: user.toSafeObject()
-        });
+        return res.json(user.toSafeObject());
       } else return res.json({});
     }
   );

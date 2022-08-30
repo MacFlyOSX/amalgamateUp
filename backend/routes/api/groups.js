@@ -10,17 +10,33 @@ const { Op } = require('sequelize');
 const router = express.Router();
 
 
-// router.get('/current', restoreUser,
-//     async (req, res) => {
-//         const { user } = req;
-//         if (user) {
-//             const id = user.getID();
-//             const groups = await User.findByPk(id, {
-//                 include: {model: Group}
-//             });
-//         } else return res.json({});
-//     }
-// );
+router.get('/current', async (req, res) => {
+        const { user } = req;
+        if (user) {
+            // const groups = await User.findByPk(user.id, {
+            //     attributes: [],
+            //     include: [{model: Group,
+            //                through: {model: Membership,
+            //                          attributes: []},
+            //                         }]
+            //     });
+            const groups = await Group.findAll({
+                include: [ {model: Membership,
+                            where: {
+                                userId: user.id
+                            },
+                            attributes: []}],
+                attributes: {
+                    include: [
+                        [sequelize.fn("COUNT", sequelize.col("Memberships.id")), "numMembers"]
+                    ]
+                },
+                group: ['Group.id']
+            });
+            res.json(groups);
+        } else return res.json({});
+    }
+);
 
 // router.get('/:groupId', async (req, res) => {
 //     const group = await Group.findByPk(req.params.groupId, {
@@ -48,6 +64,8 @@ router.get('/', async (req, res) => {
         },
         group: ['Group.id']
     });
+    const { user } = req;
+    console.log(user.id);
     res.json({
         Groups: groups
     });

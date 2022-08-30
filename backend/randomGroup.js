@@ -353,7 +353,7 @@ const locations = [
 
 const streetEnds = ['AVE', 'BLVD', 'ST', 'PKWY', 'PLZ', 'DR', 'CT', 'RD', 'LN'];
 
-const types = ['Arts', 'Business', 'Games', 'Sports', 'Fitness', 'Outdoors', 'Social', 'Music', 'Religion', 'Technology'];
+// const types = ['Arts', 'Business', 'Games', 'Sports', 'Fitness', 'Outdoors', 'Social', 'Music', 'Religion', 'Technology'];
 
 const groupNames = ['Tipsy Painters', 'Pursuit of HAPPYness', 'Masterminds', `Dodge the Ball`, 'No PAIN No GAIN', 'Hike and Chat', 'Coffee and Conversation', "F.O.A.M.", 'One Love', 'Tech Overflow'];
 
@@ -392,40 +392,41 @@ const nuts = ['WALNUT', 'PEANUT', 'CASHEW', 'PISTACHIO', 'PECAN', 'ALMOND', 'MAC
 
 const privacy = [true, false];
 
-let groups = [];
+// let groups = [];
 
-for (let i = 0; i < 5; i++) {
-    const randID = Math.ceil(Math.random() * 3);
-    const randG = Math.floor(Math.random() * 10);
-    const randLoc = Math.floor(Math.random() * 50);
-    const randLogic = Math.floor(Math.random() * 2);
-
-    groups.push({
-        organizerId: randID,
-        name: groupNames[randG],
-        about: abouts[randG],
-        type: 'In person',
-        private: privacy[randLogic],
-        city: locations[randLoc].capital,
-        state: locations[randLoc].abbr
-    })
-}
-console.log(groups);
-
-// let venues = [];
-// for (let i = 0; i < 25; i++) {
-//     const randID = Math.floor(Math.random() * 25);
+// for (let i = 0; i < 5; i++) {
+//     const randID = Math.ceil(Math.random() * 3);
+//     const randG = Math.floor(Math.random() * 10);
 //     const randLoc = Math.floor(Math.random() * 50);
-//     const randNut = Math.floor(Math.random() * 9);
-//     const randAdd = Math.floor(Math.random() * 10000);
+//     const randLogic = Math.floor(Math.random() * 2);
 
-//     venues.push({
-//         groupId: randID,
-//         address: `${randAdd} ${nuts[randNut]} ${streetEnds[randNut]}`,
+//     groups.push({
+//         organizerId: randID,
+//         name: groupNames[randG],
+//         about: abouts[randG],
+//         type: 'In person',
+//         private: privacy[randLogic],
 //         city: locations[randLoc].capital,
-//         state: locations[randLoc].abbr,
-//         lat: locations[randLoc].lat,
-//         lng: locations[randLoc].long
+//         state: locations[randLoc].abbr
 //     })
 // }
-// console.log(venues);
+// console.log(groups);
+
+let venues = [];
+for (let i = 1; i <= 10; i++) {
+    // const randID = Math.ceil(Math.random() * 5);
+    const randLoc = Math.floor(Math.random() * 50);
+    const randNut = Math.floor(Math.random() * 9);
+    const randStreet = Math.floor(Math.random() * 9);
+    const randAdd = Math.floor(Math.random() * 10000);
+
+    venues.push({
+        groupId: Math.ceil(i/2),
+        address: `${randAdd} ${nuts[randNut]} ${streetEnds[randStreet]}`,
+        city: locations[randLoc].capital,
+        state: locations[randLoc].abbr,
+        lat: locations[randLoc].lat,
+        lng: locations[randLoc].long
+    })
+}
+console.log(venues);
