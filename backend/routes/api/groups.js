@@ -203,25 +203,25 @@ router.get('/', async (req, res) => {
                 [sequelize.col('GroupImages.url', sequelize.where(sequelize.col('GroupImages.preview'), true)), 'previewImage']
             ]
         },
-        group: ['Groups.id']
+        group: ['Group.id']
     });
-    // const counts = await Group.findAll({
-    //     raw: true,
-    //     include: [ {model: Membership,
-    //                 attributes: [] }
-    //             ],
-    //     attributes: {
-    //         include: [
-    //             [sequelize.fn("COUNT", sequelize.col("Memberships.id")), "numMembers"]
-    //         ]
-    //     },
-    //     group: ['Groups.id']
-    // });
-    // // console.log(counts);
-    // // console.log(groups);
-    // for (let i = 0; i < counts.length; i++) {
-    //     groups[i].numMembers = counts[i].numMembers;
-    // }
+    const counts = await Group.findAll({
+        raw: true,
+        include: [ {model: Membership,
+                    attributes: [] }
+                ],
+        attributes: {
+            include: [
+                [sequelize.fn("COUNT", sequelize.col("Memberships.id")), "numMembers"]
+            ]
+        },
+        group: ['Group.id']
+    });
+    // console.log(counts);
+    // console.log(groups);
+    for (let i = 0; i < counts.length; i++) {
+        groups[i].numMembers = counts[i].numMembers;
+    }
     res.json({
         Groups: groups
     });
