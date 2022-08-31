@@ -115,10 +115,13 @@ router.get('/current', async (req, res) => {
                             where: {
                                 userId: user.id
                             },
+                            attributes: []},
+                            {model: GroupImage,
                             attributes: []}],
                 attributes: {
                     include: [
-                        [sequelize.fn("COUNT", sequelize.col("Memberships.id")), "numMembers"]
+                        [sequelize.fn("COUNT", sequelize.col("Memberships.id")), "numMembers"],
+                        [sequelize.col('GroupImages.url', sequelize.where(sequelize.col('GroupImages.preview'), true)), 'previewImage']
                     ]
                 },
                 group: ['Group.id']
@@ -197,10 +200,10 @@ router.get('/', async (req, res) => {
         attributes: {
             include: [
                 [sequelize.fn("COUNT", sequelize.col("Memberships.id")), "numMembers"],
-                [sequelize.col('GroupImages.url'), 'previewImage']
+                [sequelize.col('GroupImages.url', sequelize.where(sequelize.col('GroupImages.preview'), true)), 'previewImage']
             ]
         },
-        group: 'Memberships.groupId'
+        group: 'Memberships.id'
     });
     const counts = await Group.findAll({
         raw: true,
