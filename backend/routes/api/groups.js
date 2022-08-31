@@ -205,23 +205,23 @@ router.get('/', async (req, res) => {
         },
         group: 'Memberships.id'
     });
-    const counts = await Group.findAll({
-        raw: true,
-        include: [ {model: Membership,
-                    attributes: [] }
-                ],
-        attributes: {
-            include: [
-                [sequelize.fn("COUNT", sequelize.col("Memberships.id")), "numMembers"]
-            ]
-        },
-        group: ['Groups.id']
-    });
-    // console.log(counts);
-    // console.log(groups);
-    for (let i = 0; i < counts.length; i++) {
-        groups[i].numMembers = counts[i].numMembers;
-    }
+    // const counts = await Group.findAll({
+    //     raw: true,
+    //     include: [ {model: Membership,
+    //                 attributes: [] }
+    //             ],
+    //     attributes: {
+    //         include: [
+    //             [sequelize.fn("COUNT", sequelize.col("Memberships.id")), "numMembers"]
+    //         ]
+    //     },
+    //     group: ['Groups.id']
+    // });
+    // // console.log(counts);
+    // // console.log(groups);
+    // for (let i = 0; i < counts.length; i++) {
+    //     groups[i].numMembers = counts[i].numMembers;
+    // }
     res.json({
         Groups: groups
     });
