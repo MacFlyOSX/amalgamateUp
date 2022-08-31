@@ -192,18 +192,18 @@ Get all Groups
 router.get('/', async (req, res) => {
     const groups = await Group.findAll({
         raw: true,
-        include: [ {model: Membership,
-                    attributes: [] },
-                    {model: GroupImage,
-                    attributes: []}
-                ],
-        attributes: {
-            include: [
-                [sequelize.fn("COUNT", sequelize.col("Memberships.id")), "numMembers"],
-                [sequelize.col('GroupImages.url', sequelize.where(sequelize.col('GroupImages.preview'), true)), 'previewImage']
-            ]
-        },
-        group: ['Group.id']
+        // include: [ {model: Membership,
+        //             attributes: [] },
+        //             {model: GroupImage,
+        //             attributes: []}
+        //         ],
+        // attributes: {
+        //     include: [
+        //         [sequelize.fn("COUNT", sequelize.col("Memberships.id")), "numMembers"],
+        //         [sequelize.col('GroupImages.url', sequelize.where(sequelize.col('GroupImages.preview'), true)), 'previewImage']
+        //     ]
+        // },
+        // group: ['Group.id']
     });
     const counts = await Group.findAll({
         raw: true,
@@ -221,7 +221,26 @@ router.get('/', async (req, res) => {
     // console.log(groups);
     for (let i = 0; i < counts.length; i++) {
         groups[i].numMembers = counts[i].numMembers;
+        // console.log(groups[i].id)
+        const images = await Group.findByPk(groups[i].id, {
+            raw: true,
+            include: [{
+                        model: GroupImage,
+                        where: {preview: true},
+                        attributes: ['url']
+            }]
+        });
+        // console.log(images);
+        // const prevIm = await Group.findByPk
+        // console.log(prevIm);
+        groups[i].previewImage = images['GroupImages.url'];
+        // if (i === counts.length - 1) {
+        //     res.json({
+        //         Groups: groups
+        //     })
+        // }
     }
+    // console.log(groups)
     res.json({
         Groups: groups
     });
