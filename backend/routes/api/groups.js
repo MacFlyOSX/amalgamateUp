@@ -139,18 +139,18 @@ Get details of a Group from their ID
 router.get('/:groupId', async (req, res) => {
     let group = await Group.findByPk(req.params.groupId, {
         include: [
-            {model: GroupImage,
-                attributes: {
-                    exclude: ['groupId', 'createdAt', 'updatedAt']
-                }},
-            {model: User,
-                as: 'Organizer'},
-            {model: Venue,
-                as: 'Venues',
-                attributes: {
-                    exclude: ['createdAt', 'updatedAt']
-                }
-            },
+            // {model: GroupImage,
+            //     attributes: {
+            //         exclude: ['groupId', 'createdAt', 'updatedAt']
+            //     }},
+            // {model: User,
+            //     as: 'Organizer'},
+            // {model: Venue,
+            //     as: 'Venues',
+            //     attributes: {
+            //         exclude: ['createdAt', 'updatedAt']
+            //     }
+            // },
             {model: Membership,
                 attributes: [] }],
         // raw: true,
@@ -161,28 +161,36 @@ router.get('/:groupId', async (req, res) => {
         },
         group: ['Group.id']
     });
-    const count = await Membership.count({
-        where: {
-            groupId: req.params.groupId
-        }
-    });
-    const venues = await Venue.findAll({
-        raw: true,
-        where: {
-            groupId: req.params.groupId
-        }
-    });
-    const groupImages = await GroupImage.findAll({
-        raw: true,
-        where: {
-            groupId: req.params.groupId
-        }
-    })
+
     if (group) {
         group = group.toJSON();
+        const organizer = await User.findByPk(group.organizerId, {
+            raw: true,
+            attributes: {
+                include: ['id', 'firstName', 'lastName']
+            }
+        });
+        const count = await Membership.count({
+            where: {
+                groupId: req.params.groupId
+            }
+        });
+        const venues = await Venue.findAll({
+            raw: true,
+            where: {
+                groupId: req.params.groupId
+            }
+        });
+        const groupImages = await GroupImage.findAll({
+            raw: true,
+            where: {
+                groupId: req.params.groupId
+            }
+        })
         group.numMembers = count;
-        group.Venues = venues;
         group.GroupImages = groupImages;
+        group.Organizer = organizer;
+        group.Venues = venues;
         res.json(group);
     } else {
         res.status(404);
