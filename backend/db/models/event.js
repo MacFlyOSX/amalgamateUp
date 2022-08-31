@@ -24,6 +24,9 @@ module.exports = (sequelize, DataTypes) => {
       Event.hasMany(models.Attendance, {
         foreignKey: 'eventId'
       });
+      Event.hasMany(models.EventImage, {
+        foreignKey: 'eventId'
+      });
     }
   }
   Event.init({
