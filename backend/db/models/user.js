@@ -23,6 +23,14 @@ module.exports = (sequelize, DataTypes) => {
       User.hasMany(models.Membership, {
         foreignKey: 'userId'
       });
+      User.belongsToMany(models.Event, {
+        through: models.Attendance,
+        foreignKey: 'userId',
+        otherKey: 'eventId'
+      });
+      User.hasMany(models.Attendance, {
+        foreignKey: 'userId'
+      });
     }
     validatePassword(password) {
       return bcrypt.compareSync(password, this.hashedPassword.toString());
