@@ -158,7 +158,8 @@ router.get('/:groupId', async (req, res) => {
             include: [
                 [sequelize.fn("COUNT", sequelize.col("Memberships.id")), "numMembers"],
             ]
-        }
+        },
+        group: ['Group.id']
     });
     const count = await Membership.count({
         where: {
@@ -171,10 +172,17 @@ router.get('/:groupId', async (req, res) => {
             groupId: req.params.groupId
         }
     });
+    const groupImages = await GroupImage.findAll({
+        raw: true,
+        where: {
+            groupId: req.params.groupId
+        }
+    })
     if (group) {
         group = group.toJSON();
         group.numMembers = count;
         group.Venues = venues;
+        group.GroupImages = groupImages;
         res.json(group);
     } else {
         res.status(404);
