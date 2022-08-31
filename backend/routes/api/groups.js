@@ -203,7 +203,7 @@ router.get('/', async (req, res) => {
                 [sequelize.col('GroupImages.url', sequelize.where(sequelize.col('GroupImages.preview'), true)), 'previewImage']
             ]
         },
-        group: 'Memberships.id'
+        group: ['Groups.id']
     });
     // const counts = await Group.findAll({
     //     raw: true,
