@@ -17,15 +17,74 @@ Get all Venues for a Group by their ID
     /api/groups/:groupId/venues
 */
 router.get('/:groupId/venues', async (req, res) => {
+    const group = await Group.findByPk(req.params.groupId);
+    if (group) {
+        const venues = await Venue.findAll({
+            where: {
+                groupId: req.params.groupId
+            }
+        });
+        res.json({
+            Venues: venues
+        })
+    } else {
+        res.status(404);
+        res.json({
+            "message": "Group couldn't be found",
+            "statusCode": 404
+          });
+    }
 
 });
-
+/*
+raw: true,
+        include: [ {model: Membership,
+                    attributes: [] },
+                    {model: GroupImage,
+                    attributes: []}
+                ],
+        attributes: {
+            include: [
+                [sequelize.fn("COUNT", sequelize.col("Memberships.id")), "numMembers"],
+                [sequelize.col('GroupImages.url'), 'previewImage']
+            ]
+        },
+        group: 'Memberships.groupId'
+*/
 /*
 Get all Events for a Group by their ID
     /api/groups/:groupId/events
 */
 router.get('/:groupId/events', async (req, res) => {
-
+    const group = await Group.findByPk(req.params.groupId);
+    if (group) {
+        const events = await Event.findAll({
+            attributes: {
+                include: ['id', 'groupId', 'venueId', 'name', 'type',
+                          'startDate', 'endDate']
+            },
+            where: {
+                groupId: req.params.groupId
+            },
+            include: [{model: Group,
+                        attributes: {
+                            exclude: ['organizerId', 'about', 'type', 'private', 'createdAt', 'updatedAt']
+                        }}, {model: Venue,
+                            attributes: {
+                                exclude: ['groupId', 'address', 'lat', 'lng', 'createdAt', 'updatedAt']
+                            }},],
+            group: 'Event.id'
+        });
+        res.json({
+            Events: events
+        })
+    } else {
+        res.status(404);
+        res.json({
+            "message": "Group couldn't be found",
+            "statusCode": 404
+          });
+    }
 });
 
 /*
@@ -75,14 +134,44 @@ Get details of a Group from their ID
     /api/groups/:groupId
 */
 router.get('/:groupId', async (req, res) => {
-    const group = await Group.findByPk(req.params.groupId, {
+    let group = await Group.findByPk(req.params.groupId, {
         include: [
+            {model: GroupImage,
+                attributes: {
+                    exclude: ['groupId', 'createdAt', 'updatedAt']
+                }},
             {model: User,
                 as: 'Organizer'},
-            {model: Venue
-            }]
+            {model: Venue,
+                as: 'Venues',
+                attributes: {
+                    exclude: ['createdAt', 'updatedAt']
+                }
+            },
+            {model: Membership,
+                attributes: [] }],
+        // raw: true,
+        attributes: {
+            include: [
+                [sequelize.fn("COUNT", sequelize.col("Memberships.id")), "numMembers"],
+            ]
+        }
+    });
+    const count = await Membership.count({
+        where: {
+            groupId: req.params.groupId
+        }
+    });
+    const venues = await Venue.findAll({
+        raw: true,
+        where: {
+            groupId: req.params.groupId
+        }
     });
     if (group) {
+        group = group.toJSON();
+        group.numMembers = count;
+        group.Venues = venues;
         res.json(group);
     } else {
         res.status(404);
@@ -99,17 +188,37 @@ Get all Groups
 */
 router.get('/', async (req, res) => {
     const groups = await Group.findAll({
+        raw: true,
         include: [ {model: Membership,
-                    attributes: [] }],
+                    attributes: [] },
+                    {model: GroupImage,
+                    attributes: []}
+                ],
+        attributes: {
+            include: [
+                [sequelize.fn("COUNT", sequelize.col("Memberships.id")), "numMembers"],
+                [sequelize.col('GroupImages.url'), 'previewImage']
+            ]
+        },
+        group: 'Memberships.groupId'
+    });
+    const counts = await Group.findAll({
+        raw: true,
+        include: [ {model: Membership,
+                    attributes: [] }
+                ],
         attributes: {
             include: [
                 [sequelize.fn("COUNT", sequelize.col("Memberships.id")), "numMembers"]
             ]
         },
-        group: ['Group.id']
+        group: 'Group.id'
     });
-    const { user } = req;
-    console.log(user.id);
+    // console.log(counts);
+    // console.log(groups);
+    for (let i = 0; i < counts.length; i++) {
+        groups[i].numMembers = counts[i].numMembers;
+    }
     res.json({
         Groups: groups
     });

@@ -23,7 +23,8 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'groupId'
       });
       Group.hasMany(models.Venue, {
-        foreignKey: 'groupId'
+        foreignKey: 'groupId',
+        as: 'Venues'
       });
       Group.belongsToMany(models.Venue, {
         through: models.Event,
@@ -59,6 +60,14 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Group',
+    defaultScope: {
+
+    },
+    scopes: {
+      forEvents: {
+        exclude: ['organizerId', 'about', 'type', 'private', 'createdAt', 'updatedAt']
+      }
+    }
   });
   return Group;
 };
