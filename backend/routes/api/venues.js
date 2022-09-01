@@ -11,7 +11,7 @@ const router = express.Router();
 Edit a Venue by their ID
     /api/venues/:venueId
 */
-router.put('/:venueId', async (req, res) => {
+router.put('/:venueId', requireAuth, async (req, res) => {
 
 });
 

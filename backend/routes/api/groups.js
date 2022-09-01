@@ -1,6 +1,6 @@
 // backend/routes/api/groups.js
 const express = require('express');
-const { setTokenCookie, restoreUser } = require('../../utils/auth');
+const { setTokenCookie, restoreUser, requireAuth } = require('../../utils/auth');
 const { Group, User, Membership, Venue, Event, Attendance, GroupImage, EventImage, sequelize } = require('../../db/models');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
@@ -165,9 +165,8 @@ router.get('/:groupId/members', async (req, res) => {
 Get all Groups joined or organized by the Current User ✅
     /api/groups/current
 */
-router.get('/current', async (req, res) => {
+router.get('/current', requireAuth, async (req, res) => {
     const { user } = req;
-        if (user) {
 
             const groups = await Group.findAll({
                 raw: true,
@@ -186,6 +185,7 @@ router.get('/current', async (req, res) => {
                 },
                 group: ['Group.id']
             });
+
             for (let i = 0; i < groups.length; i++) {
                 const count = await Membership.count({ where: { groupId: groups[i].id } });
                 groups[i].numMembers = count;
@@ -201,9 +201,8 @@ router.get('/current', async (req, res) => {
                 groups[i].previewImage = images['GroupImages.url'];
             }
             res.json({Groups:groups});
-        } else return res.json({});
-    }
-);
+
+});
 
 
 /*
@@ -312,19 +311,10 @@ router.get('/', async (req, res) => {
 Delete Membership to a Group by their ID
     /api/groups/:groupId/membership
 */
-router.delete('/:groupId/membership', async(req, res) => {
+router.delete('/:groupId/membership', requireAuth, async(req, res) => {
 
     const {user} = req;
     const { memberId } = req.body;
-
-    if (!user) {
-
-        res.status(401);
-        res.json({
-            "message": "Authentication required",
-            "statusCode": 401
-          });
-    }
 
     const group = await Group.findByPk(req.params.groupId, {raw: true});
     const { organizerId } = group;
@@ -395,10 +385,10 @@ router.delete('/:groupId/membership', async(req, res) => {
 Delete a group by their ID ✅
     /api/groups/:groupId
 */
-router.delete('/:groupId', async(req, res) => {
+router.delete('/:groupId', requireAuth, async(req, res) => {
     const { user } = req;
     const { groupId } = req.params;
-    if (user) {
+
 
         const group = await Group.findByPk(groupId, {raw:true});
 
@@ -434,15 +424,7 @@ router.delete('/:groupId', async(req, res) => {
               });
 
         }
-    } else {
 
-        res.status(401);
-        res.json({
-            "message": "Authentication required",
-            "statusCode": 401
-          });
-
-    }
 });
 
 // ********************* POST REQUESTS *************************
@@ -451,7 +433,7 @@ router.delete('/:groupId', async(req, res) => {
 Add an image to a Group by their ID
     /api/groups/:groupId/images
 */
-router.post('/:groupId/images', async(req, res) => {
+router.post('/:groupId/images', requireAuth, async(req, res) => {
     const { groupId } = req.params;
     const { user } = req;
     const {url, preview} = req.body;
@@ -500,7 +482,7 @@ router.post('/:groupId/images', async(req, res) => {
 Create a Venue for a Group by their ID
     /api/groups/:groupId/venues
 */
-router.post('/:groupId/venues', async(req, res) => {
+router.post('/:groupId/venues', requireAuth, async(req, res) => {
     const { groupId } = req.params;
     const { user } = req;
     const { address, city, state, lat, lng } = req.body;
@@ -572,7 +554,7 @@ router.post('/:groupId/venues', async(req, res) => {
 Create an Event for a Group by their ID
     /api/groups/:groupId/events
 */
-router.post('/:groupId/events', async(req, res) => {
+router.post('/:groupId/events', requireAuth, async(req, res) => {
     const { groupId } = req.params;
     const { user } = req;
     const { venueId, name, type, capacity, price, description, startDate, endDate } = req.body;
@@ -604,7 +586,7 @@ router.post('/:groupId/events', async(req, res) => {
         if (memStatus.status === 'organizer' || memStatus.status === 'co-host') {
             const count = await Event.max('id');
             const newEvent = await Event.create({
-                id: count,
+                id: count + 1,
                 groupId,
                 venueId,
                 name,
@@ -643,7 +625,7 @@ router.post('/:groupId/events', async(req, res) => {
 Request Membership for a Group by their ID
     /api/groups/:groupId/membership
 */
-router.post('/:groupId/membership', async(req, res) => {
+router.post('/:groupId/membership', requireAuth, async(req, res) => {
     const { groupId } = req.params;
     const { user } = req;
     const memberId = user.id;
@@ -676,7 +658,7 @@ router.post('/:groupId/membership', async(req, res) => {
         } else {
             const count = await Membership.max('id');
             const newMember = await Membership.create({
-                id: count,
+                id: count + 1,
                 userId: memberId,
                 groupId,
                 status: 'pending'
@@ -705,7 +687,7 @@ router.post('/:groupId/membership', async(req, res) => {
 Create a Group
     /api/groups
 */
-router.post('/', async(req, res) => {
+router.post('/', requireAuth, async(req, res) => {
 
     const { user } = req;
     const { name, about, type, private, city, state } = req.body;
@@ -767,12 +749,11 @@ router.post('/', async(req, res) => {
 Change the status of a Membership for a Group by their ID
     /api/groups/:groupId/membership
 */
-router.put('/:groupId/membership', async(req, res) => {
+router.put('/:groupId/membership', requireAuth, async(req, res) => {
     const { groupId } = req.params;
     const { user } = req;
     const { memberId, status } = req.body;
 
-    if (user) {
 
         const findUser = await User.findByPk(memberId);
         if (!findUser) {
@@ -855,22 +836,13 @@ router.put('/:groupId/membership', async(req, res) => {
 
         }
 
-    } else {
-
-        res.status(401);
-        res.json({
-            "message": "Authentication required",
-            "statusCode": 401
-          });
-
-    }
 });
 
 /*
 Edit a Group by their ID
     /api/groups/:groupId/membership
 */
-router.put('/:groupId', async(req, res) => {
+router.put('/:groupId', requireAuth, async(req, res) => {
     const { groupId } = req.params;
     const { user } = req;
     const { name, about, type, private, city, state } = req.body;
