@@ -555,9 +555,9 @@ Create an Event for a Group by their ID
     /api/groups/:groupId/events
 */
 router.post('/:groupId/events', requireAuth, async(req, res) => {
-    // const { groupId } = req.params;
-    // const { user } = req;
-    // const { venueId, name, type, capacity, price, description, startDate, endDate } = req.body;
+    const { groupId } = req.params;
+    const { user } = req;
+    const { venueId, name, type, capacity, price, description, startDate, endDate } = req.body;
 // **************** Need to add validation errors ********************
 /*
             {
@@ -576,110 +576,110 @@ router.post('/:groupId/events', requireAuth, async(req, res) => {
             }
 */
 // ******************************************************************
-//     const group = await Group.findByPk(groupId, {raw: true});
+    const group = await Group.findByPk(groupId, {raw: true});
 
-//     if (group) {
+    if (group) {
 
-//         const memStatus = await Membership.findOne({raw: true,
-//             where: { userId: user.id, groupId: groupId }, attributes: ['status'] });
+        const memStatus = await Membership.findOne({raw: true,
+            where: { userId: user.id, groupId: groupId }, attributes: ['status'] });
 
-//         if (memStatus.status === 'organizer' || memStatus.status === 'co-host') {
-//             const count = await Event.max('id');
-//             const newEvent = await Event.create({
-//                 id: count + 1,
-//                 groupId,
-//                 venueId,
-//                 name,
-//                 type,
-//                 capacity,
-//                 price,
-//                 description,
-//                 startDate,
-//                 endDate
-//             });
+        if (memStatus.status === 'organizer' || memStatus.status === 'co-host') {
+            const count = await Event.max('id');
+            const newEvent = await Event.create({
+                id: count + 1,
+                groupId,
+                venueId,
+                name,
+                type,
+                capacity,
+                price,
+                description,
+                startDate,
+                endDate
+            });
 
-//             res.json(newEvent);
+            res.json(newEvent);
 
-//         } else {
+        } else {
 
-//             res.status(403);
-//                 res.json({
-//                     "message": "Forbidden",
-//                     "statusCode": 403
-//                   });
+            res.status(403);
+                res.json({
+                    "message": "Forbidden",
+                    "statusCode": 403
+                  });
 
-//         }
+        }
 
-//     } else {
+    } else {
 
-//         res.status(404);
-//         res.json({
-//             "message": "Group couldn't be found",
-//             "statusCode": 404
-//           });
+        res.status(404);
+        res.json({
+            "message": "Group couldn't be found",
+            "statusCode": 404
+          });
 
-//     }
-// });
+    }
+});
 
-// /*
-// Request Membership for a Group by their ID
-//     /api/groups/:groupId/membership
-// */
-// router.post('/:groupId/membership', requireAuth, async(req, res) => {
-//     const { groupId } = req.params;
-//     const { user } = req;
-//     const memberId = user.id;
-//     const group = await Group.findByPk(groupId, {raw: true});
+/*
+Request Membership for a Group by their ID
+    /api/groups/:groupId/membership
+*/
+router.post('/:groupId/membership', requireAuth, async(req, res) => {
+    const { groupId } = req.params;
+    const { user } = req;
+    const memberId = user.id;
+    const group = await Group.findByPk(groupId, {raw: true});
 
-//     if (group) {
+    if (group) {
 
-//         const memStatus = await Membership.findOne({raw: true,
-//             where: { userId: user.id, groupId: groupId }, attributes: ['status'] });
+        const memStatus = await Membership.findOne({raw: true,
+            where: { userId: user.id, groupId: groupId }, attributes: ['status'] });
 
-//         if(memStatus) {
+        if(memStatus) {
 
-//             res.status(400);
+            res.status(400);
 
-//             if (memStatus.status === 'pending') {
+            if (memStatus.status === 'pending') {
 
-//                 res.json({
-//                     "message": "Membership has already been requested",
-//                     "statusCode": 400
-//                   });
+                res.json({
+                    "message": "Membership has already been requested",
+                    "statusCode": 400
+                  });
 
-//             } else {
+            } else {
 
-//                 res.json({
-//                     "message": "User is already a member of the group",
-//                     "statusCode": 400
-//                   });
+                res.json({
+                    "message": "User is already a member of the group",
+                    "statusCode": 400
+                  });
 
-//             }
-//         } else {
-//             const count = await Membership.max('id');
-//             const newMember = await Membership.create({
-//                 id: count + 1,
-//                 userId: memberId,
-//                 groupId,
-//                 status: 'pending'
-//             });
-//             const memberInfo = newMember.toJSON();
+            }
+        } else {
+            const count = await Membership.max('id');
+            const newMember = await Membership.create({
+                id: count + 1,
+                userId: memberId,
+                groupId,
+                status: 'pending'
+            });
+            const memberInfo = newMember.toJSON();
 
-//             res.json({
-//                 groupId: memberInfo.groupId,
-//                 memberId: memberInfo.userId,
-//                 status: memberInfo.status,
-//             });
-//         }
-//     } else {
+            res.json({
+                groupId: memberInfo.groupId,
+                memberId: memberInfo.userId,
+                status: memberInfo.status,
+            });
+        }
+    } else {
 
-//         res.status(404);
-//         res.json({
-//             "message": "Group couldn't be found",
-//             "statusCode": 404
-//           });
+        res.status(404);
+        res.json({
+            "message": "Group couldn't be found",
+            "statusCode": 404
+          });
 
-//     }
+    }
 
 });
 
@@ -689,9 +689,9 @@ Create a Group
 */
 router.post('/', requireAuth, async(req, res) => {
 
-    // const { user } = req;
-    // const { name, about, type, private, city, state } = req.body;
-    // const organizerId = user.id;
+    const { user } = req;
+    const { name, about, type, private, city, state } = req.body;
+    const organizerId = user.id;
 // **************** Need to add validation errors ********************
 /*
             {
@@ -709,38 +709,38 @@ router.post('/', requireAuth, async(req, res) => {
 */
 // ******************************************************************
 
-    // if (user) {
+    if (user) {
 
-    //     const newGroup = await Group.create({
-    //         organizerId,
-    //         name,
-    //         about,
-    //         type,
-    //         private,
-    //         city,
-    //         state
-    //     });
+        const newGroup = await Group.create({
+            organizerId,
+            name,
+            about,
+            type,
+            private,
+            city,
+            state
+        });
 
-    //     const groupId = newGroup.toJSON().id;
-    //     const count = await Membership.max('id');
-    //     const newMember = await Membership.create({
-    //         id: count + 1,
-    //         userId: organizerId,
-    //         groupId,
-    //         status: 'organizer'
-    //     });
+        const groupId = newGroup.toJSON().id;
+        const count = await Membership.max('id');
+        const newMember = await Membership.create({
+            id: count + 1,
+            userId: organizerId,
+            groupId,
+            status: 'organizer'
+        });
 
-    //     res.json(newGroup);
+        res.json(newGroup);
 
-    // } else {
+    } else {
 
-    //     res.status(401);
-    //     res.json({
-    //         "message": "Authentication required",
-    //         "statusCode": 401
-    //       });
+        res.status(401);
+        res.json({
+            "message": "Authentication required",
+            "statusCode": 401
+          });
 
-    // }
+    }
 });
 
 // ********************* PUT REQUESTS *************************
@@ -750,91 +750,91 @@ Change the status of a Membership for a Group by their ID
     /api/groups/:groupId/membership
 */
 router.put('/:groupId/membership', requireAuth, async(req, res) => {
-    // const { groupId } = req.params;
-    // const { user } = req;
-    // const { memberId, status } = req.body;
+    const { groupId } = req.params;
+    const { user } = req;
+    const { memberId, status } = req.body;
 
 
-    //     const findUser = await User.findByPk(memberId);
-    //     if (!findUser) {
+        const findUser = await User.findByPk(memberId);
+        if (!findUser) {
 
-    //         res.status(400);
-    //         res.json({
-    //             "message": "Validation Error",
-    //             "statusCode": 400,
-    //             "errors": {
-    //               "memberId": "User couldn't be found"
-    //             }
-    //           });
-    //     }
+            res.status(400);
+            res.json({
+                "message": "Validation Error",
+                "statusCode": 400,
+                "errors": {
+                  "memberId": "User couldn't be found"
+                }
+              });
+        }
 
-    //     const group = await Group.findByPk(groupId, {raw: true});
+        const group = await Group.findByPk(groupId, {raw: true});
 
-    //     if (group) {
+        if (group) {
 
-    //         if (status === 'pending') {
+            if (status === 'pending') {
 
-    //             res.status(400);
-    //             res.json({
-    //                 "message": "Validations Error",
-    //                 "statusCode": 400,
-    //                 "errors": {
-    //                   "status" : "Cannot change a membership status to pending"
-    //                 }
-    //               });
+                res.status(400);
+                res.json({
+                    "message": "Validations Error",
+                    "statusCode": 400,
+                    "errors": {
+                      "status" : "Cannot change a membership status to pending"
+                    }
+                  });
 
-    //         }
+            }
 
 
-    //         const memStatus = await Membership.findOne({raw: true,
-    //             where: { userId: user.id, groupId: groupId }, attributes: ['status'] });
+            const memStatus = await Membership.findOne({raw: true,
+                where: { userId: user.id, groupId: groupId }, attributes: ['status'] });
 
-    //         const memIsReal = await Membership.findOne({raw: true,
-    //             where: { userId: memberId, groupId: groupId }, attributes: ['status'] });
+            const memIsReal = await Membership.findOne({raw: true,
+                where: { userId: memberId, groupId: groupId }, attributes: ['status'] });
 
-    //         if (memIsReal) {
+            if (memIsReal) {
 
-    //             if ((status === 'member' && (memStatus.status === 'organizer' || memStatus.status === 'co-host'))
-    //                     || (status === 'co-host' && memStatus.status === 'organizer')) {
+                if ((status === 'member' && (memStatus.status === 'organizer' || memStatus.status === 'co-host'))
+                        || (status === 'co-host' && memStatus.status === 'organizer')) {
 
-    //                 let memToChange = await Membership.findOne({where: { userId: memberId, groupId: groupId }});
-    //                 memToChange.status = status;
-    //                 await memToChange.save();
+                    let memToChange = await Membership.findOne({where: { userId: memberId, groupId: groupId }});
+                    memToChange.status = status;
+                    await memToChange.save();
 
-    //                 res.json({
-    //                     id: memToChange.id,
-    //                     groupId: memToChange.groupId,
-    //                     memberId: memToChange.userId,
-    //                     status: memToChange.status
-    //                 });
+                    res.json({
+                        id: memToChange.id,
+                        groupId: memToChange.groupId,
+                        memberId: memToChange.userId,
+                        status: memToChange.status
+                    });
 
-    //             } else {
+                } else {
 
-    //                 res.status(403);
-    //                 res.json({
-    //                     "message": "Forbidden",
-    //                     "statusCode": 403
-    //                   });
+                    res.status(403);
+                    res.json({
+                        "message": "Forbidden",
+                        "statusCode": 403
+                      });
 
-    //             }
-    //         } else {
+                }
+            } else {
 
-    //             res.status(404);
-    //             res.json({
-    //                 "message": "Membership between the user and the group does not exits",
-    //                 "statusCode": 404
-    //               });
-    //         }
+                res.status(404);
+                res.json({
+                    "message": "Membership between the user and the group does not exits",
+                    "statusCode": 404
+                  });
+            }
 
-    //     } else {
+        } else {
 
-    //         res.status(404);
-    //         res.json({
-    //             "message": "Group couldn't be found",
-    //             "statusCode": 404
-    //           });
+            res.status(404);
+            res.json({
+                "message": "Group couldn't be found",
+                "statusCode": 404
+              });
 
-    //     }
+        }
 
 });
 
@@ -843,9 +843,9 @@ Edit a Group by their ID
     /api/groups/:groupId/membership
 */
 router.put('/:groupId', requireAuth, async(req, res) => {
-    // const { groupId } = req.params;
-    // const { user } = req;
-    // const { name, about, type, private, city, state } = req.body;
+    const { groupId } = req.params;
+    const { user } = req;
+    const { name, about, type, private, city, state } = req.body;
 // **************** Need to add validation errors ********************
 /*
             {
@@ -862,49 +862,49 @@ router.put('/:groupId', requireAuth, async(req, res) => {
             }
 */
 // ******************************************************************
-    // const group = await Group.findByPk(groupId, {raw: true});
+    const group = await Group.findByPk(groupId, {raw: true});
 
-    // if (group) {
+    if (group) {
 
-    //     const memStatus = await Membership.findOne({ raw: true,
-    //         where: { userId: user.id, groupId: groupId}, attributes: ['status'] });
+        const memStatus = await Membership.findOne({ raw: true,
+            where: { userId: user.id, groupId: groupId}, attributes: ['status'] });
 
-    //     if (memStatus.status === 'organizer') {
+        if (memStatus.status === 'organizer') {
 
-    //         const editGroup = await Group.findByPk(groupId);
+            const editGroup = await Group.findByPk(groupId);
 
-    //         editGroup.set({
-    //             name,
-    //             about,
-    //             type,
-    //             private,
-    //             city,
-    //             state
-    //         });
+            editGroup.set({
+                name,
+                about,
+                type,
+                private,
+                city,
+                state
+            });
 
-    //         await editGroup.save();
+            await editGroup.save();
 
-    //         res.json(editGroup);
+            res.json(editGroup);
 
-    //     } else {
+        } else {
 
-    //         res.status(403);
-    //             res.json({
-    //                 "message": "Forbidden",
-    //                 "statusCode": 403
-    //               });
+            res.status(403);
+                res.json({
+                    "message": "Forbidden",
+                    "statusCode": 403
+                  });
 
-    //     }
+        }
 
-    // } else {
+    } else {
 
-    //     res.status(404);
-    //     res.json({
-    //         "message": "Group couldn't be found",
-    //         "statusCode": 404
-    //       });
+        res.status(404);
+        res.json({
+            "message": "Group couldn't be found",
+            "statusCode": 404
+          });
 
-    // }
+    }
 });
 
 module.exports = router;
