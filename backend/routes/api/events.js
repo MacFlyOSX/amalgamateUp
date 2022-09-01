@@ -1,7 +1,7 @@
 // backend/routes/api/events.js
 const express = require('express');
 const { setTokenCookie, restoreUser } = require('../../utils/auth');
-const { event, User, Attendance, Venue, Event, eventImage, EventImage, sequelize } = require('../../db/models');
+const { User, Attendance, Venue, Event, Membership, EventImage, sequelize } = require('../../db/models');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const { Op } = require('sequelize');
@@ -42,8 +42,15 @@ router.get('/:eventId/attendees', async (req, res) => {
             });
             result[i].Attendance = attStatus;
             original.push(result[i]);
-
-            if (attStatus.status === 'co-host') {
+            const memStatus = await Membership.findOne({
+                raw: true,
+                where: {
+                    userId: result[i].id,
+                    eventId
+                },
+                attributes: ['status']
+            });
+            if (memStatus.status === 'co-host') {
                 cohost.push(result[i].id)
             }
             if (attStatus.status !== 'pending') {
