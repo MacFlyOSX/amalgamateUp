@@ -470,7 +470,11 @@ router.post('/:groupId/images', async(req, res) => {
                 preview
             });
 
-            res.json(newImage);
+            res.json({
+                id: newImage.id,
+                url: newImage.url,
+                preview: newImage.preview
+            });
 
         } else {
 
@@ -533,7 +537,15 @@ router.post('/:groupId/venues', async(req, res) => {
                 lng
             });
 
-            res.json(newVenue);
+            res.json({
+                id: newVenue.id,
+                groupId: newVenue.groupId,
+                address: newVenue.address,
+                city: newVenue.city,
+                state: newVenue.state,
+                lat: newVenue.lat,
+                lng: newVenue.lng
+            });
 
         } else {
 
@@ -590,8 +602,9 @@ router.post('/:groupId/events', async(req, res) => {
             where: { userId: user.id, groupId: groupId }, attributes: ['status'] });
 
         if (memStatus.status === 'organizer' || memStatus.status === 'co-host') {
-
+            const count = await Event.max('id');
             const newEvent = await Event.create({
+                id: count,
                 groupId,
                 venueId,
                 name,
@@ -661,8 +674,9 @@ router.post('/:groupId/membership', async(req, res) => {
 
             }
         } else {
-
+            const count = await Membership.max('id');
             const newMember = await Membership.create({
+                id: count,
                 userId: memberId,
                 groupId,
                 status: 'pending'
