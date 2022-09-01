@@ -10,7 +10,9 @@ module.exports = {
       },
       groupId: {
         type: Sequelize.INTEGER,
-        references: {model: 'Groups'}
+        references: {model: 'Groups'},
+        onDelete: 'SET DEFAULT',
+        defaultValue: null
       },
       address: {
         type: Sequelize.STRING

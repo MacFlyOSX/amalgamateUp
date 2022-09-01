@@ -26,12 +26,22 @@ module.exports = {
       {
         userId: 2,
         groupId: 2,
+        status: 'co-host'
+      },
+      {
+        userId: 4,
+        groupId: 2,
+        status: 'member'
+      },
+      {
+        userId: 4,
+        groupId: 1,
         status: 'member'
       },
       {
         userId: 3,
         groupId: 2,
-        status: 'member'
+        status: 'pending'
       },
       {
         userId: 2,
@@ -40,16 +50,21 @@ module.exports = {
       },
       {
         userId: 1,
+        groupId: 3,
+        status: 'pending'
+      },
+      {
+        userId: 4,
+        groupId: 3,
+        status: 'member'
+      },
+      {
+        userId: 3,
         groupId: 3,
         status: 'co-host'
       },
       {
         userId: 3,
-        groupId: 3,
-        status: 'member'
-      },
-      {
-        userId: 3,
         groupId: 4,
         status: 'organizer'
       },
@@ -60,18 +75,18 @@ module.exports = {
       },
       {
         userId: 1,
-        groupId: 4,
+        groupId: 5,
         status: 'member'
       },
       {
-        userId: 1,
+        userId: 4,
         groupId: 5,
         status: 'organizer'
       },
       {
         userId: 3,
         groupId: 5,
-        status: 'member'
+        status: 'pending'
       },
     ], {});
   },

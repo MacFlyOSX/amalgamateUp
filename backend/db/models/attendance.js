@@ -19,6 +19,10 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Attendance.init({
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true
+    },
     eventId: DataTypes.INTEGER,
     userId: DataTypes.INTEGER,
     status: {
