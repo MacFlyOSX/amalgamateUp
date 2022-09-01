@@ -5,11 +5,8 @@ const { Group, User, Membership, Venue, Event, Attendance, GroupImage, EventImag
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const { Op } = require('sequelize');
-const e = require('express');
-// const sequelize = require('sequelize');
 
 const router = express.Router();
-
 
 // ********************* GET REQUESTS *************************
 
