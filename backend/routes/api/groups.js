@@ -726,8 +726,9 @@ router.post('/', async(req, res) => {
         });
 
         const groupId = newGroup.toJSON().id;
-
+        const count = await Membership.max('id');
         const newMember = await Membership.create({
+            id: count + 1,
             userId: organizerId,
             groupId,
             status: 'organizer'
@@ -811,7 +812,7 @@ router.put('/:groupId/membership', async(req, res) => {
                         memberId: memToChange.userId,
                         status: memToChange.status
                     });
-                    
+
                 } else {
 
                     res.status(403);
