@@ -17,6 +17,7 @@ router.get('/:eventId/attendees', async (req, res) => {
     const { user } = req;
     const { eventId } = req.params;
     const event = await Event.findByPk(eventId, {raw:true});
+    const { groupId } = event;
     if (event) {
         let result = await User.findAll({
             raw: true,
@@ -27,6 +28,7 @@ router.get('/:eventId/attendees', async (req, res) => {
                         attributes: []
                          }]
         });
+        console.log(result);
         // console.log(result);
         let original = [];
         let limited = [];
@@ -46,7 +48,7 @@ router.get('/:eventId/attendees', async (req, res) => {
                 raw: true,
                 where: {
                     userId: result[i].id,
-                    eventId
+                    groupId
                 },
                 attributes: ['status']
             });
@@ -107,6 +109,7 @@ router.get('/:eventId', async (req, res) => {
                 eventId
             }
         });
+        const { venueId } = event;
         const venue = await Venue.findByPk(venueId, {raw: true});
         const eventImages = await EventImage.findAll({
             raw: true,
@@ -149,7 +152,7 @@ router.get('/', async (req, res) => {
         group: ['Event.id']
     });
 
-
+    console.log(events)
     for (let i = 0; i < events.length; i++) {
 
         const images = await Event.findByPk(events[i].id, {
@@ -160,6 +163,8 @@ router.get('/', async (req, res) => {
                         attributes: ['url']
             }]
         });
+
+        console.log(images);
         const count = await Attendance.count({
             where: {
                 eventId: events[i].id
@@ -172,7 +177,12 @@ router.get('/', async (req, res) => {
         });
 
         events[i].numAttending = count;
-        events[i].previewImage = images['EventImages.url'];
+        if (!images) {
+            events[i].previewImage = null;
+        } else {
+            const url = images['EventImages.url'];
+            events[i].previewImage = url;
+        }
         events[i].Group = group;
         events[i].Venue = venue;
 
@@ -192,8 +202,12 @@ Delete Attendance to an Event by their ID
 router.delete('/:eventId/attendance', requireAuth, async (req, res) => {
 
     const { user } = req;
-    const { userId } = req.body;
+    const { memberId } = req.body;
     const { eventId } = req.params;
+
+
+    // CHANGE THIS AFTER BECAUSE THE POSTMAN TESTS ARE DUMB
+    const userId = user.id;
 
     const event = await Event.findByPk(eventId, { raw: true });
     if (!event) {
@@ -208,7 +222,9 @@ router.delete('/:eventId/attendance', requireAuth, async (req, res) => {
     const { groupId } = event;
     const group = await Group.findByPk(groupId, { raw: true });
 
+    // const userAttend = await Attendance.findOne({ raw: true, where: { eventId, userId: memberId } });
     const userAttend = await Attendance.findOne({ raw: true, where: { eventId, userId } });
+
 
     if (!userAttend) {
 
@@ -223,15 +239,13 @@ router.delete('/:eventId/attendance', requireAuth, async (req, res) => {
     const memStatus = await Membership.findOne({
         raw: true,
         where: {
-            userId: user.id,
-            eventId
+            userId,
+            groupId
         },
         attributes: ['status']
     });
 
-    const { status } = memStatus;
-
-    if (userId === user.id || status === 'co-host' || status === 'organizer'){
+    if (memberId === user.id || memStatus.status === 'co-host' || memStatus.status === 'organizer'){
 
         const attendToDelete = await Attendance.findByPk(id);
 
@@ -260,7 +274,7 @@ router.delete('/:eventId', requireAuth, async (req, res) => {
     const { user } = req;
     const { eventId } = req.params;
 
-    const event = await Event.findByPk(eventId);
+    const event = await Event.findByPk(eventId, {raw: true});
     if (!event) {
 
         res.status(404);
@@ -269,19 +283,18 @@ router.delete('/:eventId', requireAuth, async (req, res) => {
             "statusCode": 404
           });
     }
+    const { groupId } = event;
 
     const memStatus = await Membership.findOne({
         raw: true,
         where: {
             userId: user.id,
-            eventId
+            groupId
         },
         attributes: ['status']
     });
 
-    const { status } = memStatus;
-
-    if (status === 'co-host' || status === 'organizer') {
+    if (memStatus.status === 'co-host' || memStatus.status === 'organizer') {
 
         const eventToDelete = await Event.findByPk(eventId);
 
@@ -444,16 +457,16 @@ router.put('/:eventId/attendance', requireAuth, async (req, res) => {
         }
 
         const event = await Event.findByPk(eventId, {raw: true});
-        const { groupId } = event.groupId;
 
         if (!event) {
 
-                        res.status(404);
-                        res.json({
-                            "message": "Event couldn't be found",
-                            "statusCode": 404
-                          });
+            res.status(404);
+            res.json({
+                "message": "Event couldn't be found",
+                "statusCode": 404
+            });
         }
+        const { groupId } = event;
 
         if (status === 'pending') {
 
@@ -471,21 +484,20 @@ router.put('/:eventId/attendance', requireAuth, async (req, res) => {
             const memStatus = await Membership.findOne({raw: true,
                 where: { userId: user.id, groupId }, attributes: ['status'] });
 
-            const attIsReal = await Attendance.findOne({ raw: true, where: { userId, eventId } });
-            const { id } = attIsReal.id;
+            const attIsReal = await Attendance.findOne({ where: { userId, eventId } });
 
             if (!attIsReal) {
                         res.status(404);
                         res.json({
-                            "message": "Membership between the user and the group does not exits",
+                            "message": "Attendance between the user and the event does not exist",
                             "statusCode": 404
                           });
             }
 
             if ((status === 'member' && (memStatus.status === 'organizer' || memStatus.status === 'co-host'))) {
 
-                    let attToChange = await Attendance.findByPk(id);
-                    attToChange.status = status;
+                const attToChange = await Attendance.findOne({ where: { userId, eventId } });
+                attToChange.status = 'member';
                     await attToChange.save();
 
                     res.json({
@@ -509,7 +521,78 @@ Edit an Event by their ID
     /api/events/:eventId
 */
 router.put('/:eventId', requireAuth, async (req, res) => {
+/*
+        {
+          "message": "Validation error",
+          "statusCode": 400,
+          "errors": {
+            "venueId": "Venue does not exist",
+            "name": "Name must be at least 5 characters",
+            "type": "Type must be Online or In person",
+            "capacity": "Capacity must be an integer",
+            "price": "Price is invalid",
+            "description": "Description is required",
+            "startDate": "Start date must be in the future",
+            "endDate": "End date is less than start date",
+          }
+        }
+*/
+    const { eventId } = req.params;
+    const { user } = req;
+    const { venueId, name, type, capacity, price, description, startDate, endDate } = req.body;
 
+    const event = await Event.findByPk(eventId, {raw: true});
+
+    if (!event) {
+
+        res.status(404);
+        res.json({
+            "message": "Event couldn't be found",
+            "statusCode": 404
+        });
+    }
+    const { groupId } = event;
+
+    const venue = await Venue.findByPk(venueId);
+
+    if (!venue) {
+
+        res.status(404);
+        res.json({
+            "message": "Venue couldn't be found",
+            "statusCode": 404
+          });
+    }
+
+    const memStatus = await Membership.findOne({raw: true,
+        where: { userId: user.id, groupId }, attributes: ['status'] });
+
+    if (memStatus.status === 'organizer' || memStatus.status === 'co-host') {
+
+        let eventToChange = await Event.findByPk(eventId);
+
+        eventToChange.update({
+            venueId,
+            name,
+            type,
+            capacity,
+            price,
+            description,
+            startDate,
+            endDate
+        });
+        await eventToChange.save();
+
+        res.json(eventToChange);
+
+    } else {
+
+        res.status(403);
+        res.json({
+            "message": "Forbidden",
+            "statusCode": 403
+          });
+    }
 });
 
 

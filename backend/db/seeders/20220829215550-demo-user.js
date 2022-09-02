@@ -31,14 +31,21 @@ module.exports = {
         email: 'vienbean@user.io',
         username: 'vienbean',
         hashedPassword: bcrypt.hashSync('password')
-      }
+      },
+      {
+        firstName: 'David',
+        lastName: 'Rogers',
+        email: 'supremeleader@user.io',
+        username: 'supremeleader',
+        hashedPassword: bcrypt.hashSync('password')
+      },
     ], {});
   },
 
   down: async (queryInterface, Sequelize) => {
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete('Users', {
-      username: { [Op.in]: ['Demo-lition', 'FakeUser1', 'FakeUser2'] }
+      username: { [Op.in]: ['garebear', 'damitsalex', 'kernersanders', 'vienbean', 'supremeleader'] }
     }, {});
   }
 };
