@@ -610,7 +610,18 @@ router.post('/:groupId/events', requireAuth, async(req, res) => {
             //     status: 'member'
             // });
 
-            res.json(newEvent);
+            res.json({
+                id: newEvent.id,
+                groupId: newEvent.groupId,
+                venueId: newEvent.venueId,
+                name: newEvent.name,
+                type: newEvent.type,
+                capacity: newEvent.capacity,
+                price: newEvent.price,
+                description: newEvent.description,
+                startDate: newEvent.startDate,
+                endDate: newEvent.endDate
+            });
 
         } else {
 

@@ -5,7 +5,7 @@ const usersRouter = require('./users.js');
 const groupsRouter = require('./groups.js');
 const eventsRouter = require('./events.js');
 const venuesRouter = require('./venues.js');
-const { restoreUser } = require("../../utils/auth.js");
+const { restoreUser, requireAuth } = require("../../utils/auth.js");
 const { GroupImage, Membership, EventImage, Event, Group, sequelize } = require('../../db/models');
 
 
@@ -26,7 +26,7 @@ router.use('/venues', venuesRouter);
 Delete an Image for a Group
     /api/group-images/:imageId
 */
-router.delete('/group-images/:imageId', async (req, res) => {
+router.delete('/group-images/:imageId', requireAuth, async (req, res) => {
   const { user } = req;
   const { imageId } = req.params;
 
@@ -47,7 +47,35 @@ router.delete('/group-images/:imageId', async (req, res) => {
     raw: true, where: { userId: user.id, groupId}
   });
 
-  if (memStatus.status === 'organizer' || memStatus.status === 'co-host') {
+  const group = await Group.findByPk(groupId, {raw: true});
+
+  if (!group) {
+
+    res.status(404);
+    res.json({
+      "message": "Group couldn't be found",
+      "statusCode": 404
+    });
+  }
+  const { organizerId } = group;
+  if (!memStatus) {
+    if (organizerId === user.id) {
+      const groupImage = await GroupImage.findByPk(imageId);
+      await groupImage.destroy();
+
+      res.json({
+        "message": "Successfully deleted",
+        "statusCode": 200
+      });
+    } else {
+
+      res.status(403);
+      res.json({
+        "message": "Forbidden",
+        "statusCode": 403
+      });
+    }
+  } else if (memStatus.status === 'organizer' || memStatus.status === 'co-host') {
 
     const groupImage = await GroupImage.findByPk(imageId);
     await groupImage.destroy();
@@ -98,8 +126,29 @@ router.delete('/event-images/:imageId', async (req, res) => {
     raw: true, where: { userId: user.id, groupId}
   });
 
-  const group = await Group.findByPk(groupId, {raw: true});
-  if (memStatus.status === 'organizer' || memStatus.status === 'co-host' || group.organizerId === user.id) {
+  if(!memStatus) {
+    const group = await Group.findByPk(groupId, {raw: true});
+
+    if (!group) {
+
+      res.status(404);
+      res.json({
+        "message": "Group couldn't be found",
+        "statusCode": 404
+      });
+    }
+    const { organizerId } = group;
+
+    if (organizerId === user.id) {
+      const eventImage = await EventImage.findByPk(imageId);
+      await eventImage.destroy();
+
+      res.json({
+        "message": "Successfully deleted",
+        "statusCode": 200
+      });
+    }
+  } else if (memStatus.status === 'organizer' || memStatus.status === 'co-host') {
     const eventImage = await EventImage.findByPk(imageId);
     await eventImage.destroy();
 

@@ -86,7 +86,7 @@ router.get('/:eventId', async (req, res) => {
 
     const { eventId } = req.params;
 
-    let event = await Event.findByPk(eventId, {
+    let event = await Event.scope('details').findByPk(eventId, {
         include: [
             {model: Attendance,
                 attributes: [] }],
@@ -314,8 +314,32 @@ router.delete('/:eventId', requireAuth, async (req, res) => {
         },
         attributes: ['status']
     });
+    const group = await Group.findByPk(groupId, {raw: true});
 
-    if (memStatus.status === 'co-host' || memStatus.status === 'organizer') {
+    if (!group) {
+
+        res.status(404);
+        res.json({
+          "message": "Group couldn't be found",
+          "statusCode": 404
+        });
+    }
+
+    const { organizerId } = group;
+
+    if (!memStatus) {
+
+        if (organizerId === user.id) {
+
+            const eventToDelete = await Event.findByPk(eventId);
+
+            await eventToDelete.destroy();
+
+            res.json({
+                "message": "Successfully deleted"
+              });
+        }
+    } else if (memStatus.status === 'co-host' || memStatus.status === 'organizer') {
 
         const eventToDelete = await Event.findByPk(eventId);
 
@@ -347,47 +371,51 @@ router.post('/:eventId/images', requireAuth, async (req, res) => {
     const { user } = req;
     const {url, preview} = req.body;
 
-    const event = await Group.findByPk(eventId, {raw: true});
+    const event = await Event.findByPk(eventId, {raw: true});
 
-    if (event) {
-
-        const attendee = await Attendance.findOne({
-            where: { eventId, userId: user.id }
-        });
-        if (attendee) {
-
-            if (!preview) preview = false;
-
-            const newImage = await EventImage.create({
-                eventId,
-                url,
-                preview
-            });
-
-            res.json({
-                id: newImage.id,
-                url: newImage.url,
-                preview: newImage.preview
-            });
-
-        } else {
-
-            res.status(403);
-                res.json({
-                    "message": "Forbidden",
-                    "statusCode": 403
-                  });
-
-        }
-    } else {
+    if (!event) {
 
         res.status(404);
         res.json({
             "message": "Event couldn't be found",
             "statusCode": 404
           });
-
     }
+    const { groupId } = event;
+
+    const group = await Group.findByPk(groupId, {raw: true});
+
+    const { organizerId } = group;
+
+    const attendee = await Attendance.findOne({
+        where: { eventId, userId: user.id }
+    });
+
+    if (attendee || organizerId === user.id) {
+
+        if (!preview) preview = false;
+
+        const newImage = await EventImage.create({
+            eventId,
+            url,
+            preview
+        });
+
+        res.json({
+            id: newImage.id,
+            url: newImage.url,
+            preview: newImage.preview
+        });
+
+    } else {
+
+            res.status(403);
+            res.json({
+                "message": "Forbidden",
+                "statusCode": 403
+              });
+        }
+
 });
 
 /*
@@ -443,7 +471,7 @@ router.post('/:eventId/attendance', requireAuth, async (req, res) => {
             });
 
             res.json({
-                groupId: newAttendee.groupId,
+                eventId: Number(newAttendee.eventId),
                 memberId: newAttendee.userId,
                 status: newAttendee.status,
             });
@@ -523,7 +551,7 @@ router.put('/:eventId/attendance', requireAuth, async (req, res) => {
 
                     res.json({
                         id: attToChange.id,
-                        eventId: attToChange.groupId,
+                        eventId: attToChange.eventId,
                         userId: attToChange.userId,
                         status: attToChange.status
                     });
@@ -604,7 +632,18 @@ router.put('/:eventId', requireAuth, async (req, res) => {
         });
         await eventToChange.save();
 
-        res.json(eventToChange);
+        res.json({
+            "id": eventToChange.id,
+        "venueId": eventToChange.venueId,
+        "groupId": eventToChange.groupId,
+        "name": eventToChange.name,
+        "description": eventToChange.description,
+        "type": eventToChange.type,
+        "capacity": eventToChange.capacity,
+        "price": eventToChange.price,
+        "startDate": eventToChange.startDate,
+        "endDate": eventToChange.endDate
+        });
 
     } else {
 
