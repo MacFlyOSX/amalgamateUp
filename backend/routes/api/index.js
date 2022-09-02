@@ -147,6 +147,13 @@ router.delete('/event-images/:imageId', async (req, res) => {
         "message": "Successfully deleted",
         "statusCode": 200
       });
+    } else {
+
+      res.status(403);
+      res.json({
+        "message": "Forbidden",
+        "statusCode": 403
+      });
     }
   } else if (memStatus.status === 'organizer' || memStatus.status === 'co-host') {
     const eventImage = await EventImage.findByPk(imageId);
