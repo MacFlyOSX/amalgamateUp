@@ -6,7 +6,7 @@ const groupsRouter = require('./groups.js');
 const eventsRouter = require('./events.js');
 const venuesRouter = require('./venues.js');
 const { restoreUser } = require("../../utils/auth.js");
-const { GroupImage, Membership, EventImage, Event, sequelize } = require('../../db/models');
+const { GroupImage, Membership, EventImage, Event, Group, sequelize } = require('../../db/models');
 
 
 // Connect restoreUser middleware to the API router
@@ -98,7 +98,8 @@ router.delete('/event-images/:imageId', async (req, res) => {
     raw: true, where: { userId: user.id, groupId}
   });
 
-  if (memStatus.status === 'organizer' || memStatus.status === 'co-host') {
+  const group = await Group.findByPk(groupId, {raw: true});
+  if (memStatus.status === 'organizer' || memStatus.status === 'co-host' || group.organizerId === user.id) {
     const eventImage = await EventImage.findByPk(imageId);
     await eventImage.destroy();
 

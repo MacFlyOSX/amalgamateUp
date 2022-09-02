@@ -17,8 +17,15 @@ router.get('/:eventId/attendees', async (req, res) => {
     const { user } = req;
     const { eventId } = req.params;
     const event = await Event.findByPk(eventId, {raw:true});
+    if (!event) {
+
+        res.status(404);
+        res.json({
+            "message": "event couldn't be found",
+            "statusCode": 404
+        });
+    }
     const { groupId } = event;
-    if (event) {
         let result = await User.findAll({
             raw: true,
             include: [{model: Attendance,
@@ -68,13 +75,6 @@ router.get('/:eventId/attendees', async (req, res) => {
                 Attendees: limited
             })
         }
-    } else {
-        res.status(404);
-        res.json({
-            "message": "event couldn't be found",
-            "statusCode": 404
-          });
-    }
 
 });
 
@@ -136,6 +136,23 @@ Get all Events
     /api/events
 */
 router.get('/', async (req, res) => {
+    let { page, size } = req.query;
+
+    if (!page || isNaN(page)) {
+        page = 1;
+    } else if (page < 0) {
+        page = 1;
+    } else parseInt(page);
+    if (!size || isNaN(size)) {
+        size = 20;
+    } else if (size < 0) {
+        size = 20;
+    } else parseInt(size);
+
+    // const pag = {};
+    // pag.limit = size;
+    // pag.offset = ;
+
 
     const events = await Event.findAll({
         raw: true,
@@ -188,8 +205,12 @@ router.get('/', async (req, res) => {
 
     }
 
+    const offset = size * (page - 1) || -1;
+
+    const result = events.slice(offset + 1, offset + size + 1)
+
     res.json({
-        Events: events
+        Events: result
     });
 });
 

@@ -367,9 +367,9 @@ router.delete('/:groupId/membership', requireAuth, async(req, res) => {
     //             ]
     //         }
     //     });
-
+    const membershipToDelete = await Membership.findOne({where: { [Op.and]: [ { userId: user.id }, { groupId: req.params.groupId } ]} });
         // membershipToDelete.destroy();
-        membership.destroy();
+    membershipToDelete.destroy();
 
         res.json({
             "message": "Successfully deleted membership from group"
