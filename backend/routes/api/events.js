@@ -369,7 +369,7 @@ Add an Image to an Event by their ID
 router.post('/:eventId/images', requireAuth, async (req, res) => {
     const { eventId } = req.params;
     const { user } = req;
-    const {url, preview} = req.body;
+    let {url, preview} = req.body;
 
     const event = await Event.findByPk(eventId, {raw: true});
 

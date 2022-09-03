@@ -441,7 +441,7 @@ Add an image to a Group by their ID
 router.post('/:groupId/images', requireAuth, async(req, res) => {
     const { groupId } = req.params;
     const { user } = req;
-    const {url, preview} = req.body;
+    let {url, preview} = req.body;
 
     const group = await Group.findByPk(groupId, {raw: true});
 
