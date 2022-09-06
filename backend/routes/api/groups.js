@@ -528,8 +528,8 @@ router.post('/:groupId/venues', requireAuth, async(req, res) => {
                 address,
                 city,
                 state,
-                lat,
-                lng
+                lat: Number(lat),
+                lng: Number(lng)
             });
 
             res.json({
