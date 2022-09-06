@@ -123,6 +123,9 @@ router.get('/:eventId', async (req, res) => {
                 eventId
             }
         });
+        venue.lat = Number(venue.lat);
+        venue.lng = Number(venue.lng);
+        event.price = Number(event.price);
         event.numAttending = count;
         event.Group = group;
         event.Venue = venue;
