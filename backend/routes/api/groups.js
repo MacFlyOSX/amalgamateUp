@@ -307,7 +307,7 @@ router.get('/', async (req, res) => {
                         attributes: ['url']
             }]
         });
-
+        groups[i].numMembers = Number(groups[i].numMembers);
         groups[i].previewImage = images['GroupImages.url'];
     }
 
