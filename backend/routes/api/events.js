@@ -21,7 +21,7 @@ router.get('/:eventId/attendees', async (req, res) => {
 
         res.status(404);
         res.json({
-            "message": "event couldn't be found",
+            "message": "Event couldn't be found",
             "statusCode": 404
         });
     }
@@ -65,6 +65,11 @@ router.get('/:eventId/attendees', async (req, res) => {
             if (attStatus.status !== 'pending') {
                 limited.push(result[i])
             }
+        }
+        if (!user) {
+            res.json({
+                Attendees: limited
+            })
         }
         if (user.id === event.organizerId || cohost.includes(user.id)) {
             res.json({
@@ -110,13 +115,14 @@ router.get('/:eventId', async (req, res) => {
             }
         });
         const { venueId } = event;
-        const venue = await Venue.findByPk(venueId, {raw: true});
+        const venue = await Venue.findByPk(venueId, {raw: true, attributes: { exclude: ['groupId']}});
         const eventImages = await EventImage.findAll({
             raw: true,
+            attributes: ['id', 'url', 'preview'],
             where: {
                 eventId
             }
-        })
+        });
         event.numAttending = count;
         event.Group = group;
         event.Venue = venue;
@@ -137,17 +143,18 @@ Get all Events
 */
 router.get('/', async (req, res) => {
     let { page, size } = req.query;
-
+    page = parseInt(page);
+    size = parseInt(size);
     if (!page || isNaN(page)) {
         page = 1;
     } else if (page < 0) {
         page = 1;
-    } else parseInt(page);
+    }
     if (!size || isNaN(size)) {
         size = 20;
     } else if (size < 0) {
         size = 20;
-    } else parseInt(size);
+    }
 
     // const pag = {};
     // pag.limit = size;
@@ -472,7 +479,7 @@ router.post('/:eventId/attendance', requireAuth, async (req, res) => {
 
             res.json({
                 eventId: Number(newAttendee.eventId),
-                memberId: newAttendee.userId,
+                userId: newAttendee.userId,
                 status: newAttendee.status,
             });
         }
@@ -534,7 +541,7 @@ router.put('/:eventId/attendance', requireAuth, async (req, res) => {
                 where: { userId: user.id, groupId }, attributes: ['status'] });
 
             const attIsReal = await Attendance.findOne({ where: { userId, eventId } });
-
+                console.log(memStatus)
             if (!attIsReal) {
                         res.status(404);
                         res.json({

@@ -111,13 +111,14 @@ Get all Members of a Group by their ID ✅
 */
 router.get('/:groupId/members', async (req, res) => {
     const { user } = req;
-    const group = await Group.findByPk(req.params.groupId, {raw:true});
+    const { groupId } = req.params;
+    const group = await Group.findByPk(groupId, {raw:true});
     if (group) {
         let result = await User.findAll({
             raw: true,
             include: [{model: Membership,
                         where: {
-                            groupId: req.params.groupId
+                            groupId
                         },
                         attributes: []
                          }]
@@ -127,23 +128,30 @@ router.get('/:groupId/members', async (req, res) => {
         let limited = [];
         let cohost = [];
         for (let i = 0; i < result.length; i++) {
+            let userId = result[i].id;
             const memStatus = await Membership.findOne({
                 raw: true,
                 where: {
-                    userId: result[i].id,
-                    groupId: req.params.groupId
+                    userId: userId,
+                    groupId
                 },
                 attributes: ['status']
             });
             result[i].Membership = memStatus;
+            console.log(memStatus);
             original.push(result[i]);
 
             if (memStatus.status === 'co-host') {
-                cohost.push(result[i].id)
+                cohost.push(userId)
             }
             if (memStatus.status !== 'pending') {
                 limited.push(result[i])
             }
+        }
+        if (!user) {
+            res.json({
+                Members: limited
+            })
         }
         if (user.id === group.organizerId || cohost.includes(user.id)) {
             res.json({
@@ -592,7 +600,7 @@ router.post('/:groupId/events', requireAuth, async(req, res) => {
             const count = await Event.max('id');
             const newEvent = await Event.create({
                 id: count + 1,
-                groupId,
+                groupId: +groupId,
                 venueId,
                 name,
                 type,
