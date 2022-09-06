@@ -528,8 +528,8 @@ router.post('/:groupId/venues', requireAuth, async(req, res) => {
                 address,
                 city,
                 state,
-                lat: Number(lat),
-                lng: Number(lng)
+                lat,
+                lng
             });
 
             res.json({
@@ -538,8 +538,8 @@ router.post('/:groupId/venues', requireAuth, async(req, res) => {
                 address: newVenue.address,
                 city: newVenue.city,
                 state: newVenue.state,
-                lat: newVenue.lat,
-                lng: newVenue.lng
+                lat: +newVenue.lat,
+                lng: +newVenue.lng
             });
 
         } else {
