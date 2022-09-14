@@ -1993,8 +1993,8 @@ Return events filtered by query parameters.
   * Method: GET
   * URL: /api/events
   * Query Parameters
-    * page: integer, minimum: 0, maximum: 10, default: 0
-    * size: integer, minimum: 0, maximum: 20, default: 20
+    * page: integer, minimum: 1, maximum: 10, default: 1
+    * size: integer, minimum: 1, maximum: 20, default: 20
     * name: string, optional
     * type: string, optional
     * startDate: string, optional
