@@ -4,7 +4,9 @@ import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
 import LoginFormModal from '../LoginFormModal';
+import SignupFormModal from '../SignupFormModal';
 import './Navigation.css';
+import logo from '../../icons/logo.svg';
 
 function Navigation({ isLoaded }){
   const sessionUser = useSelector(state => state.session.user);
@@ -17,19 +19,26 @@ function Navigation({ isLoaded }){
   } else {
     sessionLinks = (
       <>
-        <LoginFormModal />
-        <NavLink to="/signup">Sign Up</NavLink>
+        <div className='login'>
+          <LoginFormModal />
+        </div>
+        <div className='signup'>
+          <SignupFormModal />
+          {/* <NavLink to="/signup"><p className='signup-words'>Sign up</p></NavLink> */}
+        </div>
       </>
     );
   }
 
   return (
-    <ul>
-      <li>
-        <NavLink exact to="/">Home</NavLink>
+    <div className='header'>
+    <div className='logo'>
+        <NavLink className='logo' exact to="/"><img src={logo} style={{ height: 50 }} alt='logo'></img></NavLink>
+    </div>
+    <div className='right'>
         {isLoaded && sessionLinks}
-      </li>
-    </ul>
+    </div>
+    </div>
   );
 }
 

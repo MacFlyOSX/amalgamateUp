@@ -1,0 +1,43 @@
+.header {
+    height: 75px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+}
+
+.right {
+    display: flex;
+    align-items: center;
+    padding-right: 20px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.right:hover {
+    color: #008294;
+}
+
+.login {
+    padding-right: 7px;
+}
+
+.signup {
+    padding-left: 7px;
+}
+
+.signup-words:hover {
+    color: #008294;
+}

@@ -1,1 +1,9 @@
-/* TODO Add site wide styles */
+* {
+    font-family: 'Noto Sans', sans-serif;
+    text-decoration: none;
+    color: black;
+}
+
+ul {
+    list-style-type: none;
+}
