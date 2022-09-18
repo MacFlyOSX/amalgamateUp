@@ -1,0 +1,104 @@
+.footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 70px;
+    background-color: black;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer-left {
+    font-size: 16px;
+    padding-left: 40px;
+    float: left;
+}
+
+.footer-left-text {
+    color: white;
+}
+
+.footer-right {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    float: right;
+    padding-right: 40px;
+}
+
+.github {
+    width: 60px;
+    height: 60px;
+    position: relative;
+    display: inline-block;
+}
+.linkedin {
+    width: 60px;
+    height: 60px;
+    position: relative;
+    display: inline-block;
+}
+
+.github-top {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px 0;
+}
+
+.github-bottom {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px 0;
+}
+
+.github:hover .github-top {
+    display: block;
+}
+
+.github:hover .github-bottom {
+    display: none;
+}
+
+.linkedin-top {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px 0;
+}
+
+.linkedin-bottom {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px 0;
+}
+
+.linkedin:hover .linkedin-top {
+    display: block;
+}
+
+.linkedin:hover .linkedin-bottom {
+    display: none;
+}
