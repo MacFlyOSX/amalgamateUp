@@ -32,12 +32,12 @@ function Navigation({ isLoaded }){
 
   return (
     <div className='header'>
-    <div className='logo'>
-        <NavLink className='logo' exact to="/"><img src={logo} style={{ height: 50 }} alt='logo'></img></NavLink>
-    </div>
-    <div className='right'>
-        {isLoaded && sessionLinks}
-    </div>
+      <div className='logo'>
+          <NavLink className='logo' exact to="/"><img src={logo} style={{ height: 50 }} alt='logo'></img></NavLink>
+      </div>
+      <div className='right'>
+          {isLoaded && sessionLinks}
+      </div>
     </div>
   );
 }

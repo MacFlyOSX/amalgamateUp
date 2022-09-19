@@ -4,7 +4,7 @@ import * as sessionActions from "../../store/session";
 import { useDispatch } from "react-redux";
 import logoSplash from '../../icons/logoSplash.svg';
 
-function LoginForm() {
+function LoginForm({onClick}) {
   const dispatch = useDispatch();
   const [credential, setCredential] = useState("");
   const [password, setPassword] = useState("");
