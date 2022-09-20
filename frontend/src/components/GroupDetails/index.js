@@ -53,6 +53,24 @@ const GroupDetails = () => {
                         Organized by {group.organizerName}
                     </span>
                     </div>
+                    <button className='group-deets-join'>
+                        Join this group
+                    </button>
+                </div>
+            </div>
+            <div className='group-details-bottom'>
+                <div className='group-deets-about'>
+                    <h2 className='group-deets-title'>
+                        What we're about
+                    </h2>
+                    <p className='group-deets-p'>
+                        {group.about}
+                    </p>
+                </div>
+                <div className='group-deets-events'>
+                    <h2 className='group-deets-title'>
+                        Events
+                    </h2>
                 </div>
             </div>
         </div>

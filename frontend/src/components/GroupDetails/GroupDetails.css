@@ -2,6 +2,8 @@
 .top-section-group-details {
     display: grid;
     grid-template-columns: 528px 442px;
+    border-bottom: 1px solid rgba(46, 62, 72, 0.12);
+    padding-bottom: 15px;
 }
 
 .group-main-image {
@@ -57,4 +59,41 @@
 .group-deets-name {
     margin: 0 0;
     margin-bottom: 12px;
+}
+
+.group-deets-join {
+    margin-top: 124px;
+    color: white;
+    background-color: #F65858;
+    border: none;
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 500;
+}
+
+.group-details-bottom {
+    background-color: #f6f7f8;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.group-deets-title {
+    font-size: 20px;
+    font-weight: 500;
+    margin-top: 35px;
+}
+
+.group-deets-p {
+    font-size: 15px;
+    font-weight: 300;
+}
+
+.group-deets-about {
+    margin: 0 20px;
+}
+
+.group-deets-events {
+    margin: 0 20px;
 }

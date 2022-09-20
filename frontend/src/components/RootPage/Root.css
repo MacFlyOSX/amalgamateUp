@@ -1,7 +1,7 @@
 
 .root-page-container {
     margin: 200px auto;
-    max-width: 1120px;
+    width: 90%;
 }
 .top-root-container {
     display: grid;

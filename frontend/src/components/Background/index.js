@@ -5,7 +5,7 @@ import redBlob from '../../icons/redBlob.svg';
 import yellowBlob from '../../icons/yellowBlob.svg';
 import './Background.css';
 
-export default function Background({ isLoaded }) {
+export default function Background() {
     return (
         <div className='bg'>
             <div className='bg-left'>

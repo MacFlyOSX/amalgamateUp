@@ -1,20 +1,20 @@
 .bg-right {
     position: fixed;
-    top: 0;
+    top: 5%;
     right: 0;
     z-index: -1;
 }
 
 .bg-left {
     position: fixed;
-    bottom: 3%;
-    left: 1%;
+    bottom: 2%;
+    left: 0;
     z-index: -1;
 }
 
 .bg-mid {
     position: fixed;
-    top: 10%;
+    top: 12%;
     left: 18%;
     z-index: -1;
 }
