@@ -34,7 +34,8 @@
     border-bottom-right-radius: 8px;
     border-top-left-radius: 8px;
     border-bottom-left-radius: 8px;
-    height: 650px;
+    height: 590px;
     max-height: 100%;
     width: 400px;
+    overflow: auto;
   }

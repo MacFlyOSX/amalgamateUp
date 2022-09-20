@@ -9,7 +9,7 @@ function SignupForm() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
+  // const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState([]);
@@ -18,7 +18,7 @@ function SignupForm() {
     e.preventDefault();
     if (password === confirmPassword) {
       setErrors([]);
-      return dispatch(sessionActions.signup({ firstName, lastName, email, username, password }))
+      return dispatch(sessionActions.signup({ firstName, lastName, email, username: `${firstName}${lastName[0]}`, password }))
         .catch(async (res) => {
           const data = await res.json();
           if (data && data.errors) setErrors(data.errors);
@@ -33,7 +33,7 @@ function SignupForm() {
     <div className="signup-form-top">
       <div className='signup-form-logo'><img src={logoSplash} style={{ height: 50 }} alt='logo'></img></div>
       <div className="signup-form-title">Signup</div>
-      <div className="signup-form-top-member">Already a member? Log in</div>
+      {/* <div className="signup-form-top-member">Already a member? Log in</div> */}
     </div>
     <div className="signup-form-stuff">
     <ul>
@@ -58,15 +58,16 @@ function SignupForm() {
         />
       </label>
       <label>
-        Email
+        Email address
         <input
           type="text"
           value={email}
+          placeholder='example@email.com'
           onChange={(e) => setEmail(e.target.value)}
           required
         />
       </label>
-      <label>
+      {/* <label>
         Username
         <input
           type="text"
@@ -74,7 +75,7 @@ function SignupForm() {
           onChange={(e) => setUsername(e.target.value)}
           required
         />
-      </label>
+      </label> */}
       <label>
         Password
         <input

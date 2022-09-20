@@ -18,7 +18,7 @@
     justify-content: space-evenly;
     height: 60px;
     box-sizing: border-box;
-    padding-bottom: 60px;
+    padding-bottom: 10px;
     padding-top: 40px;
 }
 
@@ -42,7 +42,7 @@
 }
 
 .signup-form-stuff {
-    height: 500px;
+    height: 490px;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
