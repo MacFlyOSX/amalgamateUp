@@ -1,9 +1,16 @@
 * {
-    font-family: 'Noto Sans', sans-serif;
+    font-family: 'Poppins', sans-serif;
     text-decoration: none;
     color: black;
 }
 
 ul {
     list-style-type: none;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    padding: 100px 15%;
+
 }

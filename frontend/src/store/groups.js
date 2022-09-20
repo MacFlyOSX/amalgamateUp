@@ -1,4 +1,4 @@
-
+import { ValidationError } from '../utils/validationError';
 
 const LOAD = 'groups/LOAD';
 const ADD = 'groups/ADD';
@@ -19,7 +19,7 @@ export const getGroups = () => async dispatch => {
     if(response.ok) {
         const list = await response.json();
         dispatch(load(list));
-        console.log(list);
+        console.log('this is the list received from getGroups', list);
     }
 };
 
@@ -93,7 +93,7 @@ const groupReducer = (state = initialState, action) => {
     switch(action.type) {
         case LOAD:
             const allGroups = {};
-            action.list.forEach(group => allGroups[group.id] = group);
+            action.list.Groups.forEach(group => allGroups[group.id] = group);
             return {...allGroups, ...state, list: action.list}
         case ADD:
             if(!state[action.group.id]) {
