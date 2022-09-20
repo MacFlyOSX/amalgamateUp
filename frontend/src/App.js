@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { Route, Switch } from "react-router-dom";
 import GroupsIndex from "./components/GroupsBrowser";
 import EventsIndex from "./components/EventsBrowser";
+import GroupDetails from "./components/GroupDetails";
 import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
 import Footer from "./components/Footer";
@@ -27,6 +28,9 @@ function App() {
             <Background />
             <RootPage isLoaded={isLoaded} />
         </Route>
+          <Route path="/groups/:groupId">
+            <GroupDetails />
+          </Route>
           <Route path="/groups">
             <GroupsIndex />
           </Route>

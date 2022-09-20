@@ -96,8 +96,6 @@ const groupReducer = (state = initialState, action) => {
         case ADD:
             if(!state[action.group.id]) {
                 const newState = {...state, [action.group.id]: action.group};
-                const groupList = newState.list.map(id => newState[id]);
-                groupList.push(action.group);
                 return newState;
             }
             return { ...state, [action.group.id]: {...state[action.group.id], ...action.group}};

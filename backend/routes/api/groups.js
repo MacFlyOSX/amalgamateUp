@@ -260,11 +260,17 @@ router.get('/:groupId', async (req, res) => {
             where: {
                 groupId: req.params.groupId
             }
-        })
+        });
+
+        const previewImage = groupImages.filter(ele => ele.preview === 1)[0].url;
+
+        const organizerName = `${organizer.firstName} ${organizer.lastName}`;
         group.numMembers = count;
         group.GroupImages = groupImages;
         group.Organizer = organizer;
         group.Venues = venues;
+        group.organizerName = organizerName;
+        group.previewImage = previewImage;
         res.json(group);
     } else {
         res.status(404);
