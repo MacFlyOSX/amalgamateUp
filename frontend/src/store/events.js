@@ -85,9 +85,7 @@ export const updateEvent = event => async dispatch => {
     }
 };
 
-const initialState = {
-    list: []
-};
+const initialState = {};
 
 const eventReducer = (state = initialState, action) => {
     switch(action.type) {
@@ -96,7 +94,7 @@ const eventReducer = (state = initialState, action) => {
             action.list.Events.forEach(event => {
                 allEvents[event.id] = event;
             });
-            return {...allEvents, ...state, list: action.list}
+            return {...allEvents, ...state}
         case ADD:
             if(!state[action.event.id]) {
                 const newState = {...state, [action.event.id]: action.event};

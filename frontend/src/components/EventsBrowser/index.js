@@ -9,7 +9,8 @@ const EventsIndex = () => {
     const eventObj = useSelector(state => state.events);
     console.log('this is the events received in EventsIndex', eventObj);
     const events = Object.values(eventObj);
-
+    console.log('this is the length', events.length);
+    console.log('this is events', events);
     useEffect(() => {
         dispatch(getEvents());
     }, [dispatch]);
@@ -35,22 +36,16 @@ const EventsIndex = () => {
                             <NavLink key={event.id} to={`/events/${event.id}`}>
                             <div className='event-preview-grid'>
                                 <div className='event-preview-image'>
-                                    <img class='thumbnail' src={`${event.previewImage}`} alt='thumbnail' />
+                                    <img class='event-thumbnail' src={`${event.previewImage}`} alt='thumbnail' />
                                 </div>
                                 <div className='event-preview-info'>
-                                    {/* <h3 className='event-date'>{`${event.startDate.day}, ${event.startDate.date}`} &middot; {event.startDate.time}</h3> */}
+                                    <h3 className='event-date'>{`${event.startDay}, ${event.startDate}`} • {event.startTime}</h3>
                                     <h3 className='event-name'>{event.name}</h3>
+                                    <div className='event-about-container'><p className='event-about'>{event.groupName} • {event.groupCity}, {event.groupState}</p></div>
+                                    <p className='event-stats'>{`${!!event.numAttending ? event.numAttending : 0} ${event.numAttending > 1 || !event.numAttending ? 'attendees' : 'attendee'} `}</p>
                                 </div>
                             </div>
-                                <div className='nav-image' style={{backgroundImage: `url('${event.previewImage}')`}}></div>
-                                <div>
-                                    <div className='primary-text'>{event.name}</div>
-                                    <div className='secondary-text'>
-                                        {event.type} {event.about}
-                                    </div>
-                                </div>
                             </NavLink>
-                            <hr></hr>
                             </div>
                         )
                     })}

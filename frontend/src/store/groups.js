@@ -85,16 +85,14 @@ export const updateGroup = group => async dispatch => {
     }
 };
 
-const initialState = {
-    list: []
-};
+const initialState = {};
 
 const groupReducer = (state = initialState, action) => {
     switch(action.type) {
         case LOAD:
             const allGroups = {};
             action.list.Groups.forEach(group => allGroups[group.id] = group);
-            return {...allGroups, ...state, list: action.list}
+            return {...allGroups, ...state}
         case ADD:
             if(!state[action.group.id]) {
                 const newState = {...state, [action.group.id]: action.group};

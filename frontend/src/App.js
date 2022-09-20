@@ -7,6 +7,8 @@ import EventsIndex from "./components/EventsBrowser";
 import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
 import Footer from "./components/Footer";
+import RootPage from "./components/RootPage";
+import Background from "./components/Background";
 
 function App() {
   const dispatch = useDispatch();
@@ -22,7 +24,8 @@ function App() {
       {isLoaded && (
         <Switch>
         <Route exact path='/'>
-
+            <Background />
+            <RootPage isLoaded={isLoaded} />
         </Route>
           <Route path="/groups">
             <GroupsIndex />

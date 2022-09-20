@@ -191,6 +191,37 @@ router.get('/', async (req, res) => {
             }]
         });
 
+/*********************** Fixes the silly date information **********************/
+
+        const startDate = {};
+        const endDate = {};
+
+        const start = new Date(events[i].startDate);
+        const end = new Date(events[i].endDate);
+
+        const startStr = start.toString();
+        const endStr = end.toString();
+
+        const startArr = startStr.split(' ');
+        const endArr = endStr.split(' ');
+
+        events[i].startDay = startArr[0];
+        events[i].endDay = endArr[0];
+
+        events[i].startDate = `${startArr[1]} ${startArr[2]}`;
+        events[i].endDate = `${endArr[1]} ${endArr[2]}`;
+
+        let startTime = startArr[4].slice(0,2);
+        let endTime = endArr[4].slice(0,2);
+
+        startTime = startTime > 12 ? `${startTime - 12}:${startArr[4].slice(3, 5)} PM` : `${startTime}:${startArr[4].slice(3, 5)} AM`;
+        endTime = endTime > 12 ? `${endTime - 12}:${endArr[4].slice(3, 5)} PM` : `${endTime}:${endArr[4].slice(3, 5)} AM`;
+
+        events[i].startTime = startTime;
+        events[i].endTime = endTime;
+
+/*********************** Continue on with the normal business **********************/
+
         console.log(images);
         const count = await Attendance.count({
             where: {
@@ -202,6 +233,9 @@ router.get('/', async (req, res) => {
         const group = await Group.findByPk(events[i].groupId, {
             raw: true, attributes: ['id', 'name', 'city', 'state']
         });
+        events[i].groupName = group.name;
+        events[i].groupCity = group.city;
+        events[i].groupState = group.state;
 
         events[i].numAttending = count;
         if (!images) {
