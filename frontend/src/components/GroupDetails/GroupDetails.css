@@ -3,6 +3,7 @@
     display: grid;
     grid-template-columns: 528px 442px;
     border-bottom: 1px solid rgba(46, 62, 72, 0.12);
+    height: 297px;
     padding-bottom: 15px;
 }
 

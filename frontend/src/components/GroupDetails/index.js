@@ -16,6 +16,7 @@ const GroupDetails = () => {
     // const [popup, setPopup] = useState(false);
 
     const group = useSelector(state => state.groups[groupId]);
+    console.log('this is the group', group);
 
     let sessionLinks;
     if(sessionUser) {
