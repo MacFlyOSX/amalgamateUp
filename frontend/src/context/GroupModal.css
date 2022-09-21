@@ -1,0 +1,39 @@
+/* frontend/src/context/Modal.css */
+#group-modal {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #group-modal-background {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+  }
+
+  #group-modal-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    font-weight: 600;
+    position: absolute;
+    background-color:white;
+    padding-bottom: 32px;
+    padding-left: 40px;
+    padding-right: 40px;
+    padding-top: 36px;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    height: 500px;
+    width: 400px;
+  }

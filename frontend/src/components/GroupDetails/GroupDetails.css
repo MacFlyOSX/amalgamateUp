@@ -61,7 +61,7 @@
     margin-bottom: 12px;
 }
 
-.group-deets-join {
+.group-deets-button {
     margin-top: 124px;
     color: white;
     background-color: #F65858;
@@ -71,12 +71,67 @@
     padding: 10px 20px;
     border-radius: 8px;
     font-weight: 500;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.group-deets-div {
+    margin-top: 124px;
+    width: 120px;
+    color: white;
+    background-color: #F65858;
+    border: none;
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    padding-right: 5px;
+    border-radius: 8px;
+    font-weight: 500;
+    text-align: center;
+    cursor: pointer;
+    user-select: none;
+}
+
+.signin-popup {
+    font-size: 12px;
+    margin-top: 49px;
+    margin-left: 1px;
+    visibility: hidden;
+    width: 120px;
+    background-color: #353e48;
+    color: white;
+    text-align: center;
+    border-radius: 8px;
+    padding: 12px 12px;
+    position: absolute;
+}
+
+.signin-popup:after {
+    content:'';
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    width: 0;
+    height: 0;
+    margin-top: 30px;
+    border-top: 10px solid #353e48;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+}
+
+.show {
+    visibility: visible;
+    animation: fadeIn 1s;
 }
 
 .group-details-bottom {
     background-color: #f6f7f8;
     display: grid;
     grid-template-columns: 1fr 1fr;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    padding-bottom: 60px;
 }
 
 .group-deets-title {
@@ -96,4 +151,11 @@
 
 .group-deets-events {
     margin: 0 20px;
+}
+
+.buttons-side-by-side {
+    display: flex;
+    flex-direction: row;
+    margin: 0 0;
+    padding: 0 0;
 }
