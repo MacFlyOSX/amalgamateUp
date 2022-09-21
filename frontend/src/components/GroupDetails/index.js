@@ -13,13 +13,13 @@ const GroupDetails = () => {
     const { groupId } = useParams();
     const dispatch = useDispatch();
     console.log('this is the session user', sessionUser);
-    const [popup, setPopup] = useState(false);
+    // const [popup, setPopup] = useState(false);
 
     const group = useSelector(state => state.groups[groupId]);
 
     let sessionLinks;
     if(sessionUser) {
-        setPopup(false);
+        // setPopup(false);
         if(sessionUser.id === group?.organizerId) {
             sessionLinks = (
                 <div className='buttons-side-by-side'>
@@ -39,14 +39,13 @@ const GroupDetails = () => {
             )
         }
     } else {
-            sessionLinks = (
+            sessionLinks = null;
                 <>
-                <span className={popup ? 'signin-popup show' : 'signin-popup'}>You must be signed in to join this group</span>
-                <div className='group-deets-div' onClick={() => setPopup(!popup)}>
-                    Join this group
-                </div>
-                </>
-            )
+                 {/* <span className={popup ? 'signin-popup show' : 'signin-popup'}>You must be signed in to join this group</span>
+                 <div className='group-deets-div' onClick={() => setPopup(!popup)}>
+                     Join this group
+                 </div> */}
+                 </>
     }
 
     useEffect(() => {

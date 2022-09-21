@@ -7,26 +7,26 @@ import LoginFormModal from '../LoginFormModal';
 import SignupFormModal from '../SignupFormModal';
 import './Navigation.css';
 import logo from '../../icons/logo.svg';
-import greenBlob from '../../icons/greenBlob.svg';
-import redBlob from '../../icons/redBlob.svg';
-import yellowBlob from '../../icons/yellowBlob.svg';
+// import greenBlob from '../../icons/greenBlob.svg';
+// import redBlob from '../../icons/redBlob.svg';
+// import yellowBlob from '../../icons/yellowBlob.svg';
 
 function Navigation({ isLoaded }){
   const sessionUser = useSelector(state => state.session.user);
-  const location = useLocation();
-  console.log('this is where we are 👉️', location);
-  const pathname = location.pathname;
-  console.log('this is where we are 👉️', pathname);
-  const [onRoot, setOnRoot] = useState(!!(pathname === '/'));
-  console.log(onRoot);
+  // const location = useLocation();
+  // console.log('this is where we are 👉️', location);
+  // const pathname = location.pathname;
+  // console.log('this is where we are 👉️', pathname);
+  // const [onRoot, setOnRoot] = useState(!!(pathname === '/'));
+  // console.log(onRoot);
 
-  useEffect(() => {
-    if(pathname !== '/') {
-      setOnRoot(false);
-    } else {
-      setOnRoot(true);
-    }
-  }, [location, pathname]);
+  // useEffect(() => {
+  //   if(pathname !== '/') {
+  //     setOnRoot(false);
+  //   } else {
+  //     setOnRoot(true);
+  //   }
+  // }, [location, pathname]);
 
   let sessionLinks;
   if (sessionUser) {
