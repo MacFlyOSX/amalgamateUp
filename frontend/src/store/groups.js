@@ -52,7 +52,7 @@ export const deleteOneGroup = id => async dispatch => {
     }
 }
 
-export const createGroup = group => async dispatch => {
+export const createGroup = (group, previewImage) => async dispatch => {
     try {
         const response = await csrfFetch('/api/groups', {
             method: 'POST',
@@ -64,8 +64,24 @@ export const createGroup = group => async dispatch => {
 
         if(response.ok) {
             const newGroup = await response.json();
-            dispatch(addGroup(newGroup));
-            return newGroup;
+
+
+            const res = await csrfFetch(`/api/groups/${newGroup.id}/images`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    url: previewImage,
+                    preview: true
+                })
+            });
+
+            if(res.ok) {
+                const newImage = await res.json();
+                dispatch(addGroup(newGroup));
+                return newGroup;
+            }
         } else {
             let error;
             if(response.status === 422) {

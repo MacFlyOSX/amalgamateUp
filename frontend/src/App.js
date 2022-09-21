@@ -11,6 +11,7 @@ import Footer from "./components/Footer";
 import RootPage from "./components/RootPage";
 import Background from "./components/Background";
 import EditGroup from "./components/EditGroup";
+import CreateGroup from "./components/CreateGroup";
 
 function App() {
   const dispatch = useDispatch();
@@ -28,6 +29,9 @@ function App() {
           <Route exact path='/'>
             <Background />
             <RootPage isLoaded={isLoaded} />
+          </Route>
+          <Route path='/groups/new'>
+            <CreateGroup />
           </Route>
           <Route path='/groups/:groupId/edit'>
             <EditGroup />

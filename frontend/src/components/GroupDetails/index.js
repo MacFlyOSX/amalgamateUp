@@ -15,7 +15,7 @@ const GroupDetails = () => {
     const sessionUser = useSelector(state => state.session.user);
     const { groupId } = useParams();
     const dispatch = useDispatch();
-    console.log('this is the groupId that I think is boofed', groupId);
+    console.log('this is the sessionUser', sessionUser);
     // const [popup, setPopup] = useState(false);
 
     const group = useSelector(state => state.groups.singleGroup);

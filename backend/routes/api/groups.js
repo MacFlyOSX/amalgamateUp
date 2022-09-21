@@ -314,7 +314,7 @@ router.get('/', async (req, res) => {
             }]
         });
         groups[i].numMembers = Number(groups[i].numMembers);
-        groups[i].previewImage = images['GroupImages.url'];
+        groups[i].previewImage = images ? images['GroupImages.url'] : 'https://i.imgur.com/7EYSecN.png';
     }
 
     res.json({

@@ -1,0 +1,174 @@
+.edit-group-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 970px;
+    margin: 100px auto;
+}
+
+
+.edit-top-section-group-details {
+    display: grid;
+    grid-template-columns: 264px 221px;
+    border-bottom: 1px solid rgba(46, 62, 72, 0.12);
+    height: 148.5px;
+    padding-bottom: 7.5px;
+    padding-top: 20px;
+}
+
+.edit-group-main-image {
+    width: 264px;
+    height: 148.5px;
+    background-size: cover;
+    background-position: center 40%;
+    border-radius: 10px;
+}
+
+.edit-group-deets-icon {
+    height: 10px;
+}
+
+.edit-group-deets-name {
+    font-size: 16px;
+}
+
+.edit-group-information {
+    font-size: 10px;
+}
+
+.edit-group-deets {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2px;
+}
+
+.edit-group-deets-icon {
+    margin-right: 6px;
+}
+
+.edit-chunk {
+    width: 12.5px;
+    height: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.edit-group-details-container {
+    width: 485px;
+    margin: 0 auto;
+    border: solid 1px #acadadb4;
+}
+
+.edit-group-information {
+    padding-left: 25px;
+}
+
+.edit-group-deets-name {
+    margin: 0 0;
+    margin-bottom: 12px;
+}
+
+.edit-group-details-bottom {
+    background-color: #f6f7f8;
+    /* display: grid;
+    grid-template-columns: 1fr 1fr; */
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    padding: 20px 15px;
+    min-height: 300px;
+}
+
+.edit-group-deets-title {
+    font-size: 16px;
+    font-weight: 500;
+    margin: 0 0;
+}
+
+.edit-group-deets-p {
+    font-size: 12px;
+    font-weight: 300;
+    white-space: pre-wrap;
+}
+
+.edit-group-deets-about {
+    margin: 0 auto;
+}
+
+.edit-group-form-container {
+    padding: 0 20px;
+    width: 455px;
+    border: solid 1px #acadadb4;
+    padding-right: 0;
+    padding-bottom: 20px;
+}
+
+.edit-group-form-title,
+.edit-group-preview-title {
+    font-size: 20px;
+    font-weight: 700;
+    text-decoration: underline;
+}
+
+.edit-group-preview-title,
+.edit-group-main-image {
+    margin-left: 10px;
+}
+
+.private-checkbox {
+    width: 22px;
+    padding: 0 0;
+    margin: 0 5px;
+}
+
+.flex-label {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.edit-group-textarea {
+    padding: 8px 12px;
+    height: 200px;
+}
+
+.group-form-input {
+    width: 420px;
+}
+
+.group-input-city {
+    width: 280px;
+    margin-right: 10px;
+}
+
+.group-input-state {
+    width: 104px;
+}
+
+.city-state-chunk {
+    margin: 0 141px;
+}
+
+.edit-group-about {
+    margin: 0 0;
+    padding: 0 0;
+}
+
+.eg-form {
+    font-size: 13px;
+}
+
+.edit-button {
+    border: 0;
+    background-color: #f65858;
+    color: white;
+    font-weight: 500;
+    height: 48px;
+    border-radius: 8px;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.create-group-form {
+    width: 450px;
+    margin: 0 0;
+}
