@@ -2,6 +2,7 @@ import { ValidationError } from '../utils/validationError';
 
 const LOAD = 'groups/LOAD';
 const ADD = 'groups/ADD';
+const DELETE = 'groups/DELETE';
 
 const load = list => ({
     type: LOAD,
@@ -85,7 +86,7 @@ export const updateGroup = group => async dispatch => {
     }
 };
 
-const initialState = {};
+const initialState = { singleGroup: {} };
 
 const groupReducer = (state = initialState, action) => {
     switch(action.type) {
@@ -95,10 +96,10 @@ const groupReducer = (state = initialState, action) => {
             return {...allGroups, ...state}
         case ADD:
             if(!state[action.group.id]) {
-                const newState = {...state, [action.group.id]: action.group};
+                const newState = {...state, [action.group.id]: action.group, singleGroup: action.group};
                 return newState;
             }
-            return { ...state, [action.group.id]: {...state[action.group.id], ...action.group}};
+            return { ...state, [action.group.id]: {...state[action.group.id], ...action.group}, singleGroup: action.group};
         default:
             return state;
     }

@@ -10,6 +10,7 @@ import Navigation from "./components/Navigation";
 import Footer from "./components/Footer";
 import RootPage from "./components/RootPage";
 import Background from "./components/Background";
+import EditGroup from "./components/EditGroup";
 
 function App() {
   const dispatch = useDispatch();
@@ -24,10 +25,13 @@ function App() {
       <Footer isLoaded={isLoaded} />
       {isLoaded && (
         <Switch>
-        <Route exact path='/'>
+          <Route exact path='/'>
             <Background />
             <RootPage isLoaded={isLoaded} />
-        </Route>
+          </Route>
+          <Route path='/groups/:groupId/edit'>
+            <EditGroup />
+          </Route>
           <Route path="/groups/:groupId">
             <GroupDetails />
           </Route>
