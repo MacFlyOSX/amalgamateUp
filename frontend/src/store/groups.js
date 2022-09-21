@@ -1,4 +1,5 @@
 import { ValidationError } from '../utils/validationError';
+import { csrfFetch } from './csrf';
 
 const LOAD = 'groups/LOAD';
 const ADD = 'groups/ADD';
@@ -12,6 +13,11 @@ const load = list => ({
 const addGroup = group => ({
     type: ADD,
     group
+});
+
+const deleteGroup = groupId => ({
+    type: DELETE,
+    groupId
 });
 
 export const getGroups = () => async dispatch => {
@@ -34,9 +40,21 @@ export const getOneGroup = id => async dispatch => {
     }
 };
 
+export const deleteOneGroup = id => async dispatch => {
+    const response = await csrfFetch(`/api/groups/${id}`, {
+        method: 'DELETE'
+    });
+
+    if(response.ok) {
+        const cool = await response.json();
+        console.log('this is cool',cool);
+        dispatch(deleteGroup(id));
+    }
+}
+
 export const createGroup = group => async dispatch => {
     try {
-        const response = await fetch('/api/groups', {
+        const response = await csrfFetch('/api/groups', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -71,7 +89,7 @@ export const createGroup = group => async dispatch => {
 };
 
 export const updateGroup = group => async dispatch => {
-    const response = await fetch(`/api/groups/${group.id}`, {
+    const response = await csrfFetch(`/api/groups/${group.id}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
@@ -100,6 +118,10 @@ const groupReducer = (state = initialState, action) => {
                 return newState;
             }
             return { ...state, [action.group.id]: {...state[action.group.id], ...action.group}, singleGroup: action.group};
+        case DELETE:
+            const newState = {...state, singleGroup: {}};
+            delete newState[action.groupId];
+            return newState;
         default:
             return state;
     }

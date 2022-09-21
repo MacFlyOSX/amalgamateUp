@@ -63,7 +63,7 @@
 }
 
 .group-deets-button {
-    margin-top: 124px;
+    margin-top: 20px;
     color: white;
     background-color: #F65858;
     border: none;
@@ -144,6 +144,7 @@
 .group-deets-p {
     font-size: 15px;
     font-weight: 300;
+    white-space: pre-wrap;
 }
 
 .group-deets-about {

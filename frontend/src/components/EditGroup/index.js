@@ -6,6 +6,7 @@ import location from '../../icons/location.png';
 import members from '../../icons/members.png';
 import organizer from '../../icons/organizer.png';
 import './EditGroup.css';
+import { updateGroup } from "../../store/groups";
 
 
 const EditGroup = () => {
@@ -15,6 +16,7 @@ const EditGroup = () => {
     const dispatch = useDispatch();
 
     const group = useSelector(state => state.groups.singleGroup);
+    const {id} = group;
 
     const [ name, setName ] = useState(group?.name);
     const [ about, setAbout ] = useState(group?.about);
@@ -23,38 +25,44 @@ const EditGroup = () => {
     const [ state, setState ] = useState(group?.state);
     const [ errors, setErrors ] = useState([]);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // if (password === confirmPassword) {
-        //   setErrors([]);
-        //   return dispatch(sessionActions.edit-group({ firstName, lastName, email, username: `${firstName}${lastName[0]}`, password }))
-        //     .catch(async (res) => {
-        //       const data = await res.json();
-        //       if (data && data.errors) setErrors(data.errors);
-        //     });
-        // }
-        // return setErrors(['Confirm Password field must be the same as the Password field']);
-      };
+
+        const payload = {
+            id, name, about, type: 'In person', private: privacy, city, state
+        };
+        console.log('this is the payload in edit group', payload);
+
+        const updatedGroup = await dispatch(updateGroup(payload));
+
+        if(updatedGroup) {
+            history.push(`/groups/${id}`);
+        }
+    };
+
+      if (!sessionUser) history.push(`/groups/${id}`);
+      else if (sessionUser.id !== group.organizerId) history.push(`/groups/${id}`);
 
     useEffect(() => {
-        dispatch(getOneGroup(groupId));
-    }, [dispatch, groupId]);
+        dispatch(getOneGroup(id));
+    }, [dispatch, id]);
 
     return (
         <div className="edit-group-container">
             <div className='edit-group-details-container'>
+            <div className="edit-group-preview-title">Group Preview</div>
             <div className='edit-top-section-group-details'>
                 <div className='edit-group-main-image' style={{backgroundImage: `url(${group?.previewImage})`}}>
                     {/* <img class='group-thumbail' src={`${group.previewImage}`} alt='thumbnail' /> */}
                 </div>
                 <div className='edit-group-information'>
-                    <h2 className='edit-group-deets-name'>{group?.name}</h2>
+                    <h2 className='edit-group-deets-name'>{name}</h2>
                     <div className='edit-group-deets location'>
                     <div className='edit-chunk'>
                         <img className='edit-group-deets-icon' src={location} alt='location' />
                     </div>
                     <span>
-                        {`${group?.city}, ${group?.state}`}
+                        {`${city}, ${state}`}
                     </span>
                     </div>
                     <div className='edit-group-deets members'>
@@ -62,7 +70,7 @@ const EditGroup = () => {
                         <img className='edit-group-deets-icon' src={members} alt='members' />
                     </div>
                     <span>
-                        {`${!!group?.numMembers ? group?.numMembers : 0} ${group?.numMembers > 1 || !group?.numMembers ? 'members' : 'member'} `} 	&middot; {!!group?.private ? 'Private group' : 'Public group'}
+                        {`${!!group?.numMembers ? group?.numMembers : 0} ${group?.numMembers > 1 || !group?.numMembers ? 'members' : 'member'} `} 	&middot; {privacy ? 'Private group' : 'Public group'}
                     </span>
                     </div>
                     <div className='edit-group-deets organizer'>
@@ -80,7 +88,7 @@ const EditGroup = () => {
                         What we're about
                     </h2>
                     <p className='edit-group-deets-p'>
-                        {group?.about}
+                        {about}
                     </p>
                 </div>
             </div>
@@ -95,52 +103,60 @@ const EditGroup = () => {
                     {errors.map((error, idx) => <li key={idx}>{error}</li>)}
                   </ul>
                   <label>
-                    Group Name
+                    Group Name<br />
                     <input
+                      className="group-form-input edit-group-name eg-form"
                       type="text"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       required
                     />
-                  </label>
-                  <label>
-                    City
+                  </label><br />
+                  <label className="group-form-city">
+                    City<span className="city-state-chunk"> </span>State<br />
                     <input
+                      className="group-input-city eg-form"
                       type="text"
                       value={city}
                       onChange={(e) => setCity(e.target.value)}
                       required
                     />
                   </label>
-                  <label>
-                    State
+                  <label className="group-form-state">
                     <input
+                      className="group-input-state eg-form"
                       type="text"
                       value={state}
                       onChange={(e) => setState(e.target.value)}
                       required
                     />
-                  </label>
-                  <label>
+                  </label><br />
+                  <label className="flex-label">
                     Private Group?
                     <input
+                      className="private-checkbox eg-form"
                       type="checkbox"
-                      value={!!privacy ? true : false}
+                      value={privacy}
                       checked={!!privacy ? true : false}
-                      onChange={(e) => setPrivacy(e.target.value)}
-                      required
+                      onChange={(e) => setPrivacy(!privacy)}
                     />
-                  </label>
-                  <label>
-                    About
+                  </label><br />
+                  <label className="edit-group-about">
+                    About<br />
                     <textarea
+                      className="edit-group-textarea group-form-input eg-form"
                       value={about}
                       onChange={(e) => setAbout(e.target.value)}
                       required
                     />
                   </label>
                   <p></p>
-                  <button type="submit" className="edit-submit-button">Sign up</button>
+                  {/* <button onClick={onPreviewClick} className="editted-group-preview edit-button">
+                  Preview Changes
+                  </button> */}
+                  <button type="submit" className="edit-submit-button edit-button">
+                  Update Group
+                  </button>
                   </div>
                 </form>
             </div>

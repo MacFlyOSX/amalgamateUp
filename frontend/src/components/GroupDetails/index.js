@@ -1,22 +1,31 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { getOneGroup } from '../../store/groups';
 import location from '../../icons/location.png';
 import members from '../../icons/members.png';
 import organizer from '../../icons/organizer.png';
 import './GroupDetails.css';
+import { deleteOneGroup } from '../../store/groups';
+import { NavLink } from 'react-router-dom';
 
 
 const GroupDetails = () => {
+    const history = useHistory();
     const sessionUser = useSelector(state => state.session.user);
     const { groupId } = useParams();
     const dispatch = useDispatch();
-    console.log('this is the session user', sessionUser);
+    console.log('this is the groupId that I think is boofed', groupId);
     // const [popup, setPopup] = useState(false);
 
     const group = useSelector(state => state.groups.singleGroup);
     console.log('this is the group', group);
+
+    const deleteClick = () => {
+        const res = dispatch(deleteOneGroup(groupId));
+        console.log(res);
+        history.push('/groups');
+    }
 
     let sessionLinks;
     if(sessionUser) {
@@ -24,10 +33,10 @@ const GroupDetails = () => {
         if(sessionUser.id === group?.organizerId) {
             sessionLinks = (
                 <div className='buttons-side-by-side'>
-                <button className='group-deets-button'>
+                <NavLink to={`/groups/${groupId}/edit`} ><button className='group-deets-button'>
                         Edit this group
-                </button>
-                <button className='group-deets-button'>
+                </button></NavLink>
+                <button onClick={deleteClick} className='group-deets-button'>
                         Delete this group
                 </button>
                 </div>

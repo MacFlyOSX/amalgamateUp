@@ -8,7 +8,8 @@ const GroupsIndex = () => {
     const dispatch = useDispatch();
     const groupObj = useSelector(state => state.groups);
     console.log('this is the groups received in GroupsIndex', groupObj);
-    const groups = Object.values(groupObj);
+    const groupArr = Object.values(groupObj);
+    const groups = groupArr.slice(0, groupArr.length - 1);
 
     useEffect(() => {
         dispatch(getGroups());
