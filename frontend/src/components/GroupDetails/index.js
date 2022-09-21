@@ -15,7 +15,7 @@ const GroupDetails = () => {
     console.log('this is the session user', sessionUser);
     // const [popup, setPopup] = useState(false);
 
-    const group = useSelector(state => state.groups[groupId]);
+    const group = useSelector(state => state.groups.singleGroup);
     console.log('this is the group', group);
 
     let sessionLinks;
