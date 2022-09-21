@@ -65,9 +65,9 @@ const GroupDetails = () => {
     return (
         <div className='group-details-container'>
             <div className='top-section-group-details'>
-                <div className='group-main-image' style={{backgroundImage: `url(${group?.previewImage})`}}>
+                {/* <div className='group-main-image' style={{backgroundImage: `url(${group?.previewImage})`}}> */}
                     {/* <img class='group-thumbail' src={`${group.previewImage}`} alt='thumbnail' /> */}
-                </div>
+                {/* </div> */}
                 <div className='group-information'>
                     <h2 className='group-deets-name'>{group?.name}</h2>
                     <div className='group-deets location'>

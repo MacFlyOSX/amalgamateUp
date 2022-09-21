@@ -6,7 +6,7 @@ import './GroupsBrowser.css';
 
 const GroupsIndex = () => {
     const dispatch = useDispatch();
-    const groupObj = useSelector(state => state.groups);
+    const groupObj = useSelector(state => state.groups.allGroups);
     console.log('this is the groups received in GroupsIndex', groupObj);
     const groupArr = Object.values(groupObj);
     const groups = groupArr.slice(0, groupArr.length - 1);
@@ -31,7 +31,7 @@ const GroupsIndex = () => {
                 <nav>
                     {groups.map((group, i) => {
                         return (
-                            <div className={i === 0 ? 'fun-town' : 'group-container'}>
+                            <div key={i} className={i === 0 ? 'fun-town' : 'group-container'}>
                             <NavLink key={group.id} to={`/groups/${group.id}`}>
                             <div className='group-preview-grid'>
                                 <div className='group-preview-image'>

@@ -120,23 +120,29 @@ export const updateGroup = group => async dispatch => {
     }
 };
 
-const initialState = { singleGroup: {} };
+const initialState = { allGroups: {}, singleGroup: {} };
 
 const groupReducer = (state = initialState, action) => {
     switch(action.type) {
         case LOAD:
-            const allGroups = {};
-            action.list.Groups.forEach(group => allGroups[group.id] = group);
-            return {...allGroups, ...state}
-        case ADD:
-            if(!state[action.group.id]) {
-                const newState = {...state, [action.group.id]: action.group, singleGroup: action.group};
+            const groupsList = {};
+            action.list.Groups.forEach(group => groupsList[group.id] = group);
+            return { allGroups: {...groupsList}, singleGroup: {}}
+        case ADD:{
+            if(!state.allGroups[action.group.id]) {
+                const newState = {...state, singleGroup: {...state.singleGroup}, allGroups: {...state.allGroups}};
+                newState.singleGroup = action.group;
+                newState.allGroups[action.group.id] = action.group;
                 return newState;
             }
-            return { ...state, [action.group.id]: {...state[action.group.id], ...action.group}, singleGroup: action.group};
+            const newState = {...state, singleGroup: {}, allGroups: {...state.allGroups}};
+            newState.singleGroup = {...state.singleGroup, ...action.group};
+            newState.allGroups[action.group.id] = action.group;
+            return newState;
+            }
         case DELETE:
             const newState = {...state, singleGroup: {}};
-            delete newState[action.groupId];
+            delete newState.allGroups[action.groupId];
             return newState;
         default:
             return state;
