@@ -1,124 +1,148 @@
 import { useState, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { getOneGroup } from '../../store/groups';
-import location from '../../icons/location.png';
-import members from '../../icons/members.png';
+import { getOneEvent } from '../../store/events';
+import eventLoc from '../../icons/eventLoc.png';
+import clock from '../../icons/clock.png';
 import organizer from '../../icons/organizer.png';
 import './EventDetails.css';
-import { deleteOneGroup } from '../../store/groups';
+import { deleteOneEvent } from '../../store/events';
 import { NavLink } from 'react-router-dom';
 
 
 const EventDetails = () => {
     const history = useHistory();
     const sessionUser = useSelector(state => state.session.user);
-    const { groupId } = useParams();
+    const { eventId } = useParams();
     const dispatch = useDispatch();
     // const [prevImg, setPrevImg] = useState('https://i.imgur.com/7EYSecN.png');
     console.log('this is the sessionUser', sessionUser);
     // const [popup, setPopup] = useState(false);
-    console.log('this is the groupId', groupId)
+    console.log('this is the eventId', eventId)
 
-    const group = useSelector(state => state.groups.singleGroup);
-    console.log('this is the group', group);
+    const event = useSelector(state => state.events.singleEvent);
+    console.log('this is the event', event);
 
-    const deleteClick = () => {
-        const res = dispatch(deleteOneGroup(groupId));
+    const deleteClick = async () => {
+        const res = await dispatch(deleteOneEvent(eventId));
         console.log(res);
-        history.push('/groups');
+        history.push('/events');
     }
 
     let sessionLinks;
     if(sessionUser) {
         // setPopup(false);
-        if(sessionUser.id === group?.organizerId) {
+        if(sessionUser.id === event?.hostId) {
             sessionLinks = (
-                <div className='buttons-side-by-side'>
-                <NavLink to={`/groups/${groupId}/edit`} ><button className='group-deets-button'>
-                        Edit this group
-                </button></NavLink>
-                <button onClick={deleteClick} className='group-deets-button'>
-                        Delete this group
+                <>
+                <button onClick={deleteClick} className='event-deets-button'>
+                        Delete this event
                 </button>
-                </div>
-            )
-        } else {
-            sessionLinks = (
-                <button className='group-deets-button'>
-                        Join this group
-                </button>
+                </>
             )
         }
-    } else {
-            sessionLinks = null;
-                // <>
-                //  <span className={popup ? 'signin-popup show' : 'signin-popup'}>You must be signed in to join this group</span>
-                //  <div className='group-deets-div' onClick={() => setPopup(!popup)}>
-                //      Join this group
-                //  </div>
-                //  </>
+        // else {
+        //     sessionLinks = (
+        //         <button className='event-deets-button'>
+        //                 Join this event
+        //         </button>
+        //     )
+        // }
     }
+    // else {
+    //         sessionLinks = null;
+    //             // <>
+    //             //  <span className={popup ? 'signin-popup show' : 'signin-popup'}>You must be signed in to join this event</span>
+    //             //  <div className='event-deets-div' onClick={() => setPopup(!popup)}>
+    //             //      Join this event
+    //             //  </div>
+    //             //  </>
+    // }
 
     useEffect(() => {
-        dispatch(getOneGroup(groupId));
-    }, [dispatch, groupId]);
+        dispatch(getOneEvent(eventId));
+    }, [dispatch, eventId]);
 
     return (
-        <div className='group-details-container'>
-            <div className='top-section-group-details'>
-                <div className='group-main-image'
-                style={{backgroundImage: `url(${!!group ? group?.previewImage : `https://i.imgur.com/7EYSecN.png`})`}}
-                >
-                    {/* <img className='group-thumbail' src={`${!!group ? group?.previewImage : `https://i.imgur.com/7EYSecN.png`}`} alt='thumbnail' /> */}
-                </div>
-                <div className='group-information'>
-                    <h2 className='group-deets-name'>{group?.name}</h2>
-                    <div className='group-deets location'>
-                    <div className='chunk'>
-                        <img className='group-deets-icon' src={location} alt='location' />
+        <div className='event-deets-bg'>
+        {!!event && (
+            <style>
+            {"\
+                html, body{\
+                  background-color: #f6f7f8;\
+                }\
+            "}
+            </style>
+        )}
+        {/* <div className='event-entire-container'> */}
+            <div className='event-details-top-title-container'>
+                <div className='event-top-title-stuffs'>
+                    <h3 className='event-details-date'>{`${event.startDay}, ${event.startDate}`}</h3>
+                    <h1 className='event-details-name-title'>{event.name}</h1>
+                    <div className='event-host-container'>
+                        <img className='event-host-icon' src={organizer} alt='organizer' />
+                        <div className='event-host-info'>
+                            <p className='event-hosted-by host-stuff'>Hosted By</p>
+                            <p className='event-host host-stuff'>{event?.Host}</p>
+                        </div>
+                        <div className='event-delete-button-div'>
+                        {sessionLinks}
+                        </div>
                     </div>
-                    <span>
-                        {`${group?.city}, ${group?.state}`}
-                    </span>
-                    </div>
-                    <div className='group-deets members'>
-                    <div className='chunk'>
-                        <img className='group-deets-icon' src={members} alt='members' />
-                    </div>
-                    <span>
-                        {`${!!group?.numMembers ? group?.numMembers : 0} ${group?.numMembers > 1 || !group?.numMembers ? 'members' : 'member'} `} 	&middot; {!!group?.private ? 'Private group' : 'Public group'}
-                    </span>
-                    </div>
-                    <div className='group-deets organizer'>
-                    <div className='chunk'>
-                        <img className='group-deets-icon' src={organizer} alt='organizer' />
-                    </div>
-                    <span>
-                        Organized by {group?.organizerName}
-                    </span>
-                    </div>
-                    {sessionLinks}
-                    {/* <button className='group-deets-button'>
-                        Join this group
-                    </button> */}
                 </div>
             </div>
-            <div className='group-details-bottom'>
-                <div className='group-deets-about'>
-                    <h2 className='group-deets-title'>
-                        What we're about
+        <div className='event-details-container'>
+            <div className='top-section-event-details'>
+                <div className='event-main-image'
+                style={{backgroundImage: `url(${!!event ? event?.previewImage : `https://i.imgur.com/7EYSecN.png`})`}}
+                >
+                    {/* <img className='event-thumbail' src={`${!!event ? event?.previewImage : `https://i.imgur.com/7EYSecN.png`}`} alt='thumbnail' /> */}
+                </div>
+                <div className='event-information'>
+                    <div className='event-deets-group-info'>
+                    <NavLink to={`/groups/${event.groupId}`} >
+                    <div className='event-group-container'>
+                        <img className='event-group-thumbnail' src={event.groupPreviewImage} alt='organizer' />
+                        <div className='event-group-info'>
+                            <p className='event-group-name group-stuff'>{event?.Group?.name}</p>
+                            <p className='event-group-privacy group-stuff'>{!!event?.Group?.private ? 'Private group' : 'Public group'}</p>
+                        </div>
+                    </div>
+                    </NavLink>
+                    </div>
+                    <div className='event-timeplace-container'>
+                        <div className='event-time-div'>
+                        <img className='event-time-clock timeplace-icon' src={clock} alt='clock' />
+                        <div className='event-time-info'>
+                            <p className='event-time-from-this-to-this'>
+                                {`${event.startDay}, ${event.startDate} at ${event.startTime} to ${event.endDay}, ${event.endDate} at ${event.endTime}`}
+                            </p>
+                        </div>
+                        </div>
+                        <div className='event-location-div'>
+                            <img className='event-place-location timeplace-icon' src={eventLoc} alt='location' />
+                            <div className='event-time-info'>
+                                <p className='event-place-addy'>
+                                    {event?.Venue?.address} &middot;
+                                    {` ${event?.Venue?.city}, ${event?.Venue?.state}`}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div className='event-details-bottom'>
+                <div className='event-deets-details'>
+                    <h2 className='event-deets-title'>
+                        Details
                     </h2>
-                    <p className='group-deets-p'>
-                        {group?.about}
+                    <p className='event-deets-p'>
+                        {event?.description}
                     </p>
                 </div>
-                <div className='group-deets-events'>
-                    <h2 className='group-deets-title'>
-                        Events
-                    </h2>
-                </div>
             </div>
+        </div>
+        {/* </div> */}
         </div>
     )
 }

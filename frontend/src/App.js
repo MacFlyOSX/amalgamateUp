@@ -5,6 +5,7 @@ import { Route, Switch } from "react-router-dom";
 import GroupsIndex from "./components/GroupsBrowser";
 import EventsIndex from "./components/EventsBrowser";
 import GroupDetails from "./components/GroupDetails";
+import EventDetails from "./components/EventDetails";
 import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
 import Footer from "./components/Footer";
@@ -39,6 +40,9 @@ function App() {
           </Route>
           <Route path="/groups/:groupId">
             <GroupDetails />
+          </Route>
+          <Route path="/events/:eventId">
+            <EventDetails />
           </Route>
           <Route path="/groups">
             <GroupsIndex />

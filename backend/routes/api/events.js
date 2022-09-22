@@ -1,7 +1,7 @@
 // backend/routes/api/events.js
 const express = require('express');
 const { requireAuth, setTokenCookie, restoreUser } = require('../../utils/auth');
-const { User, Attendance, Venue, Event, Membership, Group, EventImage, sequelize } = require('../../db/models');
+const { User, Attendance, Venue, Event, Membership, Group, EventImage, GroupImage, sequelize } = require('../../db/models');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const { Op } = require('sequelize');
@@ -107,7 +107,7 @@ router.get('/:eventId', async (req, res) => {
         event = event.toJSON();
         const group = await Group.findByPk(event.groupId, {
             raw: true,
-            attributes: ['id', 'name', 'private', 'city', 'state']
+            attributes: ['id', 'name', 'private', 'city', 'state', 'organizerId']
         });
         const count = await Attendance.count({
             where: {
@@ -125,6 +125,107 @@ router.get('/:eventId', async (req, res) => {
         });
         venue.lat = Number(venue.lat);
         venue.lng = Number(venue.lng);
+
+        const user = await User.findByPk(group.organizerId, {raw: true});
+
+        const startDate = {};
+        const endDate = {};
+
+        const start = new Date(event.startDate);
+        const end = new Date(event.endDate);
+
+        const startStr = start.toString();
+        const endStr = end.toString();
+
+        const startArr = startStr.split(' ');
+        const endArr = endStr.split(' ');
+
+        switch(startArr[0]) {
+            case 'Mon': {
+                event.startDay = 'Monday';
+                break;
+            }
+            case 'Tue': {
+                event.startDay = 'Tuesday';
+                break;
+            }
+            case 'Wed': {
+                event.startDay = 'Wednesday';
+                break;
+            }
+            case 'Thu': {
+                event.startDay = 'Thursday';
+                break;
+            }
+            case 'Fri': {
+                event.startDay = 'Friday';
+                break;
+            }
+            case 'Sat': {
+                event.startDay = 'Saturday';
+                break;
+            }
+            case 'Sun': {
+                event.startDay = 'Sunday';
+                break;
+            }
+        }
+
+        switch(endArr[0]) {
+            case 'Mon': {
+                event.endDay = 'Monday';
+                break;
+            }
+            case 'Tue': {
+                event.endDay = 'Tuesday';
+                break;
+            }
+            case 'Wed': {
+                event.endDay = 'Wednesday';
+                break;
+            }
+            case 'Thu': {
+                event.endDay = 'Thursday';
+                break;
+            }
+            case 'Fri': {
+                event.endDay = 'Friday';
+                break;
+            }
+            case 'Sat': {
+                event.endDay = 'Saturday';
+                break;
+            }
+            case 'Sun': {
+                event.endDay = 'Sunday';
+                break;
+            }
+        }
+
+        const images = await Group.findByPk(event.groupId, {
+            raw: true,
+            include: [{
+                        model: GroupImage,
+                        where: {preview: true},
+                        attributes: ['url']
+            }]
+        });
+
+        event.startDate = `${startArr[1]} ${startArr[2]}, ${startArr[3]}`;
+        event.endDate = `${endArr[1]} ${endArr[2]}, ${endArr[3]}`;
+
+        let startTime = startArr[4].slice(0,2);
+        let endTime = endArr[4].slice(0,2);
+
+        startTime = startTime > 12 ? `${startTime - 12}:${startArr[4].slice(3, 5)} PM` : `${startTime}:${startArr[4].slice(3, 5)} AM`;
+        endTime = endTime > 12 ? `${endTime - 12}:${endArr[4].slice(3, 5)} PM` : `${endTime}:${endArr[4].slice(3, 5)} AM`;
+
+        event.startTime = startTime;
+        event.endTime = endTime;
+
+        event.groupPreviewImage = images?.['GroupImages.url'] ?? 'https://i.imgur.com/7EYSecN.png';
+        event.hostId = user.id;
+        event.Host = `${user.firstName} ${user.lastName}`;
         event.price = Number(event.price);
         event.numAttending = count;
         event.Group = group;

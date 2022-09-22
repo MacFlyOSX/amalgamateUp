@@ -8,6 +8,7 @@ import organizer from '../../icons/organizer.png';
 import './GroupDetails.css';
 import { deleteOneGroup } from '../../store/groups';
 import { NavLink } from 'react-router-dom';
+import noevents from '../../icons/noevents.svg';
 
 
 const GroupDetails = () => {
@@ -30,6 +31,7 @@ const GroupDetails = () => {
     }
 
     let sessionLinks;
+    let sessionEventLinks;
     if(sessionUser) {
         // setPopup(false);
         if(sessionUser.id === group?.organizerId) {
@@ -42,16 +44,20 @@ const GroupDetails = () => {
                         Delete this group
                 </button>
                 </div>
-            )
-        } else {
-            sessionLinks = (
-                <button className='group-deets-button'>
-                        Join this group
-                </button>
-            )
+            );
+            sessionEventLinks = (
+                <button className='create-event-button'>Create a new event</button>
+            );
         }
-    } else {
-            sessionLinks = null;
+    //     else {
+    //         sessionLinks = (
+    //             <button className='group-deets-button'>
+    //                     Join this group
+    //             </button>
+    //         )
+    //     }
+    // } else {
+    //         sessionLinks = null;
                 // <>
                 //  <span className={popup ? 'signin-popup show' : 'signin-popup'}>You must be signed in to join this group</span>
                 //  <div className='group-deets-div' onClick={() => setPopup(!popup)}>
@@ -114,9 +120,32 @@ const GroupDetails = () => {
                     </p>
                 </div>
                 <div className='group-deets-events'>
-                    <h2 className='group-deets-title'>
-                        Events
+                    <h2 className='group-deets-title group-events-stuffs'>
+                        Events<span className='span-between-event-title-link'>{sessionEventLinks}</span>
                     </h2>
+                    {!!Object.values(group.events).length ? Object.values(group.events).map((ele, i) => {
+                        return (
+                            <div key={i} className={i > 0 ? `mini-event-container-in-group` : `mini-top-container-in-group`}>
+                                <NavLink key={ele.id} to={`/events/${ele.id}`}>
+                                <div className='mini-event-preview-grid'>
+                                    <div className='mini-event-preview-image'>
+                                        <img className='mini-event-thumbnail' src={`${ele.previewImage}`} alt='thumbnail' />
+                                    </div>
+                                    <div className='mini-event-preview-info'>
+                                        <h3 className='mini-event-date'>{`${ele.startDay}, ${ele.startDate}`} • {ele.startTime}</h3>
+                                        <h3 className='mini-event-name'>{ele.name}</h3>
+                                        <div className='mini-event-about-container'><p className='event-about'>{ele.groupName} • {ele.groupCity}, {ele.groupState}</p></div>
+                                    </div>
+                                </div>
+                                </NavLink>
+                            </div>
+                        )
+                    }) : (
+                        <div className='noevent-container'>
+                            <img src={noevents} alt='noevents' />
+                            <p className='no-events'>This group has no events</p>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

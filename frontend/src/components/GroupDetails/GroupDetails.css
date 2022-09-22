@@ -14,7 +14,7 @@
     background-position: center 40%;
     border-radius: 10px;
 }
-/* 
+/*
 .group-thumbnail {
     width: 528px;
     height: 297px;
@@ -167,4 +167,98 @@
     flex-direction: row;
     margin: 0 0;
     padding: 0 0;
+}
+
+
+
+
+.mini-event-date {
+    text-transform: uppercase;
+}
+.mini-event-preview-grid {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+}
+
+.mini-event-preview-info {
+    margin-left: 15px;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+.mini-event-thumbnail {
+    height: 100px;
+    width: 178px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.mini-event-about {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.mini-event-name {
+    font-size: 16px;
+    font-weight: 500;
+    margin: 0 0;
+}
+
+.mini-event-date {
+    margin: 0 0;
+    font-size: 14px;
+    font-weight: 500;
+    color: #877457;
+    text-transform: uppercase;
+}
+
+.mini-event-about,
+.mini-event-stats {
+    color: #757575;
+    font-size: 14px;
+    margin: 10px 0;
+}
+
+.mini-event-container-in-group {
+    padding-top: 10px;
+    border-top: 1px solid #757575;
+}
+
+.mini-event-container-in-group,
+.mini-top-container-in-group {
+    margin-bottom: 10px;
+}
+
+.create-event-button {
+    background: none;
+    color: #0098ab;
+    font-size: 14px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+}
+
+.span-between-event-title-link {
+    margin-left: 123px;
+    text-align: center;
+}
+
+.group-deets-title {
+    align-items: center;
+}
+
+.noevent-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0 0;
+}
+
+.no-events {
+    margin-top: 0;
 }

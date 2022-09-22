@@ -22,9 +22,10 @@ const deleteGroup = groupId => ({
     groupId
 });
 
-const getOne = group => ({
+const getOne = (group, events) => ({
     type: GET_ONE,
-    group
+    group,
+    events
 });
 
 const update = group => ({
@@ -47,7 +48,14 @@ export const getOneGroup = id => async dispatch => {
 
     if(response.ok) {
         const group = await response.json();
-        dispatch(getOne(group));
+
+        const res = await fetch(`/api/groups/${id}/events`);
+
+        if(res.ok) {
+            const events = await res.json();
+
+            dispatch(getOne(group, events));
+        }
         // console.log(group);
     }
 };
@@ -109,18 +117,19 @@ export const updateGroup = group => async dispatch => {
     }
 };
 
-const initialState = { allGroups: {}, singleGroup: {} };
+const initialState = { allGroups: {}, singleGroup: { events: {} } };
 
 const groupReducer = (state = initialState, action) => {
     switch(action.type) {
         case LOAD:{
             const groupsList = {};
             action.list.Groups.forEach(group => groupsList[group.id] = group);
-            return { allGroups: {...groupsList}, singleGroup: {}}
+            return { allGroups: {...groupsList}, singleGroup: { events: {} }}
         }
         case GET_ONE: {
             const newState = {...state, singleGroup: {...state.singleGroup}};
-            newState.singleGroup = action.group;
+            newState.singleGroup = {...action.group, events: {...state.singleGroup.events} };
+            action.events.Events.forEach(event => newState.singleGroup.events[event.id] = event)
             return newState;
         }
         case ADD:{

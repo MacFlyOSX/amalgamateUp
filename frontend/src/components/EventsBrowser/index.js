@@ -6,7 +6,7 @@ import './EventsBrowser.css';
 
 const EventsIndex = () => {
     const dispatch = useDispatch();
-    const eventObj = useSelector(state => state.events);
+    const eventObj = useSelector(state => state.events.allEvents);
     console.log('this is the events received in EventsIndex', eventObj);
     const events = Object.values(eventObj);
     console.log('this is the length', events.length);
@@ -32,7 +32,7 @@ const EventsIndex = () => {
                     {events.map((event, i) => {
                         console.log(event)
                         return (
-                            <div className={i === 0 ? 'fun-town' : 'event-container'}>
+                            <div key={i} className={i === 0 ? 'fun-town' : 'event-container'}>
                             <NavLink key={event.id} to={`/events/${event.id}`}>
                             <div className='event-preview-grid'>
                                 <div className='event-preview-image'>

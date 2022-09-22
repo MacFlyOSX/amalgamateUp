@@ -41,6 +41,7 @@ Get all Events for a Group by their ID ✅
 */
 router.get('/:groupId/events', async (req, res) => {
     const group = await Group.findByPk(req.params.groupId, {
+        raw: true,
         attributes: {
             exclude: ['organizerId', 'about', 'type', 'private', 'createdAt', 'updatedAt']
         }
@@ -64,12 +65,40 @@ router.get('/:groupId/events', async (req, res) => {
 
         });
         for (let i = 0; i < events.length; i++) {
+            const startDate = {};
+            const endDate = {};
+
+            const start = new Date(events[i].startDate);
+            const end = new Date(events[i].endDate);
+
+            const startStr = start.toString();
+            const endStr = end.toString();
+
+            const startArr = startStr.split(' ');
+            const endArr = endStr.split(' ');
+
+            events[i].startDay = startArr[0];
+            events[i].endDay = endArr[0];
+
+            events[i].startDate = `${startArr[1]} ${startArr[2]}`;
+            events[i].endDate = `${endArr[1]} ${endArr[2]}`;
+
+            let startTime = startArr[4].slice(0,2);
+            let endTime = endArr[4].slice(0,2);
+
+            startTime = startTime > 12 ? `${startTime - 12}:${startArr[4].slice(3, 5)} PM` : `${startTime}:${startArr[4].slice(3, 5)} AM`;
+            endTime = endTime > 12 ? `${endTime - 12}:${endArr[4].slice(3, 5)} PM` : `${endTime}:${endArr[4].slice(3, 5)} AM`;
+
+            events[i].startTime = startTime;
+            events[i].endTime = endTime;
+
             const numAttend = await Attendance.count({
                 where: {
                     eventId: events[i].id
                 }
             });
             events[i].numAttending = numAttend;
+
             const prevIm = await EventImage.findOne({
                 raw: true,
                 where: {
@@ -82,9 +111,13 @@ router.get('/:groupId/events', async (req, res) => {
             if (prevIm) {
                 events[i].previewImage = prevIm.url;
             } else {
-                events[i].previewImage = null;
+                events[i].previewImage = 'https://i.imgur.com/qfX30Dz.png';
             }
             events[i].Group = group;
+            events[i].groupName = group.name;
+            events[i].groupCity = group.city;
+            events[i].groupState = group.state;
+
             const venue = await Venue.findByPk(events[i].venueId, {
                 raw: true,
                 attributes: {
