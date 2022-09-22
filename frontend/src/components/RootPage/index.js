@@ -38,7 +38,7 @@ const RootPage = ({ isLoaded }) => {
             </div>
             <div className="middle-root box3">
                 <img className='middle-image' src={startAgroup} alt='startAgroup' />
-                <NavLink className="middle-text join" to='/groups'>Start a group</NavLink>
+                <NavLink className="middle-text join" to='/groups/new'>Start a group</NavLink>
                 <p className="middle-info-text">
                 You don’t have to be an expert to gather people together and explore shared interests.
                 </p>

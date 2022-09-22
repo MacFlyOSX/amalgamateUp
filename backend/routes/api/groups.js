@@ -261,9 +261,12 @@ router.get('/:groupId', async (req, res) => {
                 groupId: req.params.groupId
             }
         });
+        console.log(groupImages);
         let previewImage = 'https://i.imgur.com/7EYSecN.png';
-        if(groupImages.length) {
-            previewImage = groupImages.filter(ele => ele.preview === 1)[0].url;
+        let imageForGroup = groupImages.filter(ele => ele.preview === 1);
+        console.log(imageForGroup);
+        if(imageForGroup.length) {
+            previewImage = imageForGroup[0]?.url ?? 'https://i.imgur.com/7EYSecN.png';
         }
 
         const organizerName = `${organizer.firstName} ${organizer.lastName}`;
