@@ -4,8 +4,11 @@ import './Root.css';
 import joinAgroup from '../../icons/joinAgroup.svg';
 import findAnEvent from '../../icons/findAnEvent.svg';
 import startAgroup from '../../icons/startAgroup.svg';
+import { useSelector } from "react-redux";
 
 const RootPage = ({ isLoaded }) => {
+    const sessionUser = useSelector(state => state.session.user);
+
     return (
         <>
         <div className="root-page-container">
@@ -38,7 +41,7 @@ const RootPage = ({ isLoaded }) => {
             </div>
             <div className="middle-root box3">
                 <img className='middle-image' src={startAgroup} alt='startAgroup' />
-                <NavLink className="middle-text join" to='/groups/new'>Start a group</NavLink>
+                <NavLink className="middle-text join" to={sessionUser ? '/groups/new' : '/noaccess'}>Start a group</NavLink>
                 <p className="middle-info-text">
                 You don’t have to be an expert to gather people together and explore shared interests.
                 </p>

@@ -1,0 +1,14 @@
+.wrong-page-container {
+    margin: 100px;
+    display: flex;
+    flex-direction: row;
+}
+
+.pointing-man {
+    height: 300px;
+    margin-left: 100px;
+}
+
+.must-sign-in {
+    margin: 0 auto;
+}

@@ -11,6 +11,7 @@ import { createGroup } from "../../store/groups";
 const CreateGroup = () => {
     const history = useHistory();
     const sessionUser = useSelector(state => state.session.user);
+    if (!sessionUser) history.push(`/groups`);
     const dispatch = useDispatch();
 
     const [ name, setName ] = useState('');
@@ -35,8 +36,6 @@ const CreateGroup = () => {
             history.push(`/groups/${createdGroup.id}`);
         }
     };
-
-      if (!sessionUser) history.push(`/groups`);
 
     return (
         <div className="edit-group-container">

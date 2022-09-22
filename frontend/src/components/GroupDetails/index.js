@@ -52,12 +52,12 @@ const GroupDetails = () => {
         }
     } else {
             sessionLinks = null;
-                <>
-                 {/* <span className={popup ? 'signin-popup show' : 'signin-popup'}>You must be signed in to join this group</span>
-                 <div className='group-deets-div' onClick={() => setPopup(!popup)}>
-                     Join this group
-                 </div> */}
-                 </>
+                // <>
+                //  <span className={popup ? 'signin-popup show' : 'signin-popup'}>You must be signed in to join this group</span>
+                //  <div className='group-deets-div' onClick={() => setPopup(!popup)}>
+                //      Join this group
+                //  </div>
+                //  </>
     }
 
     useEffect(() => {

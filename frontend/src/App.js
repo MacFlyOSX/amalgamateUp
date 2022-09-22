@@ -12,6 +12,7 @@ import RootPage from "./components/RootPage";
 import Background from "./components/Background";
 import EditGroup from "./components/EditGroup";
 import CreateGroup from "./components/CreateGroup";
+import MustLoginPage from "./components/MustLogIn";
 
 function App() {
   const dispatch = useDispatch();
@@ -44,6 +45,9 @@ function App() {
           </Route>
           <Route path='/events'>
             <EventsIndex />
+          </Route>
+          <Route path="/noaccess">
+            <MustLoginPage />
           </Route>
         </Switch>
       )}
