@@ -1,7 +1,10 @@
-import { ValidationError } from '../utils/validationError';
+// import { ValidationError } from '../utils/validationError';
+import { csrfFetch } from './csrf';
 
 const LOAD = 'events/LOAD';
 const ADD = 'events/ADD';
+const DELETE = 'events/DELETE';
+const GET_ONE = 'events/GET_ONE';
 
 const load = list => ({
     type: LOAD,
@@ -10,6 +13,16 @@ const load = list => ({
 
 const addEvent = event => ({
     type: ADD,
+    event
+});
+
+const deleteEvent = eventId => ({
+    type: DELETE,
+    eventId
+});
+
+const getOne = event => ({
+    type: GET_ONE,
     event
 });
 
@@ -28,50 +41,26 @@ export const getOneEvent = id => async dispatch => {
 
     if(response.ok) {
         const event = await response.json();
-        dispatch(addEvent(event));
+        dispatch(getOne(event));
         console.log(event);
     }
 };
 
-export const createEvent = event => async dispatch => {
-    try {
-        const response = await fetch('/api/events', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(event)
-        });
+export const deleteOneEvent = id => async dispatch => {
+    const response = await csrfFetch(`/api/events/${id}`, {
+        method: 'DELETE'
+    });
 
-        if(response.ok) {
-            const newEvent = await response.json();
-            dispatch(addEvent(newEvent));
-            return newEvent;
-        } else {
-            let error;
-            if(response.status === 422) {
-                error = await response.json();
-                throw new ValidationError(error.errors, response.statusText);
-            } else {
-                let errorJSON;
-                error = await response.text();
-                try {
-                  errorJSON = JSON.parse(error);
-                }
-                catch {
-                  throw new Error(error);
-                }
-                throw new Error(`${errorJSON.title}: ${errorJSON.message}`);
-            }
-        }
-    } catch(error) {
-        throw error;
+    if(response.ok) {
+        const event = await response.json();
+        console.log('this is deleted event response', event);
+        dispatch(deleteEvent(id));
     }
-};
+}
 
-export const updateEvent = event => async dispatch => {
-    const response = await fetch(`/api/events/${event.id}`, {
-        method: 'PUT',
+export const createEvent = (event, groupId, previewImage) => async dispatch => {
+    const response = await csrfFetch(`/api/groups/${groupId}/events`, {
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
@@ -79,13 +68,27 @@ export const updateEvent = event => async dispatch => {
     });
 
     if(response.ok) {
-        const updatedEvent = await response.json();
-        dispatch(addEvent(updatedEvent));
-        return updatedEvent;
+        const newEvent = await response.json();
+
+        const res = await csrfFetch(`/api/events/${newEvent.id}/images`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                url: previewImage,
+                preview: true
+            })
+        });
+        if(res.ok) {
+            const newImage = await res.json();
+            dispatch(addEvent(newEvent));
+            return newEvent;
+        }
     }
 };
 
-const initialState = {};
+const initialState = { allEvents: {}, singleEvent: {} };
 
 const eventReducer = (state = initialState, action) => {
     switch(action.type) {
@@ -94,16 +97,24 @@ const eventReducer = (state = initialState, action) => {
             action.list.Events.forEach(event => {
                 allEvents[event.id] = event;
             });
-            return {...allEvents, ...state}
-        case ADD:
-            if(!state[action.event.id]) {
-                const newState = {...state, [action.event.id]: action.event};
-                const eventList = newState.list.map(id => newState[id]);
-                eventList.push(action.event);
+            return { allEvents: {...allEvents}, singleEvent: {}};
+            case GET_ONE: {
+                const newState = {...state, singleEvent: {...state.singleEvent}};
+                newState.singleEvent = action.event;
                 return newState;
             }
-            return { ...state, [action.event.id]: {...state[action.event.id], ...action.event}};
-        default:
+            case ADD:{
+                const newState = {...state, singleEvent: {...state.singleEvent}, allEvents: {...state.allEvents}};
+                newState.singleEvent = action.event;
+                newState.allEvents[action.event.id] = action.event;
+                return newState;
+            }
+            case DELETE:{
+                const newState = {...state, singleEvent: {}};
+                delete newState.allEvents[action.eventId];
+                return newState;
+            }
+            default:
             return state;
     }
 };

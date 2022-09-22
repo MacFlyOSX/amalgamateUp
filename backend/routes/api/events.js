@@ -130,6 +130,7 @@ router.get('/:eventId', async (req, res) => {
         event.Group = group;
         event.Venue = venue;
         event.EventImages = eventImages;
+        event.previewImage = eventImages?.[0]?.url ?? 'https://i.imgur.com/7EYSecN.png';
         res.json(event);
     } else {
         res.status(404);
