@@ -222,8 +222,9 @@ Get details of a Group from their ID ✅
     /api/groups/:groupId
 */
 router.get('/:groupId', async (req, res) => {
+    const { groupId } = req.params;
 
-    let group = await Group.findByPk(req.params.groupId, {
+    let group = await Group.findByPk(groupId, {
         include: [
 
             {model: Membership,
@@ -246,13 +247,13 @@ router.get('/:groupId', async (req, res) => {
         });
         const count = await Membership.count({
             where: {
-                groupId: req.params.groupId
+                groupId
             }
         });
         const venues = await Venue.findAll({
             raw: true,
             where: {
-                groupId: req.params.groupId
+                groupId
             }
         });
         const groupImages = await GroupImage.findAll({
@@ -261,13 +262,21 @@ router.get('/:groupId', async (req, res) => {
                 groupId: req.params.groupId
             }
         });
-        console.log(groupImages);
-        let previewImage = 'https://i.imgur.com/7EYSecN.png';
-        let imageForGroup = groupImages.filter(ele => ele.preview === 1);
-        console.log(imageForGroup);
-        if(imageForGroup.length) {
-            previewImage = imageForGroup[0]?.url ?? 'https://i.imgur.com/7EYSecN.png';
-        }
+        // console.log(groupImages);
+        // let previewImage = 'https://i.imgur.com/7EYSecN.png';
+        // let imageForGroup = groupImages.filter(ele => ele.preview === 1);
+        // console.log(imageForGroup);
+        // if(imageForGroup.length) {
+        //     previewImage = imageForGroup[0]?.url ?? 'https://i.imgur.com/7EYSecN.png';
+        // }
+        const images = await Group.findByPk(groupId, {
+            raw: true,
+            include: [{
+                        model: GroupImage,
+                        where: {preview: true},
+                        attributes: ['url']
+            }]
+        });
 
         const organizerName = `${organizer.firstName} ${organizer.lastName}`;
         group.numMembers = count;
@@ -275,7 +284,7 @@ router.get('/:groupId', async (req, res) => {
         group.Organizer = organizer;
         group.Venues = venues;
         group.organizerName = organizerName;
-        group.previewImage = previewImage;
+        group.previewImage = images?.['GroupImages.url'] ?? 'https://i.imgur.com/7EYSecN.png';
         res.json(group);
     } else {
         res.status(404);
