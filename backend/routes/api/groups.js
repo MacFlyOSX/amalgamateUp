@@ -261,8 +261,10 @@ router.get('/:groupId', async (req, res) => {
                 groupId: req.params.groupId
             }
         });
-
-        const previewImage = groupImages.filter(ele => ele.preview === 1)[0].url;
+        let previewImage = 'https://i.imgur.com/7EYSecN.png';
+        if(groupImages.length) {
+            previewImage = groupImages.filter(ele => ele.preview === 1)[0].url;
+        }
 
         const organizerName = `${organizer.firstName} ${organizer.lastName}`;
         group.numMembers = count;

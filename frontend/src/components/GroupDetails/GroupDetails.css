@@ -14,6 +14,13 @@
     background-position: center 40%;
     border-radius: 10px;
 }
+/* 
+.group-thumbnail {
+    width: 528px;
+    height: 297px;
+    object-fit: cover;
+    border-radius: 10px;
+} */
 
 .group-deets-icon {
     height: 20px;

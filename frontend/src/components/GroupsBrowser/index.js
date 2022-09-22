@@ -35,7 +35,7 @@ const GroupsIndex = () => {
                             <NavLink key={group.id} to={`/groups/${group.id}`}>
                             <div className='group-preview-grid'>
                                 <div className='group-preview-image'>
-                                    <img class='thumbnail' src={`${group.previewImage}`} alt='thumbnail' />
+                                    <img className='thumbnail' src={`${group.previewImage}`} alt='thumbnail' />
                                 </div>
                                 <div className='group-preview-info'>
                                     <h3 className='group-name'>{group.name}</h3>

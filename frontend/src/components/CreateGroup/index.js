@@ -44,7 +44,7 @@ const CreateGroup = () => {
             <div className="edit-group-preview-title">Group Preview</div>
             <div className='edit-top-section-group-details'>
                 <div className='edit-group-main-image' style={{backgroundImage: `url(https://i.imgur.com/7EYSecN.png)`}}>
-                    {/* <img class='group-thumbail' src={`${group.previewImage}`} alt='thumbnail' /> */}
+                    {/* <img className='group-thumbail' src={`${group.previewImage}`} alt='thumbnail' /> */}
                 </div>
                 <div className='edit-group-information'>
                     <h2 className='edit-group-deets-name'>{name}</h2>
@@ -143,8 +143,20 @@ const CreateGroup = () => {
                     />
                   </label><br />
                   <label className="edit-group-about">
-                    About<br />
+                    About:<br />
+                    <p className="what-we-about">
+                    1. What's the purpose of the group?
+                    </p>
+                    <p className="what-we-about">
+                    2. Who should join?
+                    </p>
+                    <p className="what-we-about">
+                    3. What will you do at your events?
+                    </p>
                     <textarea
+                      placeholder={`Here's an example:
+
+"This is a group for anyone interested in hiking, rock climbing, camping, kayaking, bouldering, etc. All skill levels are welcome. I started this group to meet other outdoor enthusiasts. Looking forward to exploring the outdoors with everybody."`}
                       className="edit-group-textarea group-form-input eg-form"
                       value={about}
                       onChange={(e) => setAbout(e.target.value)}

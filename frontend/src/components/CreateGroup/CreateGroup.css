@@ -74,7 +74,7 @@
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
     padding: 20px 15px;
-    min-height: 300px;
+    min-height: 350px;
 }
 
 .edit-group-deets-title {
@@ -171,4 +171,9 @@
 .create-group-form {
     width: 450px;
     margin: 0 0;
+}
+
+.what-we-about {
+    margin: 0 0;
+    font-size: 12px;
 }

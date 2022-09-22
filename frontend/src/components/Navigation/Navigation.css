@@ -150,3 +150,12 @@
     display: inline-block;
     width: 156px;
 }
+
+.create-group-button {
+    background: none;
+    color: #0098ab;
+    font-size: 14px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+}

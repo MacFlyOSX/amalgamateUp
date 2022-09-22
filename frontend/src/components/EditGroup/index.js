@@ -15,8 +15,9 @@ const EditGroup = () => {
     const { groupId } = useParams();
     const dispatch = useDispatch();
 
+    console.log('this is the groupId from editGroup', groupId);
+
     const group = useSelector(state => state.groups.singleGroup);
-    const {id} = group;
 
     const [ name, setName ] = useState(group?.name);
     const [ about, setAbout ] = useState(group?.about);
@@ -29,23 +30,23 @@ const EditGroup = () => {
         e.preventDefault();
 
         const payload = {
-            id, name, about, type: 'In person', private: privacy, city, state
+            id: groupId, name, about, type: 'In person', private: privacy, city, state
         };
         console.log('this is the payload in edit group', payload);
 
         const updatedGroup = await dispatch(updateGroup(payload));
 
         if(updatedGroup) {
-            history.push(`/groups/${id}`);
+            history.push(`/groups/${groupId}`);
         }
     };
 
-      if (!sessionUser) history.push(`/groups/${id}`);
-      else if (sessionUser.id !== group.organizerId) history.push(`/groups/${id}`);
+      if (!sessionUser) history.push(`/groups/${groupId}`);
+      else if (sessionUser.id !== group.organizerId) history.push(`/groups/${groupId}`);
 
     useEffect(() => {
-        dispatch(getOneGroup(id));
-    }, [dispatch, id]);
+        dispatch(getOneGroup(groupId));
+    }, [dispatch, groupId]);
 
     return (
         <div className="edit-group-container">
@@ -53,7 +54,7 @@ const EditGroup = () => {
             <div className="edit-group-preview-title">Group Preview</div>
             <div className='edit-top-section-group-details'>
                 <div className='edit-group-main-image' style={{backgroundImage: `url(${group?.previewImage})`}}>
-                    {/* <img class='group-thumbail' src={`${group.previewImage}`} alt='thumbnail' /> */}
+                    {/* <img className='group-thumbail' src={`${group.previewImage}`} alt='thumbnail' /> */}
                 </div>
                 <div className='edit-group-information'>
                     <h2 className='edit-group-deets-name'>{name}</h2>

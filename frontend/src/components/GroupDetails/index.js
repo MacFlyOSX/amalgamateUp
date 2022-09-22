@@ -15,8 +15,10 @@ const GroupDetails = () => {
     const sessionUser = useSelector(state => state.session.user);
     const { groupId } = useParams();
     const dispatch = useDispatch();
+    // const [prevImg, setPrevImg] = useState('https://i.imgur.com/7EYSecN.png');
     console.log('this is the sessionUser', sessionUser);
     // const [popup, setPopup] = useState(false);
+    console.log('this is the groupId', groupId)
 
     const group = useSelector(state => state.groups.singleGroup);
     console.log('this is the group', group);
@@ -65,9 +67,11 @@ const GroupDetails = () => {
     return (
         <div className='group-details-container'>
             <div className='top-section-group-details'>
-                {/* <div className='group-main-image' style={{backgroundImage: `url(${group?.previewImage})`}}> */}
-                    {/* <img class='group-thumbail' src={`${group.previewImage}`} alt='thumbnail' /> */}
-                {/* </div> */}
+                <div className='group-main-image'
+                style={{backgroundImage: `url(${!!group ? group?.previewImage : `https://i.imgur.com/7EYSecN.png`})`}}
+                >
+                    {/* <img className='group-thumbail' src={`${!!group ? group?.previewImage : `https://i.imgur.com/7EYSecN.png`}`} alt='thumbnail' /> */}
+                </div>
                 <div className='group-information'>
                     <h2 className='group-deets-name'>{group?.name}</h2>
                     <div className='group-deets location'>
