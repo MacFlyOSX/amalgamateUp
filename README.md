@@ -30,3 +30,7 @@ People all over the United States are relocating for work, family, friends, etc.
 ## ☁️ Hosting
 ![Heroku](https://img.shields.io/badge/heroku-%23430098.svg?style=for-the-badge&logo=heroku&logoColor=white)
 ![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)
+
+# 🛬 Landing Page
+![Screen Shot 2022-09-23 at 3 42 39 PM](https://user-images.githubusercontent.com/102837663/192066095-8ced7b06-b890-4abb-85b2-a327166488b8.png)
+
