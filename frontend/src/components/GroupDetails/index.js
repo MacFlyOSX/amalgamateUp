@@ -94,7 +94,7 @@ const GroupDetails = () => {
                         <img className='group-deets-icon' src={members} alt='members' />
                     </div>
                     <span>
-                        {`${!!group?.numMembers ? group?.numMembers : 0} ${group?.numMembers > 1 || !group?.numMembers ? 'members' : 'member'} `} 	&middot; {!!group?.private ? 'Private group' : 'Public group'}
+                        {`${!!group?.numMembers ? group?.numMembers : 0} ${group?.numMembers > 1 || !group?.numMembers ? 'members' : 'member'} `}  &bull; {group?.type} &bull; {!!group?.private ? 'Private group' : 'Public group'}
                     </span>
                     </div>
                     <div className='group-deets organizer'>

@@ -109,7 +109,7 @@ const EventDetails = () => {
                             <img className='event-place-location timeplace-icon' src={eventLoc} alt='location' />
                             <div className='event-time-info'>
                                 <p className='event-place-addy'>
-                                    {event?.Venue?.address} &middot;
+                                    {event?.Venue?.address} &bull;
                                     {` ${event?.Venue?.city}, ${event?.Venue?.state}`}
                                 </p>
                             </div>

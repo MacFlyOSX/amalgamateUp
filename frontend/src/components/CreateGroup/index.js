@@ -60,7 +60,7 @@ const CreateGroup = () => {
                         <img className='edit-group-deets-icon' src={members} alt='members' />
                     </div>
                     <span>
-                        {`0 members`} 	&middot; {privacy ? 'Private group' : 'Public group'}
+                        {`0 members`} 	&bull; {privacy ? 'Private group' : 'Public group'}
                     </span>
                     </div>
                     <div className='edit-group-deets organizer'>

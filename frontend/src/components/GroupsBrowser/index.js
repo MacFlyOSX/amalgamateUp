@@ -41,7 +41,7 @@ const GroupsIndex = () => {
                                     <h3 className='group-name'>{group.name}</h3>
                                     <h3 className='group-location uppercase'>{`${group.city}, ${group.state}`}</h3>
                                     <div className='group-about-container'><p className='group-about'>{group.about}</p></div>
-                                    <p className='group-stats'>{`${!!group.numMembers ? group.numMembers : 0} ${group.numMembers > 1 || !group.numMembers ? 'members' : 'member'} `} 	&middot; {!!group.private ? 'Private' : 'Public'}</p>
+                                    <p className='group-stats'>{`${!!group.numMembers ? group.numMembers : 0} ${group.numMembers > 1 || !group.numMembers ? 'members' : 'member'} `} 	&bull; {!!group.private ? 'Private' : 'Public'}</p>
                                 </div>
                             </div>
                             </NavLink>

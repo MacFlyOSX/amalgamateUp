@@ -71,7 +71,7 @@ const EditGroup = () => {
                         <img className='edit-group-deets-icon' src={members} alt='members' />
                     </div>
                     <span>
-                        {`${!!group?.numMembers ? group?.numMembers : 0} ${group?.numMembers > 1 || !group?.numMembers ? 'members' : 'member'} `} 	&middot; {privacy ? 'Private group' : 'Public group'}
+                        {`${!!group?.numMembers ? group?.numMembers : 0} ${group?.numMembers > 1 || !group?.numMembers ? 'members' : 'member'} `} 	&bull; {privacy ? 'Private group' : 'Public group'}
                     </span>
                     </div>
                     <div className='edit-group-deets organizer'>
