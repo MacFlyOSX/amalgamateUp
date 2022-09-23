@@ -16,7 +16,7 @@ function LoginForm({onClick}) {
     return dispatch(sessionActions.login({ credential, password })).catch(
       async (res) => {
         const data = await res.json();
-        if (data && data.errors) setErrors(data.errors);
+        if (data && data.message) setErrors(data.message);
       }
     );
   };
@@ -29,11 +29,9 @@ function LoginForm({onClick}) {
       <div className="form-title">Log in</div>
       <div className="form-top-member">Not a member yet? Sign up</div>
     </div>
-    <div className="form-stuff">
-      <ul>
-        {errors.map((error, idx) => (
-          <li key={idx}>{error}</li>
-        ))}
+    <div className="form-stuff"><br />
+      <ul className={errors.length ? "login-error-stuff" : 'no-errors'}>
+        {errors}
       </ul>
       <label>
         <p>Username or Email</p>

@@ -12,9 +12,10 @@ const load = list => ({
     list
 });
 
-const addGroup = group => ({
+const addGroup = (group, events) => ({
     type: ADD,
-    group
+    group,
+    events
 });
 
 const deleteGroup = groupId => ({
@@ -28,9 +29,10 @@ const getOne = (group, events) => ({
     events
 });
 
-const update = group => ({
+const update = (group, events) => ({
     type: UPDATE,
-    group
+    group,
+    events
 });
 
 export const getGroups = () => async dispatch => {
@@ -56,7 +58,6 @@ export const getOneGroup = id => async dispatch => {
 
             dispatch(getOne(group, events));
         }
-        // console.log(group);
     }
 };
 
@@ -93,10 +94,20 @@ export const createGroup = (group, previewImage) => async dispatch => {
                 preview: true
             })
         });
+
+        const id = newGroup.id;
+
         if(res.ok) {
             const newImage = await res.json();
-            dispatch(addGroup(newGroup));
+
+            const resp = await fetch(`/api/groups/${id}/events`);
+
+            if(resp.ok) {
+            const events = await resp.json();
+
+            dispatch(addGroup(newGroup, events));
             return newGroup;
+            }
         }
     }
 };
@@ -112,8 +123,18 @@ export const updateGroup = group => async dispatch => {
 
     if(response.ok) {
         const updatedGroup = await response.json();
-        dispatch(update(updatedGroup));
-        return updatedGroup;
+
+        const id = updatedGroup.id;
+
+        const res = await fetch(`/api/groups/${id}/events`);
+
+        if(res.ok) {
+            const events = await res.json();
+
+            dispatch(update(updatedGroup, events));
+
+            return updatedGroup;
+        }
     }
 };
 
@@ -127,25 +148,29 @@ const groupReducer = (state = initialState, action) => {
             return { allGroups: {...groupsList}, singleGroup: { events: {} }}
         }
         case GET_ONE: {
-            const newState = {...state, singleGroup: {...state.singleGroup}};
+            const newState = {...state, singleGroup: {...state.singleGroup, events: {...state.singleGroup.events}}};
             newState.singleGroup = {...action.group, events: {...state.singleGroup.events} };
-            action.events.Events.forEach(event => newState.singleGroup.events[event.id] = event)
+            const newEvents = {};
+            action.events.Events.forEach(event => newEvents[event.id] = event);
+            newState.singleGroup.events = newEvents;
             return newState;
         }
         case ADD:{
-            const newState = {...state, singleGroup: {...state.singleGroup}, allGroups: {...state.allGroups}};
-            newState.singleGroup = action.group;
+            const newState = {...state, singleGroup: {...state.singleGroup, events: {...state.singleGroup.events}}, allGroups: {...state.allGroups}};
+            newState.singleGroup = {...action.group, events: {}};
+            action.events.Events.forEach(event => newState.singleGroup.events[event.id] = event);
             newState.allGroups[action.group.id] = action.group;
             return newState;
         }
         case UPDATE: {
-            const newState = {...state, singleGroup: {}, allGroups: {...state.allGroups}};
-            newState.singleGroup = {...state.singleGroup, ...action.group};
+            const newState = {...state, singleGroup: {...state.singleGroup, events:{...state.singleGroup.events}}, allGroups: {...state.allGroups}};
+            newState.singleGroup = { ...action.group, events:{} };
+            action.events.Events.forEach(event => newState.singleGroup.events[event.id] = event);
             newState.allGroups[action.group.id] = action.group;
             return newState;
         }
         case DELETE:{
-            const newState = {...state, singleGroup: {}};
+            const newState = {...state, allGroups: { ...state.allGroups }, singleGroup: { events: {}}};
             delete newState.allGroups[action.groupId];
             return newState;
         }

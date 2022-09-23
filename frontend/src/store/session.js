@@ -45,8 +45,10 @@ export const login = (user) => async (dispatch) => {
       password,
     }),
   });
+  console.log('this is the response',response);
   const data = await response.json();
   dispatch(setUser(data));
+  console.log('this is the data',data);
   return response;
 };
 

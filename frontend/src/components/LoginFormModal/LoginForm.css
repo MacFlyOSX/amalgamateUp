@@ -11,6 +11,16 @@
     color: #008294;
 }
 
+.login-error-stuff {
+    color: red;
+    text-align: center;
+    padding: 5px 5px;
+    background-color: #f8bfbf;
+    border: 1px solid #f65858;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
 .form-top {
     display: flex;
     flex-direction: column;
