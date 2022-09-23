@@ -39,7 +39,7 @@ export const getGroups = () => async dispatch => {
     if(response.ok) {
         const list = await response.json();
         dispatch(load(list));
-        console.log('this is the list received from getGroups', list);
+        // console.log('this is the list received from getGroups', list);
     }
 };
 
@@ -67,7 +67,7 @@ export const deleteOneGroup = id => async dispatch => {
 
     if(response.ok) {
         const cool = await response.json();
-        console.log('this is cool',cool);
+        // console.log('this is cool',cool);
         dispatch(deleteGroup(id));
     }
 }

@@ -7,10 +7,10 @@ import './EventsBrowser.css';
 const EventsIndex = () => {
     const dispatch = useDispatch();
     const eventObj = useSelector(state => state.events.allEvents);
-    console.log('this is the events received in EventsIndex', eventObj);
+    // console.log('this is the events received in EventsIndex', eventObj);
     const events = Object.values(eventObj);
-    console.log('this is the length', events.length);
-    console.log('this is events', events);
+    // console.log('this is the length', events.length);
+    // console.log('this is events', events);
     useEffect(() => {
         dispatch(getEvents());
     }, [dispatch]);
@@ -30,7 +30,7 @@ const EventsIndex = () => {
             <div className='main-events'>
                 <nav>
                     {events.map((event, i) => {
-                        console.log(event)
+                        {/* console.log(event) */}
                         return (
                             <div key={i} className={i === 0 ? 'fun-town' : 'event-container'}>
                             <NavLink key={event.id} to={`/events/${event.id}`}>

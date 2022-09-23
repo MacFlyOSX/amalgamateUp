@@ -15,7 +15,7 @@ const EditGroup = () => {
     const { groupId } = useParams();
     const dispatch = useDispatch();
 
-    console.log('this is the groupId from editGroup', groupId);
+    // console.log('this is the groupId from editGroup', groupId);
 
     const group = useSelector(state => state.groups.singleGroup);
 
@@ -32,7 +32,7 @@ const EditGroup = () => {
         const payload = {
             id: groupId, name, about, type: 'In person', private: privacy, city, state
         };
-        console.log('this is the payload in edit group', payload);
+        // console.log('this is the payload in edit group', payload);
 
         const updatedGroup = await dispatch(updateGroup(payload));
 

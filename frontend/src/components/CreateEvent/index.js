@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory, useLocation, useParams } from "react-router-dom";
 import './CreateEvent.css';
 import { createEvent, getOneEvent } from "../../store/events";
 import { getOneGroup } from "../../store/groups";
 
 
 const CreateEvent = () => {
+  const location = useLocation();
   const {groupId} = useParams();
     const history = useHistory();
     const sessionUser = useSelector(state => state.session.user);
@@ -27,6 +28,8 @@ const CreateEvent = () => {
     const [ showPrice, setShowPrice ] = useState(false);
     const [ showCapacity, setShowCapacity ] = useState(false);
 
+    // console.log('this is the current location', location);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -39,7 +42,7 @@ const CreateEvent = () => {
           name, type, capacity, price, description, startDate, endDate
         }
 
-        console.log('this is the payload in create a event', payload);
+        // console.log('this is the payload in create a event', payload);
 
         const createdEvent = await dispatch(createEvent(payload, groupId, previewImage));
 
@@ -48,8 +51,8 @@ const CreateEvent = () => {
         }
     };
 
-    console.log('this is the time', time);
-    console.log('this is the date', date);
+    // console.log('this is the time', time);
+    // console.log('this is the date', date);
 
     useEffect(() => {
       dispatch(getOneGroup(groupId));
@@ -57,6 +60,15 @@ const CreateEvent = () => {
 
     return (
       <div className="entire-event-form-container">
+      {location.pathname.includes('/events/new') && (
+            <style>
+            {"\
+                html, body{\
+                  background-color: #f6f7f8;\
+                }\
+            "}
+            </style>
+        )}
             <div className="create-event-form-container">
             <form className='create-event-form' onSubmit={handleSubmit}>
                   <div className="create-event-form-title">

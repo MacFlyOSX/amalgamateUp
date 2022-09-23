@@ -16,16 +16,16 @@ const GroupDetails = () => {
     const sessionUser = useSelector(state => state.session.user);
     const { groupId } = useParams();
     const dispatch = useDispatch();
-    console.log('this is the sessionUser', sessionUser);
+    // console.log('this is the sessionUser', sessionUser);
     // const [popup, setPopup] = useState(false);
-    console.log('this is the groupId', groupId)
+    // console.log('this is the groupId', groupId)
 
     const group = useSelector(state => state.groups.singleGroup);
-    console.log('this is the group', group);
+    // console.log('this is the group', group);
 
     const deleteClick = () => {
         const res = dispatch(deleteOneGroup(groupId));
-        console.log(res);
+        // console.log(res);
         history.push('/groups');
     }
 

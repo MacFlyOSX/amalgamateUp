@@ -28,7 +28,7 @@ const CreateGroup = () => {
         const payload = {
             name, about, type: 'In person', private: privacy, city, state
         };
-        console.log('this is the payload in create a group', payload);
+        // console.log('this is the payload in create a group', payload);
 
         const createdGroup = await dispatch(createGroup(payload, previewImage));
 

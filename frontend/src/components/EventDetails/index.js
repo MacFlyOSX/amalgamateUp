@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { getOneEvent } from '../../store/events';
 import eventLoc from '../../icons/eventLoc.png';
@@ -17,17 +17,15 @@ const EventDetails = () => {
     const sessionUser = useSelector(state => state.session.user);
     const { eventId } = useParams();
     const dispatch = useDispatch();
-    // const [prevImg, setPrevImg] = useState('https://i.imgur.com/7EYSecN.png');
-    console.log('this is the sessionUser', sessionUser);
-    // const [popup, setPopup] = useState(false);
-    console.log('this is the eventId', eventId)
+    const location = useLocation();
+    // console.log('this is the location eventDetails', location)
 
     const event = useSelector(state => state.events.singleEvent);
-    console.log('this is the event', event);
+    // console.log('this is the event', event);
 
     const deleteClick = async () => {
         const res = await dispatch(deleteOneEvent(eventId));
-        console.log(res);
+        // console.log(res);
         history.push('/events');
     }
 
@@ -51,7 +49,7 @@ const EventDetails = () => {
 
     return (
         <div className='event-deets-bg'>
-        {!!event && (
+        {location.pathname.includes('/events/') && (
             <style>
             {"\
                 html, body{\

@@ -32,7 +32,7 @@ export const getEvents = () => async dispatch => {
     if(response.ok) {
         const list = await response.json();
         dispatch(load(list));
-        console.log('this is the list received from getEvents', list);
+        // console.log('this is the list received from getEvents', list);
     }
 };
 
@@ -42,7 +42,7 @@ export const getOneEvent = id => async dispatch => {
     if(response.ok) {
         const event = await response.json();
         dispatch(getOne(event));
-        console.log(event);
+        // console.log(event);
     }
 };
 
@@ -53,7 +53,7 @@ export const deleteOneEvent = id => async dispatch => {
 
     if(response.ok) {
         const event = await response.json();
-        console.log('this is deleted event response', event);
+        // console.log('this is deleted event response', event);
         dispatch(deleteEvent(id));
     }
 }
