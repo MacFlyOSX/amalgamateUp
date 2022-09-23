@@ -24,19 +24,44 @@ const CreateEvent = () => {
     const [ date, setDate ] = useState('');
     const [ duration, setDuration ] = useState('');
     const [ previewImage, setPreviewImage ] = useState('');
-    const [ errors, setErrors ] = useState([]);
+    const [ validationErrors, setValidationErrors ] = useState([]);
     const [ showPrice, setShowPrice ] = useState(false);
     const [ showCapacity, setShowCapacity ] = useState(false);
 
     // console.log('this is the current location', location);
 
+  const validate = () => {
+    const validationErrors = [];
+
+    if (name.length < 10) validationErrors.push('Event title must be at least 10 characters');
+
+    if (new Date() > new Date(`${date} ${time}`)) validationErrors.push('Please select a valid date');
+
+    if(description.length < 50) validationErrors.push('Event description must be at least 50 characters');
+
+    return validationErrors;
+  }
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (capacity === 0) setCapacity(1000);
-        const startDate = `${date} ${time}`;
+        const errors = validate();
 
-        const endDate = `${date} ${+time.slice(0,2) + +duration}${time.slice(2)}`;
+        if(errors.length > 0) return setValidationErrors(errors);
+
+        if (capacity === 0) setCapacity(1000);
+
+        const startToEnd = (numHrs, start) => {
+          const endDate = new Date(start.getTime());
+
+          endDate.setTime(endDate.getTime() + numHrs * 60 * 60 * 1000);
+
+          return endDate;
+        }
+
+        const startDate = new Date(`${date} ${time}`);
+        const endDate = startToEnd(duration, startDate)
+        // const endDate = `${date} ${+time.slice(0,2) + +duration}${time.slice(2)}`;
         const payload = {
           venueId: 1,
           name, type, capacity, price, description, startDate, endDate
@@ -78,13 +103,14 @@ const CreateEvent = () => {
                   </p>
                   </div>
                 <div className="edit-event-form-stuff">
-                <ul>
+                {/* <ul>
                     {errors.map((error, idx) => <li key={idx}>{error}</li>)}
-                  </ul>
+                  </ul> */}
                   <label className="create-event-labels">
                     Title<br />
                     <input
                       className="create-form-text-input create-input"
+                      maxLength={80}
                       type="text"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
@@ -124,6 +150,12 @@ const CreateEvent = () => {
                       <option value='4'>4 hours</option>
                       <option value='5'>5 hours</option>
                       <option value='6'>6 hours</option>
+                      <option value='7'>7 hour</option>
+                      <option value='8'>8 hours</option>
+                      <option value='9'>9 hours</option>
+                      <option value='10'>10 hours</option>
+                      <option value='11'>11 hours</option>
+                      <option value='12'>12 hours</option>
                     </select>
 
                   </label><br />
@@ -201,9 +233,14 @@ const CreateEvent = () => {
                   </label>
                   </div>
                   <p></p>
-                  {/* <button onClick={onPreviewClick} className="editted-event-preview edit-button">
-                  Preview Changes
-                  </button> */}
+                  {validationErrors.length > 0 && (
+                      <div className='errors'>
+                        Please fix the following errors:
+                        <ul className="errors-list">
+                          {validationErrors.map(error => <li className="error" key={error}>&gt; {error}</li>)}
+                        </ul>
+                      </div>
+                    )}
                   <button type="submit" className="create-event-button">
                   Publish
                   </button>

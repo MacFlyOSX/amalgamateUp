@@ -144,7 +144,7 @@
 }
 
 .city-state-chunk {
-    margin: 0 141px;
+    margin: 0 161px;
 }
 
 .edit-group-about {
@@ -176,4 +176,172 @@
 .what-we-about {
     margin: 0 0;
     font-size: 12px;
+}
+
+/* Entire form container */
+
+.entire-event-form-container {
+    margin: 100px auto;
+    width: 900px;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+}
+
+/* Left portion (form) */
+
+.create-event-form-container {
+    width: 550px;
+}
+
+/* Title section */
+
+.create-event-title {
+    margin: 0 0;
+}
+
+.create-event-group-name {
+    margin: 0 0;
+    font-size: 14px;
+}
+
+.create-event-form-title {
+    width: 500px;
+    margin: 0 0;
+    padding: 0 0;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #cecece;
+}
+
+/* Form labels */
+
+.create-event-labels {
+    font-weight: 600;
+    font-size: 14px;
+    text-align: center;
+}
+
+/* Form inputs */
+
+.create-form-text-input {
+    width: 480px;
+}
+
+.create-input:focus,
+.create-input:active {
+    border: 2px solid #0098ab;
+    outline: none;
+}
+
+.create-input {
+    border-radius: 4px;
+    font-size: 14px;
+    padding: 10px 10px;
+    margin-bottom: 20px;
+}
+
+.create-form-city-input {
+    width: 320px;
+}
+
+.date-time-chunk {
+    margin: 0 97px;
+}
+
+.time-duration-chunk {
+    margin: 0 43px;
+}
+
+.create-form-time-input {
+    width: 95px;
+    margin: 0 9px;
+}
+
+.create-form-state-input {
+    width: 150px;
+    margin-left: 9px;
+}
+
+.create-form-description-input {
+    width: 480px;
+    height: 150px;
+    overflow: auto;
+}
+
+.create-form-checkbox {
+    width: 16px;
+    height: 16px;
+    margin: 0 10px;
+    margin-top: 2px;
+}
+
+.create-eventfee {
+    line-height: 20px;
+}
+
+.create-form-price-input {
+    width: 232.5px;
+}
+
+.create-form-capacity-input {
+    width: 242px;
+}
+
+.create-form-type-input {
+    width: 264px;
+}
+
+/* Publish button */
+
+.create-event-button {
+    border: 0;
+    background-color: #f65858;
+    color: white;
+    font-weight: 600;
+    height: 48px;
+    border-radius: 8px;
+    padding: 10px 40px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+/* Tips for a great event box */
+
+.tips-for-a-great-event {
+    width: 300px;
+    height: 380px;
+    border: 1px solid black;
+    padding: 20px 20px;
+    padding-top: 0;
+    border-radius: 8px;
+    background-color: white;
+}
+
+.tip-small-titles {
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 5px;
+    margin-top: 20px;
+}
+
+.tip-small-under {
+    font-size: 14px;
+    margin: 0 0;
+}
+
+.errors,
+.error {
+    color: red;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.errors-list {
+    padding-left: 10px;
+    margin-bottom: 20px;
+}
+
+.group-numbers {
+    margin: 0 0;
+    padding: 0 0;
+    padding-left: 20px;
 }

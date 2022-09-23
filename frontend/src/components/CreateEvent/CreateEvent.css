@@ -64,11 +64,11 @@
 }
 
 .date-time-chunk {
-    margin: 0 100px;
+    margin: 0 97px;
 }
 
 .time-duration-chunk {
-    margin: 0 41px;
+    margin: 0 43px;
 }
 
 .create-form-time-input {
@@ -145,4 +145,16 @@
 .tip-small-under {
     font-size: 14px;
     margin: 0 0;
+}
+
+.errors,
+.error {
+    color: red;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.errors-list {
+    padding-left: 10px;
+    margin-bottom: 20px;
 }

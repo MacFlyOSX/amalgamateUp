@@ -3,6 +3,7 @@
     grid-template-columns: 1fr 1fr;
     width: 970px;
     margin: 100px auto;
+    /* background-color: white; */
 }
 
 
@@ -31,6 +32,10 @@
     font-size: 16px;
 }
 
+.edit-group-span {
+    font-size: 8px;
+}
+
 .edit-group-information {
     font-size: 10px;
 }
@@ -55,6 +60,9 @@
 .edit-group-details-container {
     width: 485px;
     margin: 0 auto;
+    background-color: white;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
 }
 
 .edit-group-information {
@@ -94,6 +102,13 @@
 .edit-group-form-container {
     padding: 0 20px;
     width: 485px;
+    background-color: white;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+.eg-form {
+    border-radius: 4px;
 }
 
 .edit-group-form-title,
@@ -101,6 +116,15 @@
     font-size: 20px;
     font-weight: 700;
     text-decoration: underline;
+    padding-top: 15px;
+}
+
+.edit-group-type {
+    padding: 8px 20px;
+}
+
+.edit-group-privacy {
+    margin-left: 50px;
 }
 
 .private-checkbox {
@@ -133,8 +157,8 @@
     width: 104px;
 }
 
-.city-state-chunk {
-    margin: 0 141px;
+.city-state-chunker {
+    margin: 0 142px;
 }
 
 .edit-group-about {
@@ -156,4 +180,15 @@
     padding: 10px 20px;
     cursor: pointer;
     margin-right: 10px;
+}
+
+.create-event-labels {
+    font-weight: 600;
+    font-size: 14px;
+    text-align: center;
+}
+
+.group-form-label {
+    font-weight: 600;
+    font-size: 14px;
 }

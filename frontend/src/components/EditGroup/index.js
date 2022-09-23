@@ -22,12 +22,27 @@ const EditGroup = () => {
     const [ name, setName ] = useState(group?.name);
     const [ about, setAbout ] = useState(group?.about);
     const [ privacy, setPrivacy ] = useState(group?.private);
+    const [ type, setType ] = useState(group?.type);
     const [ city, setCity ] = useState(group?.city);
     const [ state, setState ] = useState(group?.state);
-    const [ errors, setErrors ] = useState([]);
+    const [ validationErrors, setValidationErrors ] = useState([]);
+
+    const validate = () => {
+      const validationErrors = [];
+
+      if (name.length < 10) validationErrors.push('Group title must be at least 10 characters');
+
+      if(about.length < 50) validationErrors.push('Group description must be at least 50 characters');
+
+      return validationErrors;
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        const errors = validate();
+
+        if(errors.length > 0) return setValidationErrors(errors);
 
         const payload = {
             id: groupId, name, about, type: 'In person', private: privacy, city, state
@@ -62,7 +77,7 @@ const EditGroup = () => {
                     <div className='edit-chunk'>
                         <img className='edit-group-deets-icon' src={location} alt='location' />
                     </div>
-                    <span>
+                    <span className="edit-group-span">
                         {`${city}, ${state}`}
                     </span>
                     </div>
@@ -70,15 +85,15 @@ const EditGroup = () => {
                     <div className='edit-chunk'>
                         <img className='edit-group-deets-icon' src={members} alt='members' />
                     </div>
-                    <span>
-                        {`${!!group?.numMembers ? group?.numMembers : 0} ${group?.numMembers > 1 || !group?.numMembers ? 'members' : 'member'} `} 	&bull; {privacy ? 'Private group' : 'Public group'}
+                    <span className="edit-group-span">
+                        {`${!!group?.numMembers ? group?.numMembers : 0} ${group?.numMembers > 1 || !group?.numMembers ? 'members' : 'member'} `} 	&bull;  {group?.type} &bull; {privacy ? 'Private group' : 'Public group'}
                     </span>
                     </div>
                     <div className='edit-group-deets organizer'>
                     <div className='edit-chunk'>
                         <img className='edit-group-deets-icon' src={organizer} alt='organizer' />
                     </div>
-                    <span>
+                    <span className="edit-group-span">
                         Organized by {group?.organizerName}
                     </span>
                     </div>
@@ -97,13 +112,9 @@ const EditGroup = () => {
             <form onSubmit={handleSubmit}>
                 <div className="edit-group-form-top">
                   <div className="edit-group-form-title">Edit Group</div>
-                  {/* <div className="edit-group-form-top-member">Already a member? Log in</div> */}
                 </div>
                 <div className="edit-group-form-stuff">
-                <ul>
-                    {errors.map((error, idx) => <li key={idx}>{error}</li>)}
-                  </ul>
-                  <label>
+                  <label className="group-form-label">
                     Group Name<br />
                     <input
                       className="group-form-input edit-group-name eg-form"
@@ -113,8 +124,8 @@ const EditGroup = () => {
                       required
                     />
                   </label><br />
-                  <label className="group-form-city">
-                    City<span className="city-state-chunk"> </span>State<br />
+                  <label className="group-form-label">
+                    City<span className="city-state-chunker"> </span>State<br />
                     <input
                       className="group-input-city eg-form"
                       type="text"
@@ -132,8 +143,8 @@ const EditGroup = () => {
                       required
                     />
                   </label><br />
-                  <label className="flex-label">
-                    Private Group?
+                  <label className="flex-label group-form-label">
+                    Group Type<span className='edit-group-privacy'>Private Group?</span>
                     <input
                       className="private-checkbox eg-form"
                       type="checkbox"
@@ -141,8 +152,19 @@ const EditGroup = () => {
                       checked={!!privacy ? true : false}
                       onChange={(e) => setPrivacy(!privacy)}
                     />
-                  </label><br />
-                  <label className="edit-group-about">
+                  </label>
+                  <select className="edit-group-type eg-form"
+                  value={type}
+                  onChange={e => setType(e.target.value)}
+                  >
+                    <option value='In person'>
+                      In person
+                    </option>
+                    <option value='Online'>
+                      Online
+                    </option>
+                  </select><br />
+                  <label className="edit-group-about group-form-label">
                     About<br />
                     <textarea
                       className="edit-group-textarea group-form-input eg-form"
@@ -152,9 +174,14 @@ const EditGroup = () => {
                     />
                   </label>
                   <p></p>
-                  {/* <button onClick={onPreviewClick} className="editted-group-preview edit-button">
-                  Preview Changes
-                  </button> */}
+                  {validationErrors.length > 0 && (
+                      <div className='errors'>
+                        Please fix the following errors:
+                        <ul className="errors-list">
+                          {validationErrors.map(error => <li className="error" key={error}>&gt; {error}</li>)}
+                        </ul>
+                      </div>
+                    )}
                   <button type="submit" className="edit-submit-button edit-button">
                   Update Group
                   </button>

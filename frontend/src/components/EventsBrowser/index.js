@@ -30,7 +30,6 @@ const EventsIndex = () => {
             <div className='main-events'>
                 <nav>
                     {events.map((event, i) => {
-                        {/* console.log(event) */}
                         return (
                             <div key={i} className={i === 0 ? 'fun-town' : 'event-container'}>
                             <NavLink key={event.id} to={`/events/${event.id}`}>

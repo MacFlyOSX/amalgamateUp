@@ -31,7 +31,7 @@ const GroupsIndex = () => {
                 <nav>
                     {groups.map((group, i) => {
                         return (
-                            <div key={i} className={i === 0 ? 'fun-town' : 'group-container'}>
+                            <div key={i} className={i === 0 ? 'group-fun-town' : 'group-container'}>
                             <NavLink key={group.id} to={`/groups/${group.id}`}>
                             <div className='group-preview-grid'>
                                 <div className='group-preview-image'>

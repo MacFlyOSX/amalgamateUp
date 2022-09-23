@@ -46,7 +46,7 @@ const GroupDetails = () => {
             );
             sessionEventLinks = (
                 <NavLink to={`/groups/${groupId}/events/new`}>
-                    <button className='create-event-button'>Create a new event</button>
+                    <button className='create-new-event-button'>Create a new event</button>
                 </NavLink>
             );
         }

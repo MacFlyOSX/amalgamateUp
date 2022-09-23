@@ -40,6 +40,7 @@ function App() {
             <CreateEvent />
           </Route>
           <Route path='/groups/:groupId/edit'>
+           <Background />
             <EditGroup />
           </Route>
           <Route path="/groups/:groupId">
@@ -55,6 +56,7 @@ function App() {
             <EventsIndex />
           </Route>
           <Route path="/noaccess">
+            <Background />
             <MustLoginPage />
           </Route>
         </Switch>

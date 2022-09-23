@@ -18,3 +18,13 @@ textarea {
     resize: none;
     border-radius: 8px;
 }
+
+input:focus,
+input:active,
+select:focus,
+select:active,
+textarea:focus,
+textarea:active {
+    border: 2px solid #0098ab;
+    outline: none;
+}

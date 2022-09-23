@@ -116,7 +116,7 @@ const EventDetails = () => {
                             <img className='event-place-location timeplace-icon' src={dollar} alt='dollar' />
                             <div className='event-time-info'>
                                 <p className='event-place-addy'>
-                                    {event?.price ? `$${event?.price}` : 'FREE'}
+                                    {event?.price ? `$${Number(event.price).toFixed(2)}` : 'FREE'}
                                 </p>
                             </div>
                         </div>

@@ -6,7 +6,7 @@
 }
 
 .group-preview-info {
-    margin-left: 15px;
+    margin-left: 25px;
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
@@ -22,6 +22,7 @@
     width: 267px;
     object-fit: cover;
     border-radius: 8px;
+    margin-left: 10px;
 }
 
 .group-about {
@@ -99,7 +100,16 @@ hr {
 }
 
 .main-groups {
-    margin-top: 70px;
+    margin-top: 50px;
     box-sizing: border-box;
     overflow: auto;
+}
+
+.group-fun-town:hover,
+.group-container:hover {
+    background-color: #f6f7f8;
+}
+
+.group-fun-town {
+    padding-top: 20px;
 }

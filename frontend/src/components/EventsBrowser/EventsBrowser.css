@@ -43,7 +43,7 @@ hr {
 }
 
 .main-events {
-    margin-top: 70px;
+    margin-top: 50px;
     box-sizing: border-box;
     overflow: auto;
 }
@@ -60,7 +60,7 @@ hr {
 }
 
 .event-preview-info {
-    margin-left: 15px;
+    margin-left: 20px;
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
@@ -71,11 +71,16 @@ hr {
     padding-top: 20px;
 }
 
+.fun-town {
+    padding-top: 20px;
+}
+
 .event-thumbnail {
     height: 100px;
     width: 178px;
     object-fit: cover;
     border-radius: 8px;
+    margin-left: 10px;
 }
 
 .event-about {
@@ -105,4 +110,9 @@ hr {
     color: #757575;
     font-size: 14px;
     margin: 10px 0;
+}
+
+.fun-town:hover,
+.event-container:hover {
+    background-color: #f6f7f8;
 }
