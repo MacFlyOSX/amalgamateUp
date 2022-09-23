@@ -14,3 +14,8 @@ main {
     padding: 100px 15%;
 
 }
+
+textarea {
+    resize: none;
+    border-radius: 8px;
+}

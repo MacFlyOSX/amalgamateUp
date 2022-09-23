@@ -16,7 +16,6 @@ const GroupDetails = () => {
     const sessionUser = useSelector(state => state.session.user);
     const { groupId } = useParams();
     const dispatch = useDispatch();
-    // const [prevImg, setPrevImg] = useState('https://i.imgur.com/7EYSecN.png');
     console.log('this is the sessionUser', sessionUser);
     // const [popup, setPopup] = useState(false);
     console.log('this is the groupId', groupId)
@@ -46,7 +45,9 @@ const GroupDetails = () => {
                 </div>
             );
             sessionEventLinks = (
-                <button className='create-event-button'>Create a new event</button>
+                <NavLink to={`/groups/${groupId}/events/new`}>
+                    <button className='create-event-button'>Create a new event</button>
+                </NavLink>
             );
         }
     //     else {

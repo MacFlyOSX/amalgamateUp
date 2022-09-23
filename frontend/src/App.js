@@ -13,6 +13,7 @@ import RootPage from "./components/RootPage";
 import Background from "./components/Background";
 import EditGroup from "./components/EditGroup";
 import CreateGroup from "./components/CreateGroup";
+import CreateEvent from "./components/CreateEvent";
 import MustLoginPage from "./components/MustLogIn";
 
 function App() {
@@ -34,6 +35,9 @@ function App() {
           </Route>
           <Route path='/groups/new'>
             <CreateGroup />
+          </Route>
+          <Route path='/groups/:groupId/events/new'>
+            <CreateEvent />
           </Route>
           <Route path='/groups/:groupId/edit'>
             <EditGroup />
