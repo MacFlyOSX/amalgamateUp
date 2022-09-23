@@ -41,7 +41,7 @@ export const getGroups = () => async dispatch => {
     if(response.ok) {
         const list = await response.json();
         dispatch(load(list));
-        // console.log('this is the list received from getGroups', list);
+        console.log('this is the list received from getGroups', list);
     }
 };
 
