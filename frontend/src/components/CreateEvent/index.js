@@ -1,14 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
-import location from '../../icons/location.png';
-import members from '../../icons/members.png';
-import organizer from '../../icons/organizer.png';
 import './CreateEvent.css';
 import { createEvent, getOneEvent } from "../../store/events";
 import { getOneGroup } from "../../store/groups";
-import clock from '../../icons/clock.png';
-import eventLoc from '../../icons/eventLoc.png';
 
 
 const CreateEvent = () => {
@@ -23,127 +18,210 @@ const CreateEvent = () => {
     const [ description, setDescription ] = useState('');
     const [ capacity, setCapacity ] = useState(0);
     const [ price, setPrice ] = useState(0);
+    const [ time, setTime ] = useState('');
     const [ type, setType ] = useState('');
-    const [ state, setState ] = useState('');
-    const [ startDate, setStartDate ] = useState('');
-    const [ endDate, setEndDate ] = useState('');
+    const [ date, setDate ] = useState('');
+    const [ duration, setDuration ] = useState('');
     const [ previewImage, setPreviewImage ] = useState('');
     const [ errors, setErrors ] = useState([]);
+    const [ showPrice, setShowPrice ] = useState(false);
+    const [ showCapacity, setShowCapacity ] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // const payload = {
-        //     name, description, type: 'In person', private: privacy, city, state
-        // };
-        // console.log('this is the payload in create a event', payload);
+        if (capacity === 0) setCapacity(1000);
+        const startDate = `${date} ${time}`;
 
-        // const createdEvent = await dispatch(createEvent(payload, previewImage));
+        const endDate = `${date} ${+time.slice(0,2) + duration}${time.slice(2)}`;
+        const payload = {
+          venueId: 1,
+          name, type, capacity, price, description, startDate, endDate
+        }
 
-        // if(createdEvent) {
-        //     history.push(`/events/${createdEvent.id}`);
-        // }
+        console.log('this is the payload in create a event', payload);
+
+        const createdEvent = await dispatch(createEvent(payload, groupId, previewImage));
+
+        if(createdEvent) {
+            history.push(`/events/${createdEvent.id}`);
+        }
     };
+
+    console.log('this is the time', time);
+    console.log('this is the date', date);
 
     useEffect(() => {
       dispatch(getOneGroup(groupId));
     }, [dispatch, groupId]);
 
     return (
-            <div className="edit-event-form-container">
+      <div className="entire-event-form-container">
+            <div className="create-event-form-container">
             <form className='create-event-form' onSubmit={handleSubmit}>
-                <div className="edit-event-form-top">
-                  <div className="edit-event-form-title">Create an Event</div>
-                  {/* <div className="edit-event-form-top-member">Already a member? Log in</div> */}
-                </div>
+                  <div className="create-event-form-title">
+                  <h2 className="create-event-title">Create an Event</h2>
+                  <p className="create-event-group-name">
+                    {group.name}
+                  </p>
+                  </div>
                 <div className="edit-event-form-stuff">
                 <ul>
                     {errors.map((error, idx) => <li key={idx}>{error}</li>)}
                   </ul>
-                  <label>
-                    Event Name<br />
+                  <label className="create-event-labels">
+                    Title<br />
                     <input
-                      className="event-form-input edit-event-name eg-form"
+                      className="create-form-text-input create-input"
                       type="text"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       required
                     />
                   </label><br />
-                  <label className="event-form-city">
-                    Price<span className="price-capacity-chunk"> </span>Capacity<span className="capacity-type-chunk"> </span>Type<br />
+                  <label className="create-event-labels">
+                    Date<span className="date-time-chunk" />Time<span className="time-duration-chunk" /> Duration<br />
                     <input
-                      className="event-input-price eg-form"
-                      type="text"
-                      value={price}
-                      onChange={(e) => setPrice(e.target.value)}
+                      className="create-form-date-input create-input"
+                      type="date"
+                      value={date}
+                      onChange={(e) => setDate(e.target.value)}
                       required
                     />
                   </label>
-                  <label className="event-form-state">
+                  <label className="create-event-labels">
                     <input
-                      className="event-input-capacity eg-form"
-                      type="number"
-                      value={capacity}
-                      onChange={(e) => setCapacity(e.target.value)}
+                      className="create-form-time-input create-input"
+                      type="time"
+                      value={time}
+                      onChange={(e) => setTime(e.target.value)}
                       required
                     />
                   </label>
-                  <label className="event-form-state">
+                  <label className="create-event-labels">
                     <select
-                      className="event-input-type eg-form"
-                      id='event-type'
-                      value={type}
-                      onChange={(e) => setType(e.target.value)}
+                      className="create-form-duration-input create-input"
+                      value={duration}
+                      onChange={(e) => setDuration(e.target.value)}
                       required
                     >
-                      <option disabled value=''>Select an event type</option>
-                      <option value='In person'>In person</option>
-                      <option value='Online'>Online</option>
+                      <option disabled value=''>Select duration</option>
+                      <option value='1'>1 hour</option>
+                      <option value='2'>2 hours</option>
+                      <option value='3'>3 hours</option>
+                      <option value='4'>4 hours</option>
+                      <option value='5'>5 hours</option>
+                      <option value='6'>6 hours</option>
                     </select>
 
                   </label><br />
-                  <label>
-                    Preview Image URL<br />
+                  <label className="create-event-labels">
+                    Feature Photo<br />
                     <input
-                      className="event-form-input edit-event-name eg-form"
+                      className="create-form-text-input create-input"
+                      placeholder="URL"
                       type="text"
                       value={previewImage}
                       onChange={(e) => setPreviewImage(e.target.value)}
                       required
                     />
                   </label><br />
-                  <label className="edit-event-about">
-                    About:<br />
-                    <p className="what-we-about">
-                    1. What's the purpose of the event?
-                    </p>
-                    <p className="what-we-about">
-                    2. Who should join?
-                    </p>
-                    <p className="what-we-about">
-                    3. What will you do at your events?
-                    </p>
+                  <label className="create-event-labels">
+                    Description<br />
                     <textarea
-                      placeholder={`Here's an example:
-
-"This is a event for anyone interested in hiking, rock climbing, camping, kayaking, bouldering, etc. All skill levels are welcome. I started this event to meet other outdoor enthusiasts. Looking forward to exploring the outdoors with everybody."`}
-                      className="edit-event-textarea event-form-input eg-form"
+                      className="create-form-description-input create-input"
                       value={description}
                       onChange={(e) => setDescription(e.target.value)}
                       required
                     />
+                  </label><br />
+                  <label className="create-event-labels">
+                  Type<br />
+                    <select
+                      className="create-form-type-input create-input"
+                      value={type}
+                      onChange={(e) => setType(e.target.value)}
+                      required
+                    >
+                      <option disabled value=''>Select a type of event</option>
+                      <option value='In person'>In person</option>
+                      <option value='Online'>Online</option>
+                    </select>
+
+                  </label><br />
+                  <div className="create-form-checkbox-div">
+                  <label className="create-event-labels create-eventfee">
+                    Event fee
+                    <input
+                      className="create-form-checkbox"
+                      type="checkbox"
+                      onChange={(e) => setShowPrice(!showPrice)}
+                    />
+                    {showPrice && (
+                      <>
+                      <br />
+                      $
+                      <input className='create-form-price-input create-input'
+                      type='number'
+                      min={1}
+                      value={price}
+                      onChange={(e) => setPrice(e.target.value)}
+                      /></>
+                    )}
+                  </label><br />
+                  <label className="create-event-labels">
+                  Attendee limit
+                    <input
+                      className="create-form-checkbox"
+                      type="checkbox"
+                      onChange={(e) => setShowCapacity(!showCapacity)}
+                    />
+                    {showCapacity && (
+                      <>
+                      <br />
+                      <input className='create-form-capacity-input create-input'
+                      type='number'
+                      min={1}
+                      value={capacity}
+                      onChange={(e) => setCapacity(e.target.value)}
+                      /></>
+                    )}
                   </label>
+                  </div>
                   <p></p>
                   {/* <button onClick={onPreviewClick} className="editted-event-preview edit-button">
                   Preview Changes
                   </button> */}
-                  <button type="submit" className="edit-submit-button edit-button">
-                  Create Event
+                  <button type="submit" className="create-event-button">
+                  Publish
                   </button>
                   </div>
                 </form>
             </div>
+            <div className="tips-for-a-great-event">
+              <h3 className="tips-event-title">Tips for a great event</h3>
+              <p className="tip-small-titles">
+                Be descriptive
+              </p>
+              <p className="tip-small-under">
+                A good title immediately gives people an idea of what the event is about.
+              </p>
+              <p className="tip-small-titles">
+                Get organized
+              </p>
+              <p className="tip-small-under">
+                Describe things in a clear order so it's easy to digest. Start with an overall
+                description of the event and include a basic agenda, before you move into really
+                specific details.
+              </p>
+              <p className="tip-small-titles">
+                Add a great feature image
+              </p>
+              <p className="tip-small-under">
+                Upload a great photo to give members a better feel for the event.
+              </p>
+            </div>
+      </div>
     )
 }
 export default CreateEvent;

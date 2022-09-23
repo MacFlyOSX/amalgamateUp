@@ -12,7 +12,6 @@ main {
     display: flex;
     flex-direction: column;
     padding: 100px 15%;
-
 }
 
 textarea {

@@ -1,191 +1,148 @@
-.edit-event-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    width: 970px;
+/* Entire form container */
+
+.entire-event-form-container {
     margin: 100px auto;
-}
-
-
-.edit-top-section-event-details {
+    width: 900px;
     display: grid;
-    grid-template-columns: 264px 221px;
-    border-bottom: 1px solid rgba(46, 62, 72, 0.12);
-    height: 148.5px;
-    padding-bottom: 7.5px;
-    padding-top: 20px;
+    grid-template-columns: 2fr 1fr;
 }
 
-.edit-event-main-image {
+/* Left portion (form) */
+
+.create-event-form-container {
+    width: 550px;
+}
+
+/* Title section */
+
+.create-event-title {
+    margin: 0 0;
+}
+
+.create-event-group-name {
+    margin: 0 0;
+    font-size: 14px;
+}
+
+.create-event-form-title {
+    width: 500px;
+    margin: 0 0;
+    padding: 0 0;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #cecece;
+}
+
+/* Form labels */
+
+.create-event-labels {
+    font-weight: 600;
+    font-size: 14px;
+    text-align: center;
+}
+
+/* Form inputs */
+
+.create-form-text-input {
+    width: 480px;
+}
+
+.create-input:focus,
+.create-input:active {
+    border: 2px solid #0098ab;
+    outline: none;
+}
+
+.create-input {
+    border-radius: 4px;
+    font-size: 14px;
+    padding: 10px 10px;
+    margin-bottom: 20px;
+}
+
+.create-form-date-input {
+    width: 195px;
+}
+
+.date-time-chunk {
+    margin: 0 100px;
+}
+
+.time-duration-chunk {
+    margin: 0 41px;
+}
+
+.create-form-time-input {
+    width: 85px;
+    margin: 0 15px;
+}
+
+.create-form-duration-input {
+    width: 150px;
+}
+
+.create-form-description-input {
+    width: 480px;
+    height: 150px;
+    overflow: auto;
+}
+
+.create-form-checkbox {
+    width: 16px;
+    height: 16px;
+    margin: 0 10px;
+    margin-top: 2px;
+}
+
+.create-eventfee {
+    line-height: 20px;
+}
+
+.create-form-price-input {
+    width: 232.5px;
+}
+
+.create-form-capacity-input {
+    width: 242px;
+}
+
+.create-form-type-input {
     width: 264px;
-    height: 148.5px;
-    background-size: cover;
-    background-position: center 40%;
-    border-radius: 10px;
 }
 
-.edit-event-deets-icon {
-    height: 10px;
-}
+/* Publish button */
 
-.edit-event-deets-name {
-    font-size: 16px;
-}
-
-.edit-event-information {
-    font-size: 10px;
-}
-
-.edit-event-deets {
-    display: flex;
-    align-items: center;
-    margin-bottom: 2px;
-}
-
-.edit-event-deets-icon {
-    margin-right: 6px;
-}
-
-.edit-chunk {
-    width: 12.5px;
-    height: 10px;
-    display: flex;
-    align-items: center;
-}
-
-.edit-event-details-container {
-    width: 485px;
-    margin: 0 auto;
-    border: solid 1px #acadadb4;
-}
-
-.edit-event-information {
-    padding-left: 25px;
-}
-
-.edit-event-deets-name {
-    margin: 0 0;
-    margin-bottom: 12px;
-}
-
-.edit-event-details-bottom {
-    background-color: #f6f7f8;
-    /* display: grid;
-    grid-template-columns: 1fr 1fr; */
-    border-bottom-left-radius: 8px;
-    border-bottom-right-radius: 8px;
-    padding: 20px 15px;
-    min-height: 350px;
-}
-
-.edit-event-deets-title {
-    font-size: 16px;
-    font-weight: 500;
-    margin: 0 0;
-}
-
-.edit-event-deets-p {
-    font-size: 12px;
-    font-weight: 300;
-    white-space: pre-wrap;
-}
-
-.edit-event-deets-about {
-    margin: 0 auto;
-}
-
-.edit-event-form-container {
-    
-    padding: 100px auto;
-    width: 970px;
-    border: solid 1px #acadadb4;
-    padding-bottom: 20px;
-}
-
-.edit-event-form-title,
-.edit-event-preview-title {
-    font-size: 20px;
-    font-weight: 700;
-    text-decoration: underline;
-}
-
-.edit-event-preview-title,
-.edit-event-main-image {
-    margin-left: 10px;
-}
-
-.private-checkbox {
-    width: 22px;
-    padding: 0 0;
-    margin: 0 5px;
-}
-
-.flex-label {
-    display: flex;
-    align-items: center;
-    margin-top: 10px;
-}
-
-.edit-event-textarea {
-    padding: 8px 12px;
-    height: 200px;
-}
-
-.event-form-input {
-    width: 420px;
-}
-
-.event-input-price {
-    width: 110px;
-    margin-right: 10px;
-}
-
-.event-input-capacity {
-    width: 94px;
-    margin-right: 10px;
-}
-
-.event-input-type {
-    width: 170px;
-    padding: 10px 5px;
-    border-radius: 8px;
-    font-size: 16px;
-}
-
-.price-capacity-chunk {
-    margin: 0 52px;
-}
-
-.capacity-type-chunk {
-    margin: 0 26px;
-}
-
-.edit-event-about {
-    margin: 0 0;
-    padding: 0 0;
-}
-
-.eg-form {
-    font-size: 13px;
-}
-
-.edit-button {
+.create-event-button {
     border: 0;
     background-color: #f65858;
     color: white;
-    font-weight: 500;
+    font-weight: 600;
     height: 48px;
     border-radius: 8px;
-    padding: 10px 20px;
+    padding: 10px 40px;
     cursor: pointer;
     margin-right: 10px;
 }
 
-.create-event-form {
-    width: 450px;
-    margin: 0 0;
+/* Tips for a great event box */
+
+.tips-for-a-great-event {
+    width: 300px;
+    height: 380px;
+    border: 1px solid black;
+    padding: 20px 20px;
+    padding-top: 0;
+    border-radius: 8px;
+    background-color: white;
 }
 
-.what-we-about {
+.tip-small-titles {
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 5px;
+    margin-top: 20px;
+}
+
+.tip-small-under {
+    font-size: 14px;
     margin: 0 0;
-    font-size: 12px;
 }
