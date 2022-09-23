@@ -8,6 +8,8 @@ import organizer from '../../icons/organizer.png';
 import './EventDetails.css';
 import { deleteOneEvent } from '../../store/events';
 import { NavLink } from 'react-router-dom';
+import dollar from '../../icons/dollar.svg';
+import people from '../../icons/people.svg';
 
 
 const EventDetails = () => {
@@ -41,23 +43,7 @@ const EventDetails = () => {
                 </>
             )
         }
-        // else {
-        //     sessionLinks = (
-        //         <button className='event-deets-button'>
-        //                 Join this event
-        //         </button>
-        //     )
-        // }
     }
-    // else {
-    //         sessionLinks = null;
-    //             // <>
-    //             //  <span className={popup ? 'signin-popup show' : 'signin-popup'}>You must be signed in to join this event</span>
-    //             //  <div className='event-deets-div' onClick={() => setPopup(!popup)}>
-    //             //      Join this event
-    //             //  </div>
-    //             //  </>
-    // }
 
     useEffect(() => {
         dispatch(getOneEvent(eventId));
@@ -125,6 +111,22 @@ const EventDetails = () => {
                                 <p className='event-place-addy'>
                                     {event?.Venue?.address} &middot;
                                     {` ${event?.Venue?.city}, ${event?.Venue?.state}`}
+                                </p>
+                            </div>
+                        </div>
+                        <div className='event-location-div'>
+                            <img className='event-place-location timeplace-icon' src={dollar} alt='dollar' />
+                            <div className='event-time-info'>
+                                <p className='event-place-addy'>
+                                    {event?.price ? `$${event?.price}` : 'FREE'}
+                                </p>
+                            </div>
+                        </div>
+                        <div className='event-location-div'>
+                            <img className='event-place-location timeplace-icon' src={people} alt='dollar' />
+                            <div className='event-time-info'>
+                                <p className='event-place-addy'>
+                                    {event?.capacity} member capacity
                                 </p>
                             </div>
                         </div>

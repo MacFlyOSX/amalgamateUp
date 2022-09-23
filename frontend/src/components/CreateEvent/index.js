@@ -33,7 +33,7 @@ const CreateEvent = () => {
         if (capacity === 0) setCapacity(1000);
         const startDate = `${date} ${time}`;
 
-        const endDate = `${date} ${+time.slice(0,2) + duration}${time.slice(2)}`;
+        const endDate = `${date} ${+time.slice(0,2) + +duration}${time.slice(2)}`;
         const payload = {
           venueId: 1,
           name, type, capacity, price, description, startDate, endDate

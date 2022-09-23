@@ -159,3 +159,22 @@
     border: none;
     cursor: pointer;
 }
+
+.demo-user-button {
+    color: white;
+    background-color: #F65858;
+    border: none;
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-right: 20px;
+}
+
+.username-dropdown {
+    border-bottom: 1px solid #d6d6d6;
+    padding-bottom: 5px;
+    margin-left: 5px;
+}
