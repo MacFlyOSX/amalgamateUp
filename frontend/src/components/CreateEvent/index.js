@@ -30,6 +30,10 @@ const CreateEvent = () => {
 
     // console.log('this is the current location', location);
 
+  function isImage(url) {
+    return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url);
+  }
+
   const validate = () => {
     const validationErrors = [];
 
@@ -38,6 +42,8 @@ const CreateEvent = () => {
     if (new Date() > new Date(`${date} ${time}`)) validationErrors.push('Please select a valid date');
 
     if(description.length < 50) validationErrors.push('Event description must be at least 50 characters');
+
+    if(isImage(previewImage)) validationErrors.push('Please enter a valid image URL');
 
     return validationErrors;
   }

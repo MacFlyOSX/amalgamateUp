@@ -32,7 +32,13 @@ const CreateGroup = () => {
 
       if(about.length < 50) validationErrors.push('Group description must be at least 50 characters');
 
+      if(isImage(previewImage)) validationErrors.push('Please enter a valid image URL');
+
       return validationErrors;
+    }
+
+    function isImage(url) {
+      return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url);
     }
 
     const handleSubmit = async (e) => {
