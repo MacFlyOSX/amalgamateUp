@@ -9,6 +9,12 @@ const { handleValidationErrors } = require('../../utils/validation');
 const router = express.Router();
 
 const validateSignup = [
+    check('firstName')
+      .isLength({min: 2})
+      .withMessage('First name must be at least 2 letters'),
+    check('lastName')
+      .isLength({min: 2})
+      .withMessage('Last name must be at least 2 letters'),
     check('email')
       .exists({ checkFalsy: true })
       .isEmail()

@@ -104,6 +104,10 @@ input {
     margin-left: 16px;
 }
 
+.confirm-password-error {
+    margin-left: 68px;
+}
+
 .signup-label {
     font-size: 14px;
 }

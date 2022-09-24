@@ -13,22 +13,10 @@ function SignupForm() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState([]);
-  const [ firstNameErr, setFirstNameErr ] = useState(false);
-  const [ lastNameErr, setLastNameErr ] = useState(false);
   const [ passMatch, setPassMatch ] = useState(null);
 
-  function validate() {
-    firstName.length < 2 ? setFirstNameErr(true) : setFirstNameErr(false);
-    lastName.length < 2 ? setLastNameErr(true) : setLastNameErr(false);
-
-    return;
-  }
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    validate();
-
-    if(firstNameErr || lastNameErr) return null;
 
     if (password === confirmPassword) {
       setErrors([]);
@@ -40,6 +28,8 @@ function SignupForm() {
     }
     return setPassMatch('Confirm Password field must be the same as the Password field');
   };
+
+  // console.log(errors);
 
   return (
     <div className="signup-form-all">
@@ -55,7 +45,7 @@ function SignupForm() {
       </ul>
       <label className="signup-label">
         First Name
-        {firstNameErr && (
+        {!!errors.filter(ele => ele.includes('First name')).length && (
         <span className="name-error error-span">Name must be at least 2 letters</span>
         )}
         <input
@@ -67,7 +57,7 @@ function SignupForm() {
       </label>
       <label className="signup-label">
         Last Name
-        {lastNameErr && (
+        {!!errors.filter(ele => ele.includes('Last name')).length && (
         <span className="name-error error-span">Name must be at least 2 letters</span>
         )}
         <input
@@ -104,6 +94,9 @@ function SignupForm() {
       </label>
       <label className="signup-label">
         Confirm Password
+        {!!passMatch && (
+        <span className="confirm-password-error error-span">Passwords must match</span>
+        )}
         <input
           type="password"
           value={confirmPassword}
