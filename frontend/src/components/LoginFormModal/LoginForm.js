@@ -34,7 +34,7 @@ function LoginForm({onClick}) {
         {errors}
       </ul>
       <label>
-        <p>Username or Email</p>
+        <p>Email</p>
         <input
           type="text"
           value={credential}
