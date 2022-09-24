@@ -13,18 +13,32 @@ function SignupForm() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState([]);
+  const [ firstNameErr, setFirstNameErr ] = useState(false);
+  const [ lastNameErr, setLastNameErr ] = useState(false);
+  const [ passMatch, setPassMatch ] = useState(null);
 
+  function validate() {
+    if(firstName.length < 2) setFirstNameErr(true);
+    if(lastName.length < 2) setLastNameErr(true);
+
+    return;
+  }
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    validate();
+
+    if(firstNameErr || lastNameErr) return null;
+
     if (password === confirmPassword) {
       setErrors([]);
-      return dispatch(sessionActions.signup({ firstName, lastName, email, username: `${firstName}${lastName[0]}`, password }))
+      return dispatch(sessionActions.signup({ firstName, lastName, email, username: `${firstName}${lastName[0]}123`, password }))
         .catch(async (res) => {
           const data = await res.json();
           if (data && data.errors) setErrors(data.errors);
         });
     }
-    return setErrors(['Confirm Password field must be the same as the Password field']);
+    return setPassMatch('Confirm Password field must be the same as the Password field');
   };
 
   return (
@@ -37,10 +51,13 @@ function SignupForm() {
     </div>
     <div className="signup-form-stuff">
     <ul>
-        {errors.map((error, idx) => <li key={idx}>{error}</li>)}
+        {/* {errors.map((error, idx) => <li key={idx}>{error}</li>)} */}
       </ul>
-      <label>
+      <label className="signup-label">
         First Name
+        {firstNameErr && (
+        <span className="name-error error-span">Name must be at least 2 letters</span>
+        )}
         <input
           type="text"
           value={firstName}
@@ -48,8 +65,11 @@ function SignupForm() {
           required
         />
       </label>
-      <label>
+      <label className="signup-label">
         Last Name
+        {lastNameErr && (
+        <span className="name-error error-span">Name must be at least 2 letters</span>
+        )}
         <input
           type="text"
           value={lastName}
@@ -57,8 +77,11 @@ function SignupForm() {
           required
         />
       </label>
-      <label>
+      <label className="signup-label">
         Email address
+        {!!errors.filter(ele => ele.includes('email')).length && (
+        <span className="email-error error-span">Invalid email address</span>
+        )}
         <input
           type="text"
           value={email}
@@ -67,17 +90,11 @@ function SignupForm() {
           required
         />
       </label>
-      {/* <label>
-        Username
-        <input
-          type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
-        />
-      </label> */}
-      <label>
+      <label className="signup-label">
         Password
+        {!!errors.filter(ele => ele.includes('Password')).length && (
+        <span className="password-error error-span">Password must be at least 6 characters</span>
+        )}
         <input
           type="password"
           value={password}
@@ -85,7 +102,7 @@ function SignupForm() {
           required
         />
       </label>
-      <label>
+      <label className="signup-label">
         Confirm Password
         <input
           type="password"

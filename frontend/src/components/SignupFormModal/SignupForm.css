@@ -82,3 +82,28 @@ input {
     font-size: 16px;
     padding: 8px 12px;
 }
+
+.signup-form-logo {
+    z-index: 101;
+}
+
+.error-span {
+    color: #f65858;
+    font-size: 14px;
+}
+
+.name-error {
+    margin-left: 68px;
+}
+
+.email-error {
+    margin-left: 112px;
+}
+
+.password-error {
+    margin-left: 16px;
+}
+
+.signup-label {
+    font-size: 14px;
+}
