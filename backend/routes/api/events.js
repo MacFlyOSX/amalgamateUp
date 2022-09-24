@@ -131,14 +131,17 @@ router.get('/:eventId', async (req, res) => {
         const startDate = {};
         const endDate = {};
 
-        const start = new Date(event.startDate);
-        const end = new Date(event.endDate);
+        const startStr = new Date(`${event.startDate}`).toString();
+        const endStr = new Date(`${event.endDate}`).toString();
 
-        const startStr = start.toString();
-        const endStr = end.toString();
+        console.log('this is the startStr', startStr);
+        console.log('this is the endStr', endStr);
 
         const startArr = startStr.split(' ');
         const endArr = endStr.split(' ');
+
+        console.log('this is startArr',startArr);
+        console.log('this is endArr',endArr);
 
         switch(startArr[0]) {
             case 'Mon': {
@@ -211,14 +214,14 @@ router.get('/:eventId', async (req, res) => {
             }]
         });
 
-        event.startDate = `${startArr[1]} ${startArr[2]}, ${startArr[3]}`;
-        event.endDate = `${endArr[1]} ${endArr[2]}, ${endArr[3]}`;
+        event.startMD = `${startArr[1]} ${startArr[2]}, ${startArr[3]}`;
+        event.endMD = `${endArr[1]} ${endArr[2]}, ${endArr[3]}`;
 
         let startTime = startArr[4].slice(0,2);
         let endTime = endArr[4].slice(0,2);
 
-        startTime = startTime > 12 ? `${startTime - 12}:${startArr[4].slice(3, 5)} PM` : `${startTime}:${startArr[4].slice(3, 5)} AM`;
-        endTime = endTime > 12 ? `${endTime - 12}:${endArr[4].slice(3, 5)} PM` : `${endTime}:${endArr[4].slice(3, 5)} AM`;
+        startTime = +startTime > 12 ? `${+startTime - 12}:${startArr[4].slice(3, 5)} PM` : +startTime === 12 ? `${startTime}:${startArr[4].slice(3, 5)} PM` : `${startTime}:${startArr[4].slice(3, 5)} AM`;
+        endTime = +endTime > 12 ? `${+endTime - 12}:${endArr[4].slice(3, 5)} PM` : +endTime === 12 ? `${endTime}:${endArr[4].slice(3, 5)} PM` : `${endTime}:${endArr[4].slice(3, 5)} AM`;
 
         event.startTime = startTime;
         event.endTime = endTime;
@@ -298,11 +301,8 @@ router.get('/', async (req, res) => {
         const startDate = {};
         const endDate = {};
 
-        const start = new Date(events[i].startDate);
-        const end = new Date(events[i].endDate);
-
-        const startStr = start.toString();
-        const endStr = end.toString();
+        const startStr = new Date(`${events[i].startDate}`).toString();
+        const endStr = new Date(`${events[i].endDate}`).toString();
 
         const startArr = startStr.split(' ');
         const endArr = endStr.split(' ');
@@ -310,14 +310,14 @@ router.get('/', async (req, res) => {
         events[i].startDay = startArr[0];
         events[i].endDay = endArr[0];
 
-        events[i].startDate = `${startArr[1]} ${startArr[2]}`;
-        events[i].endDate = `${endArr[1]} ${endArr[2]}`;
+        events[i].startMD = `${startArr[1]} ${startArr[2]}`;
+        events[i].endMD = `${endArr[1]} ${endArr[2]}`;
 
         let startTime = startArr[4].slice(0,2);
         let endTime = endArr[4].slice(0,2);
 
-        startTime = startTime > 12 ? `${startTime - 12}:${startArr[4].slice(3, 5)} PM` : `${startTime}:${startArr[4].slice(3, 5)} AM`;
-        endTime = endTime > 12 ? `${endTime - 12}:${endArr[4].slice(3, 5)} PM` : `${endTime}:${endArr[4].slice(3, 5)} AM`;
+        startTime = +startTime > 12 ? `${startTime - 12}:${startArr[4].slice(3, 5)} PM` : +startTime === 12 ? `${startTime}:${startArr[4].slice(3, 5)} PM` : `${startTime}:${startArr[4].slice(3, 5)} AM`;
+        endTime = +endTime > 12 ? `${endTime - 12}:${endArr[4].slice(3, 5)} PM` : +endTime === 12 ? `${endTime}:${endArr[4].slice(3, 5)} PM` : `${endTime}:${endArr[4].slice(3, 5)} AM`;
 
         events[i].startTime = startTime;
         events[i].endTime = endTime;
@@ -570,7 +570,7 @@ Request to Attend an Event by their ID
 */
 router.post('/:eventId/attendance', requireAuth, async (req, res) => {
 
-    const { eventId } = req.params;
+    const { eventId, status } = req.params;
     const { user } = req;
     const userId = user.id;
     const event = await Event.findByPk(eventId);
@@ -580,6 +580,14 @@ router.post('/:eventId/attendance', requireAuth, async (req, res) => {
         res.status(404);
         res.json({
             "message": "Event couldn't be found",
+            "statusCode": 404
+          });
+    }
+    const acceptable = ['member', 'pending', 'waitlist'];
+    if (!acceptable.includes(status)) {
+        res.status(404);
+        res.json({
+            "message": "Invalid status",
             "statusCode": 404
           });
     }
@@ -607,7 +615,8 @@ router.post('/:eventId/attendance', requireAuth, async (req, res) => {
 
             }
 
-        } else {
+        } else if (status === 'pending'){
+
             const count = await Attendance.max('id');
             const newAttendee = await Attendance.create({
                 id: count + 1,
@@ -621,6 +630,31 @@ router.post('/:eventId/attendance', requireAuth, async (req, res) => {
                 userId: newAttendee.userId,
                 status: newAttendee.status,
             });
+        } else {
+            const memStatus = await Membership.findOne({raw: true,
+                where: { userId, groupId }, attributes: ['status'] });
+
+            if (memStatus.status === 'organizer' || memStatus.status === 'co-host') {
+                const count = await Attendance.max('id');
+                const newAttendee = await Attendance.create({
+                    id: count + 1,
+                    userId,
+                    eventId,
+                    status
+                });
+
+                res.json({
+                    eventId: Number(newAttendee.eventId),
+                    userId: newAttendee.userId,
+                    status: newAttendee.status,
+                });
+            } else {
+                res.status(403);
+                res.json({
+                    "message": "Forbidden",
+                    "statusCode": 403
+                  });
+            }
         }
 
 });
@@ -692,6 +726,7 @@ router.put('/:eventId/attendance', requireAuth, async (req, res) => {
             if ((status === 'member' && (memStatus.status === 'organizer' || memStatus.status === 'co-host'))) {
 
                 const attToChange = await Attendance.findOne({ where: { userId, eventId } });
+
                 attToChange.status = 'member';
                     await attToChange.save();
 

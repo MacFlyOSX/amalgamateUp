@@ -29,7 +29,8 @@ function SignupForm() {
     return setPassMatch('Confirm Password field must be the same as the Password field');
   };
 
-  // console.log(errors);
+  let emailErr;
+  emailErr = errors.filter(ele => ele.includes('exists')).length ? `User w/ that email already exists` : `Invalid email address`;
 
   return (
     <div className="signup-form-all">
@@ -70,7 +71,7 @@ function SignupForm() {
       <label className="signup-label">
         Email address
         {!!errors.filter(ele => ele.includes('email')).length && (
-        <span className="email-error error-span">Invalid email address</span>
+        <span className={emailErr === `Invalid email address` ? "email-error error-span" : 'emailErr error-span'}>{emailErr}</span>
         )}
         <input
           type="text"

@@ -74,7 +74,7 @@ const CreateEvent = () => {
         // console.log('this is the payload in create a event', payload);
         if (!isImage(previewImage)) setPreviewImage('https://i.imgur.com/qfX30Dz.png');
 
-        const createdEvent = await dispatch(createEvent(payload, groupId, previewImage));
+        const createdEvent = await dispatch(createEvent(payload, groupId, previewImage, sessionUser.id));
 
         if(createdEvent) {
             history.push(`/events/${createdEvent.id}`);

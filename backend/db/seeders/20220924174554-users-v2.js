@@ -19,10 +19,10 @@ module.exports = {
         hashedPassword: bcrypt.hashSync('password')
       },
       {
-        firstName: 'Alexander',
+        firstName: 'Alex',
         lastName: 'Klivecka',
-        email: 'AlexanderKlivecka@user.io',
-        username: 'alexanderklivecka',
+        email: 'AlexKlivecka@user.io',
+        username: 'alexklivecka',
         hashedPassword: bcrypt.hashSync('password')
       },
       {
@@ -145,10 +145,10 @@ module.exports = {
         hashedPassword: bcrypt.hashSync('password')
       },
       {
-        firstName: 'Samuel',
+        firstName: 'Sam',
         lastName: 'Suh',
-        email: 'SamuelSuh@user.io',
-        username: 'samuelsuh',
+        email: 'SamSuh@user.io',
+        username: 'samsuh',
         hashedPassword: bcrypt.hashSync('password')
       },
       {
@@ -195,7 +195,7 @@ module.exports = {
       username: { [Op.in]:
         [
           'adamselki',             'aijiawang',
-      'alexanderklivecka',     'andreawu',
+      'alexklivecka',     'andreawu',
       'brandontasaki',         'christopherpannella',
       'jacoblamar',            'jaehwang',
       'jakematillano',         'jameslee',
@@ -204,7 +204,7 @@ module.exports = {
       'johncarrera',           'loganseals',
       'keerthanayellapragada', 'kylekassen',
       'michaeljung',           'nachen',
-      'samuelsuh',             'schaefferahn',
+      'samsuh',             'schaefferahn',
       'seankennedy',           'yasaminecruz',
       'yashayang',             'yiboguo'
         ] }

@@ -58,7 +58,7 @@ export const deleteOneEvent = id => async dispatch => {
     }
 }
 
-export const createEvent = (event, groupId, previewImage) => async dispatch => {
+export const createEvent = (event, groupId, previewImage, userId) => async dispatch => {
     const response = await csrfFetch(`/api/groups/${groupId}/events`, {
         method: 'POST',
         headers: {
@@ -82,9 +82,25 @@ export const createEvent = (event, groupId, previewImage) => async dispatch => {
         });
         if(res.ok) {
             const newImage = await res.json();
-            dispatch(addEvent(newEvent));
-            return newEvent;
-        }
+
+            const resp = await csrfFetch(`/api/events/${newEvent.id}/attendance`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    eventId: newEvent.id,
+                    userId,
+                    status: 'member'
+                })
+            });
+
+            if(resp.ok) {
+                const attend = await resp.json();
+                dispatch(addEvent(newEvent));
+                return newEvent;
+            }
+            }
     }
 };
 

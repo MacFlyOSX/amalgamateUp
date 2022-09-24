@@ -4,7 +4,7 @@ module.exports = {
   async up (queryInterface, Sequelize) {
     await queryInterface.bulkInsert('Groups', [
       {
-        organizerId: 11,
+        organizerId: 3,
         name: 'SGV LA + OC Chinese & Global Foodies',
         about: "Let's Eat the World! While our prime focus will be Chinese restaurants in the San Gabriel Valley (from the 710 Freeway to the West, the 60 Freeway to the South, 210 Freeway to the North, and the 57 Freeway to the East), we will venture all over the LA and OC counties as well as parts beyond. We will also explore global cuisines from Japanese to Sri Lankan to Nigerian to French and more.\n" +
 
@@ -16,7 +16,7 @@ module.exports = {
         state: 'CA'
       },
       {
-        organizerId: 26,
+        organizerId: 4,
         name: 'New Parents New Kids',
         about: 'This is a meetup group for anyone new to parenting or not so new to parenting but looking to connect with others.',
         type: 'In person',
@@ -25,7 +25,7 @@ module.exports = {
         state: 'NY'
       },
       {
-        organizerId: 24,
+        organizerId: 2,
         name: 'Eastside Drunken Knitters',
         about: "Join us for social knitting and drinking on the East side of LA! We'll make new friends and have a great time, all while exploring neighborhood pubs and supporting each other in our yarn and booze addictions. ;) Might be a good idea to bring your simple projects, and leave the lace knitting at home. We'll have a mix of daytime and evening meetups (it's five o'clock somewhere). Come KIP with us!",
         type: 'In person',
@@ -46,7 +46,7 @@ module.exports = {
         state: 'CA'
       },
       {
-        organizerId: 26,
+        organizerId: 3,
         name: 'Blktivity - Black people sharing experiences',
         about: `Blktivity is all about black people that consider themselves activity based! Ever wanted to do something but didn't have anyone that was "into that?" If you're looking for people that are willing to try anything once as long as it's not going to kill you (not guaranteed) this is the place! Blacktivities is about doing! Thinking can come later.`,
         type: 'In person',
@@ -55,7 +55,7 @@ module.exports = {
         state: 'NY'
       },
       {
-        organizerId: 12,
+        organizerId: 5,
         name: 'Ladies Just Wanna Have Fun',
         about: 'Have you always wanted a great group of friends to do things with? We do everything from concerts, road trips, hiking, rock climbing, dancing, karaoke, to a nice dinner and drinks, 🍷etc\n' +
           '\n' +
@@ -66,7 +66,7 @@ module.exports = {
         state: 'UT'
       },
       {
-        organizerId: 25,
+        organizerId: 5,
         name: 'The Seattle Poker Meetup Group',
         about: 'The Seattle Poker Meetup Group is a private group that plays adults-only no-rake, no-fee home poker games in the Seattle area. Limits are low, games are in private homes, persons under 21 years old are not allowed to join or play. Our organization and our games are purely non-commercial. Founded in 2006, we have had thousands of successful, fun, non-commercial poker games.',
         type: 'In person',
@@ -86,7 +86,7 @@ module.exports = {
         state: 'OR'
       },
       {
-        organizerId: 21,
+        organizerId: 2,
         name: 'The 45+ Supper Club',
         about: 'Once a month (or whenever the mood strikes us), adults will come together at a local restaurant to enjoy good food and great conversations.\n' +
           '\n' +
@@ -97,7 +97,7 @@ module.exports = {
         state: 'AZ'
       },
       {
-        organizerId: 17,
+        organizerId: 6,
         name: 'Tallahassee Pickle Ball Meetup Group',
         about: 'Anyone who plays or wants to learn pickle ball, come on in! Starting with first-timers and beginners.\n' +
           '\n' +
@@ -108,7 +108,7 @@ module.exports = {
         state: 'FL'
       },
       {
-        organizerId: 20,
+        organizerId: 5,
         name: 'Eagle Riders Motorcycle Club of Las Vegas',
         about: 'We are a Las Vegas based, family-oriented motorcycle club. We are a group of motorcycle enthusiasts who enjoy frequent group rides, fun activities, community and charity support, and camaraderie among friends and family within our club. Our motorcycle club is open to male and female riders, riders of every ethnicity, riders of all brands and styles of motorcycles, and people from many different walks of life of all age groups. We are a prospecting club and we take great pride in how we organize and maintain a high level of safety standards for our members and guests of our rides. We average over 100 rides per year, both short and full-day rides as well as many overnight rides to further destinations and, of course, we always plan rides to some of the major motorcycle rallies like Sturgis, Reno Street Vibrations, and more. We always welcome guests to tag along for many of our rides so for more information on how to join us on future rides and activities through southern Nevada and the surrounding areas, or for membership rules to join our club, please visit our website at www.eagleridersmclv.com.',
         type: 'In person',
@@ -117,7 +117,7 @@ module.exports = {
         state: 'NV'
       },
       {
-        organizerId: 11,
+        organizerId: 3,
         name: 'Young, Wild and Fun Socials of Central Florida',
         about: "The goal of the group is to bring people (20's, 30's, 40's) of different communities and cultures together to build friendships. The group will consist of social and active events. Be on the lookout for Meetups throughout the week and the weekend. (:\n" +
           '\n' +
@@ -128,7 +128,7 @@ module.exports = {
         state: 'FL'
       },
       {
-        organizerId: 24,
+        organizerId: 6,
         name: 'ALPINE Outdoors Club: Hiking | Desi | Adventures',
         about: 'Alpine Outdoors Club is a friendly community of enthusiasts who enjoy outdoor activities, appreciate nature, and have fun together. The goal is to be active, fit, and maintain a healthy lifestyle. Activities include hiking, biking, camping, kayaking, golfing, etc. There will be a variety of activities that may range from easy, intermediate, to strenuous. We also organize events to conserve nature by doing trail maintenance. Expect several weekly events posted and all year round including winter which is also a great time to be outdoors. There will be trips organized from time to time to explore national parks and international trekking adventures. Guidance can be provided to anyone needing advice on developing outdoor skills, hiking gear, etc. The organizers have the right to remove any member from the group due to inactivity (over 3 months) or any other reasons at discretion. All skill levels are welcome.',
         type: 'In person',
@@ -146,7 +146,7 @@ module.exports = {
         state: 'CA'
       },
       {
-        organizerId: 22,
+        organizerId: 2,
         name: 'Speed Dating - Dallas Meetups',
         about: 'The Speed Dating Meetup is meant for singles who are interested in meeting new people in a structured format. Whether you are recently single, new in town, or have been single for a while, this group is for you.\n' +
           'The Meetup will host a variety of location and interest-based speed dating events! The Meetup is for all ages and backgrounds.\n' +

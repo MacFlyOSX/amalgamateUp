@@ -10,12 +10,12 @@ module.exports = {
         description: "Let's Eat the World! While our prime focus will be Chinese restaurants in the San Gabriel Valley (from the 710 Freeway to the West, the 60 Freeway to the South, 210 Freeway to the North, and the 57 Freeway to the East), we will venture all over the LA and OC counties as well as parts beyond. We will also explore global cuisines from Japanese to Sri Lankan to Nigerian to French and more.\n" +
 
           '\n' +
-          '    Be prepared to share the dishes family-style, as most events will be designated as Family Style Dining. However, there will be occasions where each individual will order their own entree/main dish. Be sure to bring cash, as many hole-in-the-wall places do not accept credit cards.',
+          'Be prepared to share the dishes family-style, as most events will be designated as Family Style Dining. However, there will be occasions where each individual will order their own entree/main dish. Be sure to bring cash, as many hole-in-the-wall places do not accept credit cards.',
         type: 'In person',
         capacity: 20,
         price: 0,
-        startDate: '2023-12-03T01:00:00.000Z',
-        endDate: '2023-12-03T08:00:00.000Z'
+        startDate: '2023-12-03 13:00:00',
+        endDate: '2023-12-03 16:00:00'
       },
       {
         venueId: 5,
@@ -25,8 +25,8 @@ module.exports = {
         type: 'In person',
         capacity: 20,
         price: 30,
-        startDate: '2023-05-16T02:00:00.000Z',
-        endDate: '2023-05-16T05:00:00.000Z'
+        startDate: '2023-05-16 09:00:00',
+        endDate: '2023-05-16 13:00:00'
       },
       {
         venueId: 6,
@@ -36,8 +36,8 @@ module.exports = {
         type: 'In person',
         capacity: 20,
         price: 20,
-        startDate: '2023-01-03T20:00:00.000Z',
-        endDate: '2023-01-04T02:00:00.000Z'
+        startDate: '2023-01-03 14:00:00',
+        endDate: '2023-01-03 17:00:00'
       },
       {
         venueId: 7,
@@ -46,12 +46,12 @@ module.exports = {
         description: 'This Coed Soccer Meetup Group (Beginner Friendly) is designed to organize and schedule regular pickup soccer matches in the Long Beach and Surrounding Cities.\n' +
 
           '\n' +
-          '         The focus is on having fun and providing the opportunity to enjoy the game with others. The initial plan is to find others interested in playing locally, and perhaps starting a team or connecting players with teams that are looking for players. Our members take priority over non-members or guest for reserved fields.',
+          'The focus is on having fun and providing the opportunity to enjoy the game with others. The initial plan is to find others interested in playing locally, and perhaps starting a team or connecting players with teams that are looking for players. Our members take priority over non-members or guest for reserved fields.',
         type: 'In person',
         capacity: 80,
         price: 20,
-        startDate: '2023-05-23T20:00:00.000Z',
-        endDate: '2023-05-23T23:00:00.000Z'
+        startDate: '2023-05-23 18:00:00',
+        endDate: '2023-05-23 21:00:00'
       },
       {
         venueId: 8,
@@ -61,8 +61,8 @@ module.exports = {
         type: 'In person',
         capacity: 20,
         price: 40,
-        startDate: '2023-03-20T02:00:00.000Z',
-        endDate: '2023-03-20T10:00:00.000Z'
+        startDate: '2023-03-20 18:00:00',
+        endDate: '2023-03-20 22:00:00'
       },
       {
         venueId: 9,
@@ -71,12 +71,12 @@ module.exports = {
         description: 'Have you always wanted a great group of friends to do things with? We do everything from concerts, road trips, hiking, rock climbing, dancing, karaoke, to a nice dinner and drinks, 🍷etc\n' +
 
           '\n' +
-          '        Lets chat about our lives, principles, concepts, positive things to do, share experiences and cheer each other‘s triumphs, and support each other in our trials. Girlfriend time heals the soul.',
+          'Lets chat about our lives, principles, concepts, positive things to do, share experiences and cheer each other‘s triumphs, and support each other in our trials. Girlfriend time heals the soul.',
         type: 'In person',
         capacity: 100,
         price: 10,
-        startDate: '2023-11-23T22:00:00.000Z',
-        endDate: '2023-11-24T00:00:00.000Z'
+        startDate: '2023-11-23 19:00:00',
+        endDate: '2023-11-23 23:00:00'
       },
       {
         venueId: 10,
@@ -86,8 +86,8 @@ module.exports = {
         type: 'In person',
         capacity: 20,
         price: 30,
-        startDate: '2023-02-11T09:00:00.000Z',
-        endDate: '2023-02-11T11:00:00.000Z'
+        startDate: '2023-02-11 17:00:00',
+        endDate: '2023-02-11 22:00:00'
       },
       {
         venueId: 11,
@@ -96,12 +96,12 @@ module.exports = {
         description: 'Remember that first shot that went high and straight? That feeling of a pure golf shot? Well, we long for those moments more often. We love to get a birdy but a double or triple is not that uncommon.\n' +
 
           '\n' +
-          "        We don't take golf too seriously. We hack around, have fun, enjoy the weather when it's nice out, and have no qualms about golfing in the rain. We move along at a 'ready play' pace and enjoy the company.",
+          "We don't take golf too seriously. We hack around, have fun, enjoy the weather when it's nice out, and have no qualms about golfing in the rain. We move along at a 'ready play' pace and enjoy the company.",
         type: 'In person',
         capacity: 80,
         price: 10,
-        startDate: '2023-09-06T06:00:00.000Z',
-        endDate: '2023-09-06T12:00:00.000Z'
+        startDate: '2023-09-06 10:00:00',
+        endDate: '2023-09-06 16:00:00'
       },
       {
         venueId: 12,
@@ -110,12 +110,12 @@ module.exports = {
         description: 'Once a month (or whenever the mood strikes us), adults will come together at a local restaurant to enjoy good food and great conversations.\n' +
 
           '\n' +
-          '        Our choices will be wide ranging from fine dining to casual. We comb the annals of reviews to find you to the nicest, newest and/or most awarded establishments that exist in our amazing food community here in Phoenix. We are incredibly lucky to enjoy so much culinary talent in our city!',
+          'Our choices will be wide ranging from fine dining to casual. We comb the annals of reviews to find you to the nicest, newest and/or most awarded establishments that exist in our amazing food community here in Phoenix. We are incredibly lucky to enjoy so much culinary talent in our city!',
         type: 'In person',
         capacity: 50,
         price: 10,
-        startDate: '2023-03-14T05:00:00.000Z',
-        endDate: '2023-03-14T06:00:00.000Z'
+        startDate: '2023-03-14 17:00:00',
+        endDate: '2023-03-14 19:00:00'
       },
       {
         venueId: 13,
@@ -124,12 +124,12 @@ module.exports = {
         description: 'Anyone who plays or wants to learn pickle ball, come on in! Starting with first-timers and beginners.\n' +
 
           '\n' +
-          '        Pickle ball is social, unlike tennis.',
+          'Pickle ball is social, unlike tennis.',
         type: 'In person',
         capacity: 60,
         price: 40,
-        startDate: '2023-08-09T07:00:00.000Z',
-        endDate: '2023-08-09T012:00:00.000Z'
+        startDate: '2023-08-09 07:00:00',
+        endDate: '2023-08-09 12:00:00'
       },
       {
         venueId: 14,
@@ -139,23 +139,21 @@ module.exports = {
         type: 'In person',
         capacity: 20,
         price: 50,
-        startDate: '2023-10-22T15:00:00.000Z',
-        endDate: '2023-10-22T19:00:00.000Z'
+        startDate: '2023-10-22 15:00:00',
+        endDate: '2023-10-22 19:00:00'
       },
       {
         venueId: 15,
         groupId: 15,
         name: 'Gather with Young, Wild and Fun Socials of Central Florida',
         description: "The goal of the group is to bring people (20's, 30's, 40's) of different communities and cultures together to build friendships. The group will consist of social and active events. Be on the lookout for Meetups throughout the week and the weekend. (:\n" +
-          '            \n' +
-          ' \n' +
           '\n' +
-          '            P.S. If someone in the group makes you uncomfortable with any messages, comments. Please let me know. I will not tolerate that behavior.',
+          'P.S. If someone in the group makes you uncomfortable with any messages, comments. Please let me know. I will not tolerate that behavior.',
         type: 'In person',
         capacity: 100,
         price: 40,
-        startDate: '2023-12-14T20:00:00.000Z',
-        endDate: '2023-12-14T23:00:00.000Z'
+        startDate: '2023-12-14 20:00:00',
+        endDate: '2023-12-14 23:00:00'
       },
       {
         venueId: 16,
@@ -165,8 +163,8 @@ module.exports = {
         type: 'In person',
         capacity: 100,
         price: 40,
-        startDate: '2023-01-03T05:00:00.000Z',
-        endDate: '2023-01-03T12:00:00.000Z'
+        startDate: '2023-01-03 05:00:00',
+        endDate: '2023-01-03 12:00:00'
       },
       {
         venueId: 17,
@@ -176,22 +174,22 @@ module.exports = {
         type: 'In person',
         capacity: 60,
         price: 20,
-        startDate: '2023-10-25T18:00:00.000Z',
-        endDate: '2023-10-25T22:00:00.000Z'
+        startDate: '2023-10-25 18:00:00',
+        endDate: '2023-10-25 22:00:00'
       },
       {
         venueId: 18,
         groupId: 18,
         name: 'Speed Dating Night!',
         description: 'The Speed Dating Meetup is meant for singles who are interested in meeting new people in a structured format. Whether you are recently single, new in town, or have been single for a while, this group is for you.\n' +
-          '        The Meetup will host a variety of location and interest-based speed dating events! The Meetup is for all ages and backgrounds.\n' +
-          '        Online Speed Dating events will be hosted on The Fun Singles (https://thefun.singles/dallas). In person Speed Dating events will be hosted at one of the classy venues in Dallas.\n' +
-          "        Join this singles group and let's build a great meetup community!",
+          'The Meetup will host a variety of location and interest-based speed dating events! The Meetup is for all ages and backgrounds.\n' +
+          'Online Speed Dating events will be hosted on The Fun Singles (https://thefun.singles/dallas). In person Speed Dating events will be hosted at one of the classy venues in Dallas.\n' +
+          "Join this singles group and let's build a great meetup community!",
         type: 'In person',
         capacity: 100,
         price: 0,
-        startDate: '2023-01-27T17:00:00.000Z',
-        endDate: '2023-01-27T22:00:00.000Z'
+        startDate: '2023-01-27 17:00:00',
+        endDate: '2023-01-27 22:00:00'
       }
     ], {});
   },

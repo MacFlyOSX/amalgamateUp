@@ -111,3 +111,7 @@ input {
 .signup-label {
     font-size: 14px;
 }
+
+.emailErr {
+    margin-left: 33px;
+}

@@ -38,7 +38,7 @@ const EventsIndex = () => {
                                     <img className='event-thumbnail' src={`${event.previewImage}`} alt='thumbnail' />
                                 </div>
                                 <div className='event-preview-info'>
-                                    <h3 className='event-date'>{`${event.startDay}, ${event.startDate}`} • {event.startTime}</h3>
+                                    <h3 className='event-date'>{`${event.startDay}, ${event.startMD}`} • {event.startTime}</h3>
                                     <h3 className='event-name'>{event.name}</h3>
                                     <div className='event-about-container'><p className='event-about'>{event.groupName} • {event.groupCity}, {event.groupState}</p></div>
                                     <p className='event-stats'>{`${!!event.numAttending ? event.numAttending : 0} ${event.numAttending > 1 || !event.numAttending ? 'attendees' : 'attendee'} `}</p>

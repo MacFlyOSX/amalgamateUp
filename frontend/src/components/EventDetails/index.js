@@ -61,7 +61,7 @@ const EventDetails = () => {
         {/* <div className='event-entire-container'> */}
             <div className='event-details-top-title-container'>
                 <div className='event-top-title-stuffs'>
-                    <h3 className='event-details-date'>{`${event.startDay}, ${event.startDate}`}</h3>
+                    <h3 className='event-details-date'>{`${event.startDay}, ${event.startMD}`}</h3>
                     <h1 className='event-details-name-title'>{event.name}</h1>
                     <div className='event-host-container'>
                         <img className='event-host-icon' src={organizer} alt='organizer' />
@@ -99,7 +99,7 @@ const EventDetails = () => {
                         <img className='event-time-clock timeplace-icon' src={clock} alt='clock' />
                         <div className='event-time-info'>
                             <p className='event-time-from-this-to-this'>
-                                {`${event.startDay}, ${event.startDate} at ${event.startTime} to ${event.endDay}, ${event.endDate} at ${event.endTime}`}
+                                {`${event.startDay}, ${event.startMD} at ${event.startTime} to ${event.endDay}, ${event.endMD} at ${event.endTime}`}
                             </p>
                         </div>
                         </div>
@@ -116,7 +116,7 @@ const EventDetails = () => {
                             <img className='event-place-location timeplace-icon' src={dollar} alt='dollar' />
                             <div className='event-time-info'>
                                 <p className='event-place-addy'>
-                                    {event?.price ? `$${Number(event.price).toFixed(2)}` : 'FREE'}
+                                    {event?.price ? `$${(event.price)}` : 'FREE'}
                                 </p>
                             </div>
                         </div>
@@ -124,7 +124,7 @@ const EventDetails = () => {
                             <img className='event-place-location timeplace-icon' src={people} alt='dollar' />
                             <div className='event-time-info'>
                                 <p className='event-place-addy'>
-                                    {event?.capacity} member capacity
+                                    {event?.capacity ? event?.capacity : '150'} capacity &bull; {`${event?.numAttending} ${event?.numAttending > 1 ? 'attendees' : 'attendee'}`}
                                 </p>
                             </div>
                         </div>
