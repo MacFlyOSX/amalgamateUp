@@ -351,7 +351,7 @@ const locations = [
 	}
 ];
 
-const streetEnds = ['AVE', 'BLVD', 'ST', 'PKWY', 'PLZ', 'DR', 'CT', 'RD', 'LN'];
+const streetEnds = ['Ave', 'Blvd', 'St', 'Pkwy', 'Dr', 'Ct', 'Rd', 'Ln'];
 
 // const types = ['Arts', 'Business', 'Games', 'Sports', 'Fitness', 'Outdoors', 'Social', 'Music', 'Religion', 'Technology'];
 
