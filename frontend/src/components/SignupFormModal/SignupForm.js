@@ -18,8 +18,8 @@ function SignupForm() {
   const [ passMatch, setPassMatch ] = useState(null);
 
   function validate() {
-    if(firstName.length < 2) setFirstNameErr(true);
-    if(lastName.length < 2) setLastNameErr(true);
+    firstName.length < 2 ? setFirstNameErr(true) : setFirstNameErr(false);
+    lastName.length < 2 ? setLastNameErr(true) : setLastNameErr(false);
 
     return;
   }
