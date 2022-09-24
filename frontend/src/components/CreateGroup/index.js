@@ -32,8 +32,6 @@ const CreateGroup = () => {
 
       if(about.length < 50) validationErrors.push('Group description must be at least 50 characters');
 
-      if(isImage(previewImage)) validationErrors.push('Please enter a valid image URL');
-
       return validationErrors;
     }
 
@@ -52,6 +50,8 @@ const CreateGroup = () => {
             name, about, type, private: privacy, city, state
         };
         // console.log('this is the payload in create a group', payload);
+
+        if (!isImage(previewImage)) setPreviewImage('https://i.imgur.com/7EYSecN.png');
 
         const createdGroup = await dispatch(createGroup(payload, previewImage));
 

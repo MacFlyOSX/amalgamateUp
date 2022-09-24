@@ -43,8 +43,6 @@ const CreateEvent = () => {
 
     if(description.length < 50) validationErrors.push('Event description must be at least 50 characters');
 
-    if(isImage(previewImage)) validationErrors.push('Please enter a valid image URL');
-
     return validationErrors;
   }
 
@@ -74,6 +72,7 @@ const CreateEvent = () => {
         }
 
         // console.log('this is the payload in create a event', payload);
+        if (!isImage(previewImage)) setPreviewImage('https://i.imgur.com/qfX30Dz.png');
 
         const createdEvent = await dispatch(createEvent(payload, groupId, previewImage));
 
