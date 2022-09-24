@@ -35,7 +35,7 @@ module.exports = {
       },
       {
         eventId: 10,
-        url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/US_Navy_090620-N-2798F-033_Sailors_assigned_to_the_aircraft_carrier_USS_Harry_S._Truman_%28CVN_75%29_and_Carrier_Air_Wing_%28CVW%29_3_compete_in_a_Texas_Hold_%27Em_Poker_tournament_aboard_Harry_S._Truman.jpg/1200px-thumbnail.jpg',
+        url: 'https://miro.medium.com/max/1200/1*EhjZcAb7CW85j3dMud0afQ.jpeg',
         preview: true
       },
       {
