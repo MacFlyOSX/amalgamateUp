@@ -27,9 +27,11 @@ const CreateEvent = () => {
     const [ validationErrors, setValidationErrors ] = useState([]);
     const [ showPrice, setShowPrice ] = useState(false);
     const [ showCapacity, setShowCapacity ] = useState(false);
-
+    const [ charLimit, setCharLimit ] = useState(600);
     // console.log('this is the current location', location);
-
+    useEffect(() => {
+      setCharLimit(600-description.length);
+    }, [description]);
   // function isImage(url) {
   //   return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url);
   // }
@@ -43,7 +45,7 @@ const CreateEvent = () => {
 
     if(description.length < 50) validationErrors.push('Event description must be at least 50 characters');
 
-    if (!previewImage.match(/\.(jpg|jpeg|png|gif)$/)) validationErrors.push('Please enter a valid image URL.');
+    if (!previewImage.match(/\.(jpg|jpeg|png)$/)) validationErrors.push('Please enter a valid image URL.');
 
     return validationErrors;
   }
@@ -178,7 +180,7 @@ const CreateEvent = () => {
                     />
                   </label><br />
                   <label className="create-event-labels">
-                    Description<br />
+                    Description<span className="description-gap">{charLimit} characters left</span><br />
                     <textarea
                       className="create-form-description-input create-input"
                       maxLength='250'

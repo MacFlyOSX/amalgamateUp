@@ -19,7 +19,10 @@ const CreateGroup = () => {
     const [ privacy, setPrivacy ] = useState(false);
     const [ city, setCity ] = useState('');
     const [ state, setState ] = useState('');
-
+    const [ charLimit, setCharLimit ] = useState(600);
+    useEffect(() => {
+      setCharLimit(600-about.length);
+    }, [about]);
     const [ name, setName ] = useState('');
     const [ type, setType ] = useState('');
     const [ previewImage, setPreviewImage ] = useState('');
@@ -32,7 +35,7 @@ const CreateGroup = () => {
 
       if(about.length < 50) validationErrors.push('Group description must be at least 50 characters');
 
-      if (!previewImage.match(/\.(jpg|jpeg|png|gif)$/)) validationErrors.push('Please enter a valid image URL.');
+      if (!previewImage.match(/\.(jpg|jpeg|png)$/)) validationErrors.push('Please enter a valid image URL.');
 
       return validationErrors;
     }
@@ -180,10 +183,10 @@ const CreateGroup = () => {
                     />
                   </label><br />
                   <label className="create-event-labels">
-                    About<br />
+                    About<span className="about-gap">{charLimit} characters left</span><br />
                     <textarea
                       className="create-form-description-input create-input"
-                      maxLength='250'
+                      maxLength='600'
                       value={about}
                       onChange={(e) => setAbout(e.target.value)}
                       required

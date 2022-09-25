@@ -26,6 +26,7 @@ const EditGroup = () => {
     const [ city, setCity ] = useState(group?.city);
     const [ state, setState ] = useState(group?.state);
     const [ validationErrors, setValidationErrors ] = useState([]);
+    const [ charLimit, setCharLimit ] = useState(600);
 
     const validate = () => {
       const validationErrors = [];
@@ -62,6 +63,10 @@ const EditGroup = () => {
     useEffect(() => {
         dispatch(getOneGroup(groupId));
     }, [dispatch, groupId]);
+
+    useEffect(() => {
+      setCharLimit(600-about.length);
+    }, [about]);
 
     return (
         <div className="edit-group-container">
@@ -165,10 +170,10 @@ const EditGroup = () => {
                     </option>
                   </select><br />
                   <label className="edit-group-about group-form-label">
-                    About<br />
+                    About<span className="about-edit-gap">{charLimit} characters left</span><br />
                     <textarea
                       className="edit-group-textarea group-form-input eg-form"
-                      maxLength='250'
+                      maxLength='600'
                       value={about}
                       onChange={(e) => setAbout(e.target.value)}
                       required

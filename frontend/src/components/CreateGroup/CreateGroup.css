@@ -345,3 +345,8 @@
     padding: 0 0;
     padding-left: 20px;
 }
+
+.about-gap {
+    margin-left: 320px;
+    font-weight: 400;
+}
