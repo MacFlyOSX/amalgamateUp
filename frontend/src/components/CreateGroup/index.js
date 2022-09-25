@@ -32,7 +32,7 @@ const CreateGroup = () => {
 
       if(about.length < 50) validationErrors.push('Group description must be at least 50 characters');
 
-      if (!previewImage.match(/\.(jpg|jpeg|png|gif)$/)) validationErrors.push('Please enter a valid image URL.')
+      if (!previewImage.match(/\.(jpg|jpeg|png|gif)$/)) validationErrors.push('Please enter a valid image URL.');
 
       return validationErrors;
     }
@@ -176,7 +176,7 @@ const CreateGroup = () => {
                       type="text"
                       value={previewImage}
                       onChange={(e) => setPreviewImage(e.target.value)}
-                      required
+                      // required
                     />
                   </label><br />
                   <label className="create-event-labels">

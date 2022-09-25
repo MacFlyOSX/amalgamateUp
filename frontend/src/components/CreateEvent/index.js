@@ -43,6 +43,8 @@ const CreateEvent = () => {
 
     if(description.length < 50) validationErrors.push('Event description must be at least 50 characters');
 
+    if (!previewImage.match(/\.(jpg|jpeg|png|gif)$/)) validationErrors.push('Please enter a valid image URL.');
+
     return validationErrors;
   }
 
