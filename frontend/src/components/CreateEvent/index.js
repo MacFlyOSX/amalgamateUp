@@ -50,6 +50,10 @@ const CreateEvent = () => {
     return validationErrors;
   }
 
+  const onCancel = () => {
+    history.push(`/groups/${groupId}`);
+  }
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -254,6 +258,8 @@ const CreateEvent = () => {
                   <button type="submit" className="create-event-button">
                   Publish
                   </button>
+                  <button className="cancel-create-group cancel-button"
+                  onClick={onCancel}>Cancel</button>
                   </div>
                 </form>
             </div>

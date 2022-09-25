@@ -40,6 +40,10 @@ const CreateGroup = () => {
       return validationErrors;
     }
 
+    const onCancel = () => {
+      history.push('/');
+    }
+
     // function isImage(url) {
     //   return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url);
     // }
@@ -228,6 +232,8 @@ const CreateGroup = () => {
                   <button type="submit" className="create-event-button">
                   Publish
                   </button>
+                  <button className="cancel-create-group cancel-button"
+                  onClick={onCancel}>Cancel</button>
                   </div>
                 </form>
             </div>

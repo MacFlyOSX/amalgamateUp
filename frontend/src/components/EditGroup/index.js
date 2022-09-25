@@ -38,6 +38,10 @@ const EditGroup = () => {
       return validationErrors;
     }
 
+    const onCancel = () => {
+      history.push(`/groups/${groupId}`);
+    }
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -191,6 +195,9 @@ const EditGroup = () => {
                   <button type="submit" className="edit-submit-button edit-button">
                   Update Group
                   </button>
+                  <button className="cancel-create-group cancel-button"
+                  onClick={onCancel}
+                  >Cancel</button>
                   </div>
                 </form>
             </div>

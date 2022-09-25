@@ -304,6 +304,19 @@
     margin-right: 10px;
 }
 
+.cancel-create-group {
+    border: 0;
+    background-color: white;
+    color: #f65858;
+    font-weight: 600;
+    height: 48px;
+    border-radius: 8px;
+    border: 1px #acacac solid;
+    padding: 10px 40px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
 /* Tips for a great event box */
 
 .tips-for-a-great-event {
