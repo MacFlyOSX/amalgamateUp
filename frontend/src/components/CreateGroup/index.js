@@ -32,12 +32,14 @@ const CreateGroup = () => {
 
       if(about.length < 50) validationErrors.push('Group description must be at least 50 characters');
 
+      if (!previewImage.match(/\.(jpg|jpeg|png|gif)$/)) validationErrors.push('Please enter a valid image URL.')
+
       return validationErrors;
     }
 
-    function isImage(url) {
-      return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url);
-    }
+    // function isImage(url) {
+    //   return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url);
+    // }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -51,7 +53,7 @@ const CreateGroup = () => {
         };
         // console.log('this is the payload in create a group', payload);
 
-        if (!isImage(previewImage)) setPreviewImage('https://i.imgur.com/7EYSecN.png');
+        // if (!isImage(previewImage)) setPreviewImage('https://i.imgur.com/7EYSecN.png');
 
         const createdGroup = await dispatch(createGroup(payload, previewImage));
 
