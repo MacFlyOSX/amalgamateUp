@@ -6,6 +6,14 @@
     /* background-color: white; */
 }
 
+.edit-span {
+    color:#f65858;
+}
+
+.edit-group-name-span {
+    margin-left: 45px;
+}
+
 
 .edit-top-section-group-details {
     display: grid;
@@ -196,4 +204,21 @@
 .about-edit-gap {
     margin-left: 275px;
     font-weight: 400;
+}
+
+.edit-errors {
+    font-size: 14px;
+    color:#f65858;
+
+}
+
+.edit-errors-list,
+.edit-error {
+    font-size: 14px;
+    color:#f65858;
+    margin-top: 0;
+}
+
+.edit-group-textarea {
+    height: 150px;
 }

@@ -45,7 +45,9 @@ const CreateEvent = () => {
 
     if(description.length < 50) validationErrors.push('Event description must be at least 50 characters');
 
-    if (!previewImage.match(/\.(jpg|jpeg|png)$/)) validationErrors.push('Please enter a valid image URL.');
+    if (!previewImage.match(/\.(jpg|jpeg|png)$/)) validationErrors.push('Please enter a valid image URL');
+
+    if (previewImage.length > 255) validationErrors.push('Please enter a shorter image URL');
 
     return validationErrors;
   }
@@ -184,10 +186,10 @@ const CreateEvent = () => {
                     />
                   </label><br />
                   <label className="create-event-labels">
-                    Description<span className="description-gap">{charLimit} characters left</span><br />
+                    Description<span className={charLimit > 99 ? "description-gap" : charLimit > 9 ? 'description-tens-gap' : charLimit === 1 ? 'description-one-gap' : 'description-ones-gap'}>{charLimit} {charLimit === 1 ? 'character' : 'characters'} left</span><br />
                     <textarea
                       className="create-form-description-input create-input"
-                      maxLength='250'
+                      maxLength='600'
                       value={description}
                       onChange={(e) => setDescription(e.target.value)}
                       required

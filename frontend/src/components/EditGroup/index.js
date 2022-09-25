@@ -31,9 +31,10 @@ const EditGroup = () => {
     const validate = () => {
       const validationErrors = [];
 
-      if (name.length < 10) validationErrors.push('Group title must be at least 10 characters');
+      if (name.length < 10) validationErrors.push('Group name must be at least 10 characters');
 
       if(about.length < 50) validationErrors.push('Group description must be at least 50 characters');
+
 
       return validationErrors;
     }
@@ -124,7 +125,8 @@ const EditGroup = () => {
                 </div>
                 <div className="edit-group-form-stuff">
                   <label className="group-form-label">
-                    Group Name<br />
+                    Group Name
+                    <br />
                     <input
                       className="group-form-input edit-group-name eg-form"
                       type="text"
@@ -174,7 +176,8 @@ const EditGroup = () => {
                     </option>
                   </select><br />
                   <label className="edit-group-about group-form-label">
-                    About<span className="about-edit-gap">{charLimit} characters left</span><br />
+                    About
+                    <span className="about-edit-gap">{charLimit} characters left</span><br />
                     <textarea
                       className="edit-group-textarea group-form-input eg-form"
                       maxLength='600'
@@ -185,10 +188,10 @@ const EditGroup = () => {
                   </label>
                   <p></p>
                   {validationErrors.length > 0 && (
-                      <div className='errors'>
+                      <div className='edit-errors'>
                         Please fix the following errors:
-                        <ul className="errors-list">
-                          {validationErrors.map(error => <li className="error" key={error}>&gt; {error}</li>)}
+                        <ul className="edit-errors-list">
+                          {validationErrors.map(error => <li className="edit-error" key={error}>&gt; {error}</li>)}
                         </ul>
                       </div>
                     )}

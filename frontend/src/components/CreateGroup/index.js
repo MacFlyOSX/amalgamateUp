@@ -31,11 +31,13 @@ const CreateGroup = () => {
     const validate = () => {
       const validationErrors = [];
 
-      if (name.length < 10) validationErrors.push('Group title must be at least 10 characters');
+      if (name.length < 10) validationErrors.push('Group name must be at least 10 characters');
 
       if(about.length < 50) validationErrors.push('Group description must be at least 50 characters');
 
       if (!previewImage.match(/\.(jpg|jpeg|png)$/)) validationErrors.push('Please enter a valid image URL.');
+
+      if (previewImage.length > 255) validationErrors.push('Please enter a shorter image URL');
 
       return validationErrors;
     }
@@ -187,7 +189,7 @@ const CreateGroup = () => {
                     />
                   </label><br />
                   <label className="create-event-labels">
-                    About<span className="about-gap">{charLimit} characters left</span><br />
+                    About<span className={charLimit > 99 ? "about-gap" : charLimit > 9 ? 'about-tens-gap' : charLimit === 1 ? 'about-one-gap' : 'about-ones-gap'}>{charLimit} {charLimit === 1 ? 'character' : 'characters'} left</span><br />
                     <textarea
                       className="create-form-description-input create-input"
                       maxLength='600'
