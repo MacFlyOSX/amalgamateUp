@@ -14,7 +14,7 @@ function Navigation({ isLoaded }){
   const sessionUser = useSelector(state => state.session.user);
 
   const demoLogin = () => {
-    return dispatch(sessionActions.login({ credential: 'supremeleader', password: 'password'})).catch(
+    return dispatch(sessionActions.login({ credential: 'demouser', password: 'password'})).catch(
       async (res) => {
         const data = await res.json();
       }
