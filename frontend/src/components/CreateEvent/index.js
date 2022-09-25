@@ -181,6 +181,7 @@ const CreateEvent = () => {
                     Description<br />
                     <textarea
                       className="create-form-description-input create-input"
+                      maxLength='250'
                       value={description}
                       onChange={(e) => setDescription(e.target.value)}
                       required

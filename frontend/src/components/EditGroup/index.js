@@ -168,6 +168,7 @@ const EditGroup = () => {
                     About<br />
                     <textarea
                       className="edit-group-textarea group-form-input eg-form"
+                      maxLength='250'
                       value={about}
                       onChange={(e) => setAbout(e.target.value)}
                       required

@@ -183,6 +183,7 @@ const CreateGroup = () => {
                     About<br />
                     <textarea
                       className="create-form-description-input create-input"
+                      maxLength='250'
                       value={about}
                       onChange={(e) => setAbout(e.target.value)}
                       required
