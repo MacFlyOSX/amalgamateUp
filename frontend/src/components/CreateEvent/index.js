@@ -30,9 +30,9 @@ const CreateEvent = () => {
 
     // console.log('this is the current location', location);
 
-  function isImage(url) {
-    return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url);
-  }
+  // function isImage(url) {
+  //   return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url);
+  // }
 
   const validate = () => {
     const validationErrors = [];
@@ -74,7 +74,7 @@ const CreateEvent = () => {
         }
 
         // console.log('this is the payload in create a event', payload);
-        if (!isImage(previewImage)) setPreviewImage('https://i.imgur.com/qfX30Dz.png');
+        // if (!isImage(previewImage)) setPreviewImage('https://i.imgur.com/qfX30Dz.png');
 
         const createdEvent = await dispatch(createEvent(payload, groupId, previewImage, sessionUser.id));
 
@@ -232,7 +232,7 @@ const CreateEvent = () => {
                       <br />
                       <input className='create-form-capacity-input create-input'
                       type='number'
-                      min={1}
+                      min={2}
                       value={capacity}
                       onChange={(e) => setCapacity(e.target.value)}
                       /></>

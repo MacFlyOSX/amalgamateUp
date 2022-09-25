@@ -70,6 +70,8 @@ export const createEvent = (event, groupId, previewImage, userId) => async dispa
     if(response.ok) {
         const newEvent = await response.json();
 
+        console.log('event was created');
+
         const res = await csrfFetch(`/api/events/${newEvent.id}/images`, {
             method: 'POST',
             headers: {
@@ -83,23 +85,28 @@ export const createEvent = (event, groupId, previewImage, userId) => async dispa
         if(res.ok) {
             const newImage = await res.json();
 
-            const resp = await csrfFetch(`/api/events/${newEvent.id}/attendance`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    eventId: newEvent.id,
-                    userId,
-                    status: 'member'
-                })
-            });
+            console.log('image was created');
 
-            if(resp.ok) {
-                const attend = await resp.json();
+            // const resp = await csrfFetch(`/api/events/${newEvent.id}/attendance`, {
+            //     method: 'POST',
+            //     headers: {
+            //         'Content-Type': 'application/json'
+            //     },
+            //     body: JSON.stringify({
+            //         eventId: newEvent.id,
+            //         userId,
+            //         status: 'member'
+            //     })
+            // });
+
+            // if(resp.ok) {
+
+                // console.log('attendance was created');
+
+                // const attend = await resp.json();
                 dispatch(addEvent(newEvent));
                 return newEvent;
-            }
+            // }
             }
     }
 };
