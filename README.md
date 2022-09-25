@@ -36,12 +36,19 @@ People all over the United States are relocating for work, family, friends, etc.
 
 
 ## 💡 Features
+### Create a group:
 ![create-group](https://user-images.githubusercontent.com/102837663/192131502-e14fb259-ae0b-403d-bf88-fa32c1f6375b.png)
+### Group details:
 ![group-details](https://user-images.githubusercontent.com/102837663/192131509-a2371a91-54fd-46b4-9a32-6fdf566d1305.png)
+### Edit/update a group:
 ![edit-group](https://user-images.githubusercontent.com/102837663/192131515-bc1e9201-257c-49e0-bdbf-6087667c4d4a.png)
+### Delete a group:
 ![delete-group](https://user-images.githubusercontent.com/102837663/192131520-338d6079-e185-4718-8364-bb4d1e61ffa0.png)
+### Create an event:
 ![create-event](https://user-images.githubusercontent.com/102837663/192131918-b83b2828-a272-4750-93b1-182998ab1db5.png)
+### Event details:
 ![event-details](https://user-images.githubusercontent.com/102837663/192131533-ea6cc7bb-812c-4554-b4c2-249ffdef230a.png)
+### Delete an event:
 ![delete-event](https://user-images.githubusercontent.com/102837663/192131541-28138d50-b145-4f17-92a1-3e52651be378.png)
 
 # 🚧 To do list
