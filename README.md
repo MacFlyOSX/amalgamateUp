@@ -53,6 +53,7 @@ People all over the United States are relocating for work, family, friends, etc.
 
 # 🚧 To do list
 - Add 'My groups' and 'My events' for signed in user
+- Add functionality to edit/update an event
 - Add functionality to join a group (become a member) 
 - Add functionality to RSVP to an event
 
