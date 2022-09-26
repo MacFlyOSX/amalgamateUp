@@ -6,7 +6,7 @@ module.exports = {
       {
         venueId: 4,
         groupId: 4,
-        name: 'Food and Fun with SGV LA + OC Chinese & Global Foodies',
+        name: 'Food and Fun with SGV LA + OC Foodies',
         description: "Let's Eat the World! While our prime focus will be Chinese restaurants in the San Gabriel Valley (from the 710 Freeway to the West, the 60 Freeway to the South, 210 Freeway to the North, and the 57 Freeway to the East), we will venture all over the LA and OC counties as well as parts beyond. We will also explore global cuisines from Japanese to Sri Lankan to Nigerian to French and more.\n" +
 
           '\n' +
@@ -56,7 +56,7 @@ module.exports = {
       {
         venueId: 8,
         groupId: 8,
-        name: 'Meet and Greet with Blktivity - Black people sharing experiences',
+        name: 'Meet and Greet with Blktivity',
         description: `Blktivity is all about black people that consider themselves activity based! Ever wanted to do something but didn't have anyone that was "into that?" If you're looking for people that are willing to try anything once as long as it's not going to kill you (not guaranteed) this is the place! Blacktivities is about doing! Thinking can come later.`,
         type: 'In person',
         capacity: 20,
@@ -81,7 +81,7 @@ module.exports = {
       {
         venueId: 10,
         groupId: 10,
-        name: 'Food and Fun with The Seattle Poker Meetup Group',
+        name: 'Food and Fun with The Seattle Poker Group',
         description: 'The Seattle Poker Meetup Group is a private group that plays adults-only no-rake, no-fee home poker games in the Seattle area. Limits are low, games are in private homes, persons under 21 years old are not allowed to join or play. Our organization and our games are purely non-commercial. Founded in 2006, we have had thousands of successful, fun, non-commercial poker games.',
         type: 'In person',
         capacity: 20,
@@ -120,7 +120,7 @@ module.exports = {
       {
         venueId: 13,
         groupId: 13,
-        name: 'Socialize with Tallahassee Pickle Ball Meetup Group',
+        name: 'Socialize with Tallahassee Pickle Ball',
         description: 'Anyone who plays or wants to learn pickle ball, come on in! Starting with first-timers and beginners.\n' +
 
           '\n' +
@@ -134,7 +134,7 @@ module.exports = {
       {
         venueId: 14,
         groupId: 14,
-        name: 'Food and Fun with Eagle Riders Motorcycle Club of Las Vegas',
+        name: 'Food and Fun with Eagle Riders MCLV',
         description: 'We are a Las Vegas based, family-oriented motorcycle club. We are a group of motorcycle enthusiasts who enjoy frequent group rides, fun activities, community and charity support, and camaraderie among friends and family within our club. Our motorcycle club is open to male and female riders, riders of every ethnicity, riders of all brands and styles of motorcycles, and people from many different walks of life of all age groups. We are a prospecting club and we take great pride in how we organize and maintain a high level of safety standards for our members and guests of our rides. We average over 100 rides per year, both short and full-day rides as well as many overnight rides to further destinations and, of course, we always plan rides to some of the major motorcycle rallies like Sturgis, Reno Street Vibrations, and more. We always welcome guests to tag along for many of our rides so for more information on how to join us on future rides and activities through southern Nevada and the surrounding areas, or for membership rules to join our club, please visit our website at www.eagleridersmclv.com.',
         type: 'In person',
         capacity: 20,
@@ -145,7 +145,7 @@ module.exports = {
       {
         venueId: 15,
         groupId: 15,
-        name: 'Gather with Young, Wild and Fun Socials of Central Florida',
+        name: 'Gather with Young, Wild and Fun Socials',
         description: "The goal of the group is to bring people (20's, 30's, 40's) of different communities and cultures together to build friendships. The group will consist of social and active events. Be on the lookout for Meetups throughout the week and the weekend. (:\n" +
           '\n' +
           'P.S. If someone in the group makes you uncomfortable with any messages, comments. Please let me know. I will not tolerate that behavior.',
@@ -169,7 +169,7 @@ module.exports = {
       {
         venueId: 17,
         groupId: 17,
-        name: 'Socialize with Dungeons & Dragons 5E for Beginners+',
+        name: 'Dungeons & Dragons Night',
         description: "Welcome to Dungeons & Dragons 5E for Beginners +, a group dedicated to learning how to play D&D together. I've started this group because I would like to learn how to be a Dungeon Master, and I hope that anyone interested in learning the game will join me. All levels are welcome, as long as you are aware that sessions might be a little rough around the edges as we get started learning the ropes.",
         type: 'In person',
         capacity: 60,
@@ -198,21 +198,21 @@ module.exports = {
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete('Events', {
       name: { [Op.in]: [
-        'Food and Fun with SGV LA + OC Chinese & Global Foodies',
+        'Food and Fun with SGV LA + OC Foodies',
         'Meet with New Parents New Kids',
         'Food and Fun with Eastside Drunken Knitters',
         'Hang out with Long Beach CoEd Soccer',
-        'Meet and Greet with Blktivity - Black people sharing experiences',
+        'Meet and Greet with Blktivity',
         'Hang out with Ladies Just Wanna Have Fun',
-        'Food and Fun with The Seattle Poker Meetup Group',
+        'Food and Fun with The Seattle Poker Group',
         'BBQ with Portland Golf Club',
         'Get together with The 45+ Supper Club',
-        'Socialize with Tallahassee Pickle Ball Meetup Group',
-        'Food and Fun with Eagle Riders Motorcycle Club of Las Vegas',
-        'Gather with Young, Wild and Fun Socials of Central Florida',
-        'Hang out with ALPINE Outdoors Club: Hiking | Desi | Adventures',
-        'Socialize with Dungeons & Dragons 5E for Beginners+',
-        'Meet and Greet with Speed Dating - Dallas Meetups'
+        'Socialize with Tallahassee Pickle Ball',
+        'Food and Fun with Eagle Riders MCLV',
+        'Gather with Young, Wild and Fun Socials',
+        'Morning Hike with ALPINE Outdoors Club',
+        'Dungeons & Dragons Night',
+        'Speed Dating Night!'
       ] }
     }, {});
   }
