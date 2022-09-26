@@ -51,7 +51,7 @@ const EditGroup = () => {
         if(errors.length > 0) return setValidationErrors(errors);
 
         const payload = {
-            id: groupId, name, about, type: 'In person', private: privacy, city, state
+            id: groupId, name, about, type, private: privacy, city, state
         };
         // console.log('this is the payload in edit group', payload);
 
