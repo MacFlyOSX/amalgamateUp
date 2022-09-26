@@ -36,6 +36,9 @@ const CreateEvent = () => {
   //   return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url);
   // }
 
+  console.log('this is the date',date);
+  console.log('this is the time',time);
+
   const validate = () => {
     const validationErrors = [];
 
@@ -65,16 +68,93 @@ const CreateEvent = () => {
 
         if (capacity === 0) setCapacity(1000);
 
-        const startToEnd = (numHrs, start) => {
-          const endDate = new Date(start.getTime());
+        // const startToEnd = (numHrs, start) => {
+        //   const endDate = new Date(start.getTime());
 
-          endDate.setTime(endDate.getTime() + numHrs * 60 * 60 * 1000);
+        //   endDate.setTime(endDate.getTime() + numHrs * 60 * 60 * 1000);
 
-          return endDate;
+        //   return endDate;
+        // }
+
+        // const startDate = new Date(`${date} ${time}`);
+        const startDate = `${date} ${time}`;
+
+        let tempTime = time.split(':');
+        let hour;
+        switch (tempTime[0]) {
+          case '00':
+            hour = 0;
+            break;
+          case '01':
+            hour = 1;
+            break;
+          case '02':
+            hour = 2;
+            break;
+          case '03':
+            hour = 3;
+            break;
+          case '04':
+            hour = 4;
+            break;
+          case '05':
+            hour = 5;
+            break;
+          case '06':
+            hour = 6;
+            break;
+          case '07':
+            hour = 7;
+            break;
+          case '08':
+            hour = 8;
+            break;
+          case '09':
+            hour = 9;
+            break;
+          default:
+            hour = +tempTime[0];
         }
+        console.log('this is the hour after the switch case', hour);
+        hour += +duration;
+        console.log('this is the hour after the += duration', hour);
+        console.log('this is the hour', hour);
+        let min = tempTime[1];
+        console.log('this is the min', min);
+        let tempDate = date.split('-');
+        let year = +tempDate[0];
+        console.log('this is the year', year);
+        let month = tempDate[1];
+        console.log('this is the month', month);
+        let day = tempDate[2];
+        console.log('this is the day', day);
+        let longMonths = ['01', '03', '05', '07', '08', '10'];
+        let shortMonths = ['04', '06', '09', '11'];
+        if (hour >= 24) {
+          day = +day + 1;
+          hour -= 24;
+          if (day > 31 && longMonths.includes(month)) {
+            month++;
+            day -= 31;
+          } else if (day > 30 && shortMonths.includes(month)) {
+            month++;
+            day -= 30;
+          } else if (day > 28 && month === '02') {
+            month++;
+            day -=28;
+          } else if (day > 31 && month === '12') {
+            month = '01';
+            day -=31;
+            year++;
+          }
+        }
+        hour = `${hour}`;
 
-        const startDate = new Date(`${date} ${time}`);
-        const endDate = startToEnd(duration, startDate)
+        const endDate = `${year}-${month}-${day} ${hour.padStart(2, '0')}:${min}`;
+
+        console.log('this is the startDate',startDate);
+        console.log('this is the endDate',endDate);
+        // const endDate = startToEnd(duration, startDate)
         // const endDate = `${date} ${+time.slice(0,2) + +duration}${time.slice(2)}`;
         const payload = {
           venueId: 1,
