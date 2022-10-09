@@ -5,7 +5,8 @@
     border-style: none;
     color: #f65858;
     cursor: pointer;
-    margin-right: 7%;
+    margin-right: 4%;
+    z-index: 20;
 }
 
 .membership-edit-button:hover {

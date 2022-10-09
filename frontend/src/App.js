@@ -34,7 +34,7 @@ function App() {
             <Background />
             <RootPage isLoaded={isLoaded} />
           </Route>
-          <Route path='/mygroups'>
+          <Route path='/mystuff'>
             <UsersGroups />
           </Route>
           <Route path='/groups/new'>

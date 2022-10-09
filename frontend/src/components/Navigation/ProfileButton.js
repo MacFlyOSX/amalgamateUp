@@ -32,11 +32,6 @@ function ProfileButton({ user }) {
     dispatch(sessionActions.logout());
   };
 
-  const yourGroups = (e) => {
-    e.preventDefault();
-
-  }
-
   return (
     <>
     <div className="user-container-everything">
@@ -53,7 +48,7 @@ function ProfileButton({ user }) {
         <ul className="profile-dropdown">
           <li className="username-dropdown">{` ${user.firstName} ${user.lastName}`}</li>
           <li>
-            <NavLink key={user.id} to={`/mygroups`}>
+            <NavLink key={user.id} to={`/mystuff`}>
               <button className="user-mygroups">My Groups</button>
             </NavLink>
           </li>

@@ -86,7 +86,7 @@ export const updateMembership = (groupId, memberId) => async dispatch => {
 
 const initialState = { members: {}, pending: {} };
 
-export const memberReducer = (state = initialState, action) => {
+const memberReducer = (state = initialState, action) => {
     switch(action.type) {
         case LOAD: {
             const memberList = {};
@@ -118,3 +118,5 @@ export const memberReducer = (state = initialState, action) => {
             return state;
     }
 }
+
+export default memberReducer;
