@@ -6,6 +6,12 @@ const ADD = 'events/ADD';
 const DELETE = 'events/DELETE';
 const GET_ONE = 'events/GET_ONE';
 const UPDATE = 'events/UPDATE'
+const GET_USERS = 'events/GET_USERS'
+
+const getUsers = list => ({
+    type: GET_USERS,
+    list
+});
 
 const load = list => ({
     type: LOAD,
@@ -30,7 +36,16 @@ const getOne = event => ({
 const update = event => ({
     type: UPDATE,
     event
-})
+});
+
+export const getUsersEvents = () => async dispatch => {
+    const response = await fetch(`/api/events/current`);
+
+    if (response.ok) {
+        const list = await response.json();
+        dispatch(getUsers(list.Events));
+    }
+}
 
 export const getEvents = () => async dispatch => {
     const response = await fetch('/api/events');
@@ -92,27 +107,8 @@ export const createEvent = (event, groupId, previewImage, userId) => async dispa
             const newImage = await res.json();
 
             console.log('image was created');
-
-            // const resp = await csrfFetch(`/api/events/${newEvent.id}/attendance`, {
-            //     method: 'POST',
-            //     headers: {
-            //         'Content-Type': 'application/json'
-            //     },
-            //     body: JSON.stringify({
-            //         eventId: newEvent.id,
-            //         userId,
-            //         status: 'member'
-            //     })
-            // });
-
-            // if(resp.ok) {
-
-                // console.log('attendance was created');
-
-                // const attend = await resp.json();
                 dispatch(addEvent(newEvent));
                 return newEvent;
-            // }
             }
     }
 };
@@ -135,7 +131,7 @@ export const updateEvent = event => async dispatch => {
     }
 }
 
-const initialState = { allEvents: {}, singleEvent: {} };
+const initialState = { allEvents: {}, singleEvent: {}, usersEvents: {} };
 
 const eventReducer = (state = initialState, action) => {
     switch(action.type) {
@@ -144,28 +140,33 @@ const eventReducer = (state = initialState, action) => {
             action.list.Events.forEach(event => {
                 allEvents[event.id] = event;
             });
-            return { allEvents: {...allEvents}, singleEvent: {}};
+            return { allEvents: {...allEvents}, singleEvent: {}, usersEvents: {} };
             case GET_ONE: {
-                const newState = {...state, singleEvent: {...state.singleEvent}};
+                const newState = {...state, singleEvent: {...state.singleEvent}, allEvents: {...state.allEvents}, usersEvents: {...state.usersEvents} };
                 newState.singleEvent = action.event;
                 return newState;
             }
             case ADD:{
-                const newState = {...state, singleEvent: {...state.singleEvent}, allEvents: {...state.allEvents}};
+                const newState = {...state, singleEvent: {...state.singleEvent}, allEvents: {...state.allEvents}, usersEvents: {...state.usersEvents} };
                 newState.singleEvent = action.event;
                 newState.allEvents[action.event.id] = action.event;
                 return newState;
             }
             case UPDATE: {
-                const newState = {...state, allEvents:{...state.allEvents}, singleEvent: {...state.singleEvent}};
+                const newState = {...state, allEvents:{...state.allEvents}, singleEvent: {...state.singleEvent}, usersEvents: {...state.usersEvents} };
                 newState.singleEvent = {...action.event};
                 newState.allEvents[action.event.id] = action.event;
                 return newState;
             }
             case DELETE:{
-                const newState = {...state, singleEvent: {}};
+                const newState = {...state, allEvents:{...state.allEvents}, singleEvent: {...state.singleEvent}, usersEvents: {...state.usersEvents} };
                 delete newState.allEvents[action.eventId];
-                return {allEvents: {...newState.allEvents}, singleEvent:{}}
+                return {allEvents: {...newState.allEvents}, singleEvent:{}, usersEvents: {} }
+            }
+            case GET_USERS: {
+                const newState = {...state, allEvents: { ...state.allEvents }, singleEvent: {...state.singleEvent}, usersEvents: {...state.usersEvents} };
+                newState.usersEvents = {...action.list};
+                return newState;
             }
             default:
             return state;

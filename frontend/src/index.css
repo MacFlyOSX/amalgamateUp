@@ -18,6 +18,8 @@ main {
     display: flex;
     flex-direction: column;
     padding: 100px 15%;
+    height: 100%;
+    box-sizing: border-box;
 }
 
 textarea {

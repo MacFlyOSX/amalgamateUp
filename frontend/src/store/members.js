@@ -1,6 +1,7 @@
 import { csrfFetch } from './csrf';
 
 const LOAD = 'members/LOAD';
+const LOAD_ONE = 'members/LOAD_ONE';
 const ADD = 'members/ADD';
 const DELETE = 'members/DELETE';
 const UPDATE = 'members/UPDATE';
@@ -10,6 +11,12 @@ const load = (members, pending) => ({
     members,
     pending
 });
+
+const loadOne = (members, pending) => ({
+    type: LOAD_ONE,
+    members,
+    pending
+})
 
 const addMember = member => ({
     type: ADD,
@@ -26,6 +33,16 @@ const updateMember = memberId => ({
     memberId
 });
 
+export const getAllMembers = () => async dispatch => {
+    const response = await fetch('/api/groups/members');
+
+    if (response.ok) {
+        const list = await response.json();
+        const { members, pending } = list;
+        dispatch(load(members, pending));
+    }
+}
+
 export const getMembers = groupId => async dispatch => {
     const response = await fetch(`/api/groups/${groupId}/members`);
 
@@ -34,7 +51,7 @@ export const getMembers = groupId => async dispatch => {
         let members = [];
         let pending = [];
         list.Members.forEach(ele => ele.Membership.status === "pending" ? pending.push(ele) : members.push(ele));
-        dispatch(load(members, pending));
+        dispatch(loadOne(members, pending));
     }
 };
 
@@ -84,35 +101,42 @@ export const updateMembership = (groupId, memberId) => async dispatch => {
     }
 };
 
-const initialState = { members: {}, pending: {} };
+const initialState = { allMembers: {}, members: {}, pending: {} };
 
 const memberReducer = (state = initialState, action) => {
     switch(action.type) {
         case LOAD: {
+            const allMembers = {members: {...action.members}, pending: {...action.pending}};
+            return { allMembers, members: {}, pending: {}}
+        }
+        case LOAD_ONE: {
+            const newState = {...state, allMembers: {...state.allMembers}, members: {...state.members}, pending: {...state.pending}};
             const memberList = {};
             const pendingList = {};
             action.pending.forEach(ele => pendingList[ele.id] = ele);
             action.members.forEach(ele => memberList[ele.id] = ele);
-            return { members: {...memberList}, pending: {...pendingList} }
+            return { allMembers: {...newState.allMembers}, members: {...memberList}, pending: {...pendingList} }
         }
         case ADD: {
-            const newState = {...state, members: {...state.members}, pending: {...state.pending}};
+            const newState = {...state, allMembers: {...state.allMembers}, members: {...state.members}, pending: {...state.pending}};
             action.member.status === 'pending' ?
                             newState.pending[action.member.memberId] = action.member :
                             newState.members[action.member.memberId] = action.member;
             return newState;
         }
         case DELETE: {
-            const newState = {...state, members: {...state.members}, pending: {...state.pending}};
+            const newState = {...state, allMembers: {...state.allMembers}, members: {...state.members}, pending: {...state.pending}};
             delete newState.members[action.memberId];
             return { members: {...newState.members}, pending: {...newState.pending} }
         }
         case UPDATE: {
-            const newState = {...state, members: {...state.members}, pending: {...state.pending}};
+            const newState = {...state, allMembers: {...state.allMembers}, members: {...state.members}, pending: {...state.pending}};
             const member = newState.pending[action.memberId];
             delete newState.pending[action.memberId];
             member.status = 'member';
-            return { members: {...newState.members, member}, pending: {...newState.pending} };
+            newState.allMembers[member.id] = member;
+            newState.members[member.id] = member;
+            return { allMembers: {...newState.allMembers}, members: {...newState.members}, pending: {...newState.pending} };
         }
         default:
             return state;

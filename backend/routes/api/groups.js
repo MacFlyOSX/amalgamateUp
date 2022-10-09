@@ -10,6 +10,30 @@ const router = express.Router();
 
 // ********************* GET REQUESTS *************************
 
+
+/*
+Get all Members ✅
+    /api/groups/members
+*/
+
+router.get('/members', async (req, res) => {
+    const memberList = await Membership.findAll({raw:true});
+    const members= {};
+    const pending = {};
+    for (const ele of memberList) {
+        const user = await User.findByPk(ele.userId, {raw:true});
+        ele.name = `${user.firstName} ${user.lastName}`;
+        if (ele.status === 'pending') {
+            if (pending[ele.groupId]) pending[ele.groupId] = [...pending[ele.groupId], ele]
+            else pending[ele.groupId] = [ele]
+        } else {
+            if (members[ele.groupId]) members[ele.groupId] = [...members[ele.groupId], ele]
+            else members[ele.groupId] = [ele]
+        }
+    };
+    res.json({members, pending});
+})
+
 /*
 Get all Venues for a Group by their ID ✅
     /api/groups/:groupId/venues
@@ -663,13 +687,13 @@ router.post('/:groupId/events', requireAuth, async(req, res) => {
                 startDate,
                 endDate
             });
-            // const attend = await Attendance.max('id');
-            // const newAttendee = await Attendance.create({
-            //     id: attend + 1,
-            //     userId: user.id,
-            //     eventId: count + 1,
-            //     status: 'member'
-            // });
+            const attend = await Attendance.max('id');
+            const newAttendee = await Attendance.create({
+                id: attend + 1,
+                userId: user.id,
+                eventId: newEvent.id,
+                status: 'member'
+            });
 
             res.json({
                 id: newEvent.id,

@@ -10,6 +10,92 @@ const router = express.Router();
 // ********************* GET REQUESTS *************************
 
 /*
+Get all Events joined or organized by the Current User ✅
+    /api/events/current
+*/
+router.get('/current', requireAuth, async (req, res) => {
+    const { user } = req;
+
+    const events = await Event.findAll({
+        raw: true,
+        include: [ {model: Attendance,
+                    where: {
+                        userId: user.id
+                    }, attributes: []}
+        ],
+        attributes: {
+            include: [
+                [sequelize.fn("COUNT", sequelize.col("Attendances.id")), 'numAttending']
+            ]
+        },
+        group: ['Event.id']
+    });
+
+    for (let i = 0; i < events.length; i++) {
+        const count = await Attendance.count({where: {eventId: events[i].id}});
+        events[i].numAttending = count;
+        const group = await Group.findByPk(events[i].groupId, {raw: true});
+        const images = await Event.findByPk(events[i].id, {
+            raw: true,
+            include: [{
+                model: EventImage,
+                where: {preview: true},
+                attributes: ['url']
+            }]
+        });
+        events[i].previewImage = images['EventImages.url']
+        events[i].hostId = group.organizerId;
+
+        const startDate = {};
+
+        const startStr = new Date(`${events[i].startDate}`).toString();
+
+        const startArr = startStr.split(' ');
+
+        switch(startArr[0]) {
+            case 'Mon': {
+                events[i].startDay = 'Monday';
+                break;
+            }
+            case 'Tue': {
+                events[i].startDay = 'Tuesday';
+                break;
+            }
+            case 'Wed': {
+                events[i].startDay = 'Wednesday';
+                break;
+            }
+            case 'Thu': {
+                events[i].startDay = 'Thursday';
+                break;
+            }
+            case 'Fri': {
+                events[i].startDay = 'Friday';
+                break;
+            }
+            case 'Sat': {
+                events[i].startDay = 'Saturday';
+                break;
+            }
+            case 'Sun': {
+                events[i].startDay = 'Sunday';
+                break;
+            }
+        }
+
+        events[i].startMD = `${startArr[1]} ${startArr[2]}`;
+
+        let startTime = startArr[4].slice(0,2);
+
+        startTime = +startTime > 12 ? `${+startTime - 12}:${startArr[4].slice(3, 5)} PM` : +startTime === 12 ? `${startTime}:${startArr[4].slice(3, 5)} PM` : `${startTime}:${startArr[4].slice(3, 5)} AM`;
+
+        events[i].startTime = startTime;
+
+    }
+    res.json({Events: events})
+})
+
+/*
 Get all Attendees of an Event by their ID
     /api/events/:eventId/attendees
 */

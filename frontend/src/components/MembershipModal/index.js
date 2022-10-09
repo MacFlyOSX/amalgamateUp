@@ -10,7 +10,7 @@ function MembershipModal({modalVal}) {
 
   return (
     <>
-      <span className='membership-edit-button' onClick={() => setShowModal(true)}>*Pending requests*</span>
+      <span className='membership-edit-button' onClick={() => setShowModal(true)}>*Membership requests*</span>
       {showModal && (
         <Modal onClose={() => setShowModal(false)}>
           <LoginForm onClick={() => setShowModal(false)} />
