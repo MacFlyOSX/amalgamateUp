@@ -1,0 +1,95 @@
+.membership-edit-button {
+    font-size: 14px;
+    font-weight: 400;
+    background-color: transparent;
+    border-style: none;
+    color: #f65858;
+    cursor: pointer;
+    margin-right: 7%;
+}
+
+.membership-edit-button:hover {
+    text-decoration: underline;
+}
+
+.login-error-stuff {
+    color: red;
+    text-align: center;
+    padding: 5px 5px;
+    background-color: #f8bfbf;
+    border: 1px solid #f65858;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.form-top {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    height: 60px;
+    box-sizing: border-box;
+    padding-bottom: 60px;
+    padding-top: 40px;
+}
+
+.form-logo {
+    flex: 1;
+    padding: 0;
+    margin: 0;
+}
+.form-top-member {
+    flex: 1;
+    padding: 0;
+    margin: 0;
+    font-weight: 400;
+}
+.form-title {
+    flex: 1;
+    font-size: 28px;
+    font-weight: 700;
+    padding-bottom: 15px;
+    margin: 0;
+}
+
+.form-stuff {
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.submit-button {
+    background-color: #F65858;
+    color: white;
+    font-size: 20px;
+    font-weight: 700;
+    border: none;
+    height: 48px;
+    vertical-align: middle;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+
+.submit-button:hover {
+    cursor: pointer;
+}
+
+label > p {
+    text-align: left;
+}
+
+input {
+    width: 344px;
+    height: 22px;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    border-color: rgb(230, 230, 230);
+    border-width: 1px;
+    font-size: 16px;
+    padding: 8px 12px;
+}

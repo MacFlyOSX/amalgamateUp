@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch } from 'react-redux';
 import * as sessionActions from '../../store/session';
 import chevron from '../../icons/chevron.svg';
+import { NavLink } from "react-router-dom";
 
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
@@ -31,6 +32,11 @@ function ProfileButton({ user }) {
     dispatch(sessionActions.logout());
   };
 
+  const yourGroups = (e) => {
+    e.preventDefault();
+
+  }
+
   return (
     <>
     <div className="user-container-everything">
@@ -46,6 +52,11 @@ function ProfileButton({ user }) {
       {showMenu && (
         <ul className="profile-dropdown">
           <li className="username-dropdown">{` ${user.firstName} ${user.lastName}`}</li>
+          <li>
+            <NavLink key={user.id} to={`/mygroups`}>
+              <button className="user-mygroups">My Groups</button>
+            </NavLink>
+          </li>
           <li>
             <button className="user-log-out" onClick={logout}>Log Out</button>
           </li>

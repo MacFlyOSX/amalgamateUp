@@ -1,0 +1,87 @@
+/* Welcome, user.firstName */
+.hello {
+    margin: 0 0;
+    padding-bottom: 20px;
+}
+/* Container holding top portion with welcome and your stuff */
+.user-groups {
+    padding-bottom: 10px;
+}
+
+.title-flex-ge {
+    display: flex;
+    justify-content: space-between;
+}
+
+.user-groupsevents-title {
+    margin: 0 0;
+}
+
+.top-buffer-mygroups {
+    height: 110px;
+    width: 69%;
+    top: 0;
+    position: fixed;
+    background-color: white;
+    contain: content;
+}
+
+/* Container holding the groups section */
+.mystuff-usergroups {
+    margin-top: 105px;
+    box-sizing: border-box;
+    overflow: auto;
+}
+
+/* Flex container for groups and events */
+.user-container-mystuff {
+    display: grid;
+    grid-template-columns: 4fr 1fr 4fr;
+}
+
+.user-thumbnail {
+    /* height: 110px; */
+    width: 90%;
+    object-fit: cover;
+    border-radius: 8px;
+    margin: 0 10px;
+}
+
+.users-group-fun-town:hover,
+.users-group-container:hover {
+    background-color: #f6f7f8;
+}
+
+.users-group-fun-town {
+    padding-top: 20px;
+}
+
+.users-group-container {
+    border-top: 1px solid #757575;
+    padding-top: 20px;
+}
+
+.group-preview-box {
+
+}
+
+.users-group-stats {
+    color: #757575;
+    font-size: 14px;
+    margin: 0 0;
+}
+
+.users-group-location {
+    margin: 0 0;
+    font-size: 14px;
+    font-weight: 500;
+    color: #877457;
+    text-transform: uppercase;
+}
+
+.users-members-area {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+}

@@ -123,6 +123,18 @@
     color: #008294;
 }
 
+.user-mygroups {
+    background-color: transparent;
+    border: none;
+    font-size: 14px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.user-mygroups:hover {
+    color: #008294;
+}
+
 .user-chevron-container {
     display: flex;
     justify-content: center;

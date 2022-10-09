@@ -5,6 +5,7 @@ const LOAD = 'events/LOAD';
 const ADD = 'events/ADD';
 const DELETE = 'events/DELETE';
 const GET_ONE = 'events/GET_ONE';
+const UPDATE = 'events/UPDATE'
 
 const load = list => ({
     type: LOAD,
@@ -25,6 +26,11 @@ const getOne = event => ({
     type: GET_ONE,
     event
 });
+
+const update = event => ({
+    type: UPDATE,
+    event
+})
 
 export const getEvents = () => async dispatch => {
     const response = await fetch('/api/events');
@@ -111,6 +117,24 @@ export const createEvent = (event, groupId, previewImage, userId) => async dispa
     }
 };
 
+export const updateEvent = event => async dispatch => {
+    const response = await csrfFetch(`/api/events/${event.id}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(event)
+    });
+
+    if (response.ok) {
+        const updatedEvent = await response.json();
+
+        dispatch(update(updatedEvent));
+
+        return updatedEvent;
+    }
+}
+
 const initialState = { allEvents: {}, singleEvent: {} };
 
 const eventReducer = (state = initialState, action) => {
@@ -132,10 +156,16 @@ const eventReducer = (state = initialState, action) => {
                 newState.allEvents[action.event.id] = action.event;
                 return newState;
             }
+            case UPDATE: {
+                const newState = {...state, allEvents:{...state.allEvents}, singleEvent: {...state.singleEvent}};
+                newState.singleEvent = {...action.event};
+                newState.allEvents[action.event.id] = action.event;
+                return newState;
+            }
             case DELETE:{
                 const newState = {...state, singleEvent: {}};
                 delete newState.allEvents[action.eventId];
-                return newState;
+                return {allEvents: {...newState.allEvents}, singleEvent:{}}
             }
             default:
             return state;

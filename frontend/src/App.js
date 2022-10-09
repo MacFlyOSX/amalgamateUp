@@ -15,6 +15,7 @@ import EditGroup from "./components/EditGroup";
 import CreateGroup from "./components/CreateGroup";
 import CreateEvent from "./components/CreateEvent";
 import MustLoginPage from "./components/MustLogIn";
+import UsersGroups from "./components/MyStuff";
 
 function App() {
   const dispatch = useDispatch();
@@ -32,6 +33,9 @@ function App() {
           <Route exact path='/'>
             <Background />
             <RootPage isLoaded={isLoaded} />
+          </Route>
+          <Route path='/mygroups'>
+            <UsersGroups />
           </Route>
           <Route path='/groups/new'>
             <CreateGroup />
