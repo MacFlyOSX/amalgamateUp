@@ -67,6 +67,8 @@
     padding: 0 0;
     box-sizing: border-box;
     text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .users-more-info-button {
@@ -155,6 +157,14 @@
 
 .user-name-title-grid {
     width: 94%;
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0 0;
+    padding: 0 0;
+    box-sizing: border-box;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .user-event-title-grid {
@@ -215,4 +225,16 @@
 .more-info-org-icon {
     display: flex;
     align-items: center;
+}
+
+.nothing-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.no-group-here {
+    font-size: 16px;
+    font-weight: 500;
 }

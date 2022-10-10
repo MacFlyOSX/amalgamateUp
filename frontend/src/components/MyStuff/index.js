@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { NavLink, useHistory } from "react-router-dom";
 import { getUsersGroups } from "../../store/groups";
 import { getUsersEvents } from "../../store/events";
-import { getMembers } from "../../store/members";
+import { getAllMembers } from "../../store/members";
 import MembershipModal from "../MembershipModal";
 import './MyStuff.css';
 import userorganizer from '../../icons/userorganizer.svg';
@@ -20,15 +20,14 @@ const UsersGroups = () => {
     const userEvents = useSelector(state => state.events.usersEvents);
     const events = Object.values(userEvents);
     const user = useSelector(state => state.session.user)
-    const pendingObj = useSelector(state => state.memberships.pending);
-    const pending = Object.values(pendingObj);
+    const pending = useSelector(state => state.memberships.allMembers.pending);
 
 
     useEffect(() => {
         dispatch(getUsersGroups());
         dispatch(getUsersEvents());
-        dispatch(getMembers());
-    }, [dispatch, userGroups]);
+        dispatch(getAllMembers());
+    }, [dispatch]);
 
     if (!groups) return null;
 
@@ -56,12 +55,14 @@ const UsersGroups = () => {
                                 </div>
                                 <div className='group-preview-info'>
                                     <div className="user-name-title-grid">
-                                        <p className='users-group-name'>{group.name}</p>
+                                        {/* <p className='users-group-name'> */}
+                                        {group.name}
+                                        {/* </p> */}
                                     </div>
                                     <div className="users-members-area">
                                         <p className='users-group-stats'>{`${!!group.numMembers ? group.numMembers : 0} ${group.numMembers > 1 || !group.numMembers ? 'members' : 'member'} `}</p>
-                                        {pending.length ?
-                                            <MembershipModal />
+                                        {pending?.[group.id]?.length ?
+                                            <MembershipModal groupId={group.id} />
                                             : null}
                                     </div>
                                     <div className='more-info-org-icon'>

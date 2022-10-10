@@ -11,6 +11,7 @@ import configureStore from "./store";
 import { restoreCSRF, csrfFetch } from "./store/csrf";
 import * as sessionActions from "./store/session";
 import { SignupModalProvider } from "./context/SignupModal";
+import { MemberModalProvider } from "./context/MemberModal";
 
 const store = configureStore();
 
@@ -27,9 +28,11 @@ function Root() {
     <Provider store={store}>
     <SignupModalProvider>
       <ModalProvider>
+      <MemberModalProvider>
         <BrowserRouter>
           <App />
         </BrowserRouter>
+        </MemberModalProvider>
       </ModalProvider>
     </SignupModalProvider>
     </Provider>

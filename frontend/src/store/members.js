@@ -28,9 +28,9 @@ const deleteMember = memberId => ({
     memberId
 });
 
-const updateMember = memberId => ({
+const updateMember = member => ({
     type: UPDATE,
-    memberId
+    member
 });
 
 export const getAllMembers = () => async dispatch => {
@@ -40,6 +40,7 @@ export const getAllMembers = () => async dispatch => {
         const list = await response.json();
         const { members, pending } = list;
         dispatch(load(members, pending));
+        return list;
     }
 }
 
@@ -52,12 +53,13 @@ export const getMembers = groupId => async dispatch => {
         let pending = [];
         list.Members.forEach(ele => ele.Membership.status === "pending" ? pending.push(ele) : members.push(ele));
         dispatch(loadOne(members, pending));
+        return list;
     }
 };
 
 export const addMembership = (membership) => async dispatch => {
     const { groupId } = membership;
-    const response = await fetch(`/api/groups/${groupId}/membership`, {
+    const response = await csrfFetch(`/api/groups/${groupId}/membership`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -68,11 +70,12 @@ export const addMembership = (membership) => async dispatch => {
     if (response.ok) {
         const newMember = await response.json();
         dispatch(addMember(newMember));
+        return newMember;
     }
 };
 
 export const deleteMembership = (groupId, memberId) => async dispatch => {
-    const response = await fetch(`/api/groups/${groupId}/membership`, {
+    const response = await csrfFetch(`/api/groups/${groupId}/membership`, {
         method: 'DELETE'
     });
 
@@ -80,11 +83,12 @@ export const deleteMembership = (groupId, memberId) => async dispatch => {
         const cool = await response.json();
 
         dispatch(deleteMember(memberId))
+        return cool;
     }
 };
 
 export const updateMembership = (groupId, memberId) => async dispatch => {
-    const response = await fetch(`/api/groups/${groupId}/membership`, {
+    const response = await csrfFetch(`/api/groups/${groupId}/membership`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
@@ -98,16 +102,17 @@ export const updateMembership = (groupId, memberId) => async dispatch => {
     if (response.ok) {
         const updatedMember = await response.json();
         dispatch(updateMember(updatedMember));
+        return updateMember;
     }
 };
 
-const initialState = { allMembers: {}, members: {}, pending: {} };
+const initialState = { allMembers: { members: {}, pending: {} }, members: {}, pending: {} };
 
 const memberReducer = (state = initialState, action) => {
     switch(action.type) {
         case LOAD: {
             const allMembers = {members: {...action.members}, pending: {...action.pending}};
-            return { allMembers, members: {}, pending: {}}
+            return { allMembers, members: {...state.members}, pending: {...state.pending}}
         }
         case LOAD_ONE: {
             const newState = {...state, allMembers: {...state.allMembers}, members: {...state.members}, pending: {...state.pending}};
@@ -131,11 +136,10 @@ const memberReducer = (state = initialState, action) => {
         }
         case UPDATE: {
             const newState = {...state, allMembers: {...state.allMembers}, members: {...state.members}, pending: {...state.pending}};
-            const member = newState.pending[action.memberId];
-            delete newState.pending[action.memberId];
-            member.status = 'member';
-            newState.allMembers[member.id] = member;
-            newState.members[member.id] = member;
+            // const member = newState.pending[action.memberId];
+            // delete newState.pending[action.memberId];
+            // member.status = 'member';
+            newState.allMembers[action.member.groupId][action.member.memberId] = action.member;
             return { allMembers: {...newState.allMembers}, members: {...newState.members}, pending: {...newState.pending} };
         }
         default:

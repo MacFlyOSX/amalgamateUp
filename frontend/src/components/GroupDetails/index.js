@@ -9,6 +9,8 @@ import './GroupDetails.css';
 import { deleteOneGroup } from '../../store/groups';
 import { NavLink } from 'react-router-dom';
 import noevents from '../../icons/noevents.svg';
+import { addMembership, getAllMembers, getMembers } from '../../store/members';
+import userImage from '../../icons/userImage.svg';
 
 
 const GroupDetails = () => {
@@ -16,10 +18,19 @@ const GroupDetails = () => {
     const sessionUser = useSelector(state => state.session.user);
     const { groupId } = useParams();
     const dispatch = useDispatch();
+    const memberList = useSelector(state => state.memberships.members);
     // console.log('this is the sessionUser', sessionUser);
     // const [popup, setPopup] = useState(false);
     // console.log('this is the groupId', groupId)
-
+    const realMembers = Object.values(memberList);
+    const pendingList = useSelector(state => state.memberships.allMembers.pending);
+    let pending = [];
+    let isPending = [];
+    if (pendingList[groupId]) {
+        pending = Object.values(pendingList?.[groupId]);
+        isPending = pending.filter(ele => ele.userId === sessionUser.id);
+    }
+    const isMember = realMembers.filter(ele => ele.userId === sessionUser.id);
     const group = useSelector(state => state.groups.singleGroup);
     // console.log('this is the group', group);
 
@@ -27,6 +38,17 @@ const GroupDetails = () => {
         const res = dispatch(deleteOneGroup(groupId));
         // console.log(res);
         history.push('/groups');
+    }
+
+    const joinGroup = async () => {
+        const result = await dispatch(addMembership({
+            groupId,
+            memberId: sessionUser.id,
+            status: 'pending'
+        }));
+        if(result) {
+            history.push(`/groups/${groupId}`);
+        }
     }
 
     let sessionLinks;
@@ -50,13 +72,21 @@ const GroupDetails = () => {
                 </NavLink>
             );
         }
-    //     else {
-    //         sessionLinks = (
-    //             <button className='group-deets-button'>
-    //                     Join this group
-    //             </button>
-    //         )
-    //     }
+        else {
+            if (isPending.length) {
+                sessionLinks = (
+                    <button className='greyed-out-button'>
+                        <em>Membership pending...</em>
+                    </button>
+                )
+            } else if (!isMember.length) {
+                sessionLinks = (
+                    <button onClick={joinGroup} className='group-deets-button'>
+                            Join this group
+                    </button>
+                )
+            }
+        }
     // } else {
     //         sessionLinks = null;
                 // <>
@@ -68,7 +98,9 @@ const GroupDetails = () => {
     }
 
     useEffect(() => {
+        dispatch(getAllMembers());
         dispatch(getOneGroup(groupId));
+        dispatch(getMembers(groupId));
     }, [dispatch, groupId]);
 
     return (
@@ -113,12 +145,30 @@ const GroupDetails = () => {
             </div>
             <div className='group-details-bottom'>
                 <div className='group-deets-about'>
-                    <h2 className='group-deets-title'>
-                        What we're about
-                    </h2>
-                    <p className='group-deets-p'>
-                        {group?.about}
-                    </p>
+                    <div className='container-for-about'>
+                        <h2 className='group-deets-title'>
+                            What we're about
+                        </h2>
+                        <p className='group-deets-p'>
+                            {group?.about}
+                        </p>
+                    </div>
+                    <div className='container-for-members'>
+                        <h2 className='group-deets-title'>
+                            Members
+                        </h2>
+                        <div className='group-deets-member-grid'>
+                            {realMembers.map((member, i) => {
+                                return (
+                                    <div key={i} className='indiv-member'>
+                                        <img className='user-image-icon' src={userImage} alt='user' />
+                                        <span className='user-name'>{member.firstName}</span>
+                                        <span className='user-name'>{member.lastName}</span>
+                                    </div>
+                                )
+                            })}
+                        </div>
+                    </div>
                 </div>
                 <div className='group-deets-events'>
                     <h2 className='group-deets-title group-events-stuffs'>

@@ -83,6 +83,20 @@
     margin-right: 10px;
 }
 
+.greyed-out-button {
+    margin-top: 20px;
+    color: black;
+    background-color: #c5c5c5;
+    border: none;
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: not-allowed;
+    margin-right: 10px;
+}
+
 .group-deets-div {
     margin-top: 124px;
     width: 120px;
@@ -155,8 +169,14 @@
     overflow-wrap: break-word;
 }
 
+.user-image-icon {
+    width: 50px;
+}
+
 .group-deets-about {
     margin: 0 20px;
+    display: flex;
+    flex-direction: column;
 }
 
 .group-deets-events {
@@ -170,7 +190,18 @@
     padding: 0 0;
 }
 
+.group-deets-member-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+}
 
+.indiv-member {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+}
 
 
 .mini-event-date {

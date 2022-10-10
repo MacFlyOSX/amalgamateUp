@@ -1,62 +1,47 @@
 // frontend/src/components/LoginFormModal/LoginForm.js
-import React, { useState } from "react";
-import * as sessionActions from "../../store/session";
+import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import logoSplash from '../../icons/logoSplash.svg';
+import { deleteMembership, getAllMembers, updateMembership } from "../../store/members";
 
-function LoginForm({onClick}) {
+function EditMembers({groupId}) {
   const dispatch = useDispatch();
-  const [credential, setCredential] = useState("");
-  const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState([]);
+  const pending = useSelector(state => state.memberships.allMembers.pending);
+  const people = pending[groupId];
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setErrors([]);
-    return dispatch(sessionActions.login({ credential, password })).catch(
-      async (res) => {
-        const data = await res.json();
-        if (data && data.message) setErrors(data.message);
-      }
-    );
+
+    useEffect(() => {
+        dispatch(getAllMembers());
+    }, [dispatch]);
+
+  const approveMember = async (memberId) => {
+    const result = await dispatch(updateMembership(groupId, memberId));
+    if (result) {
+      dispatch(getAllMembers());
+    }
+  };
+  const denyMember = async (memberId) => {
+    const result = await dispatch(deleteMembership(groupId, memberId));
+    if (result) {
+      dispatch(getAllMembers());
+    }
   };
 
   return (
-    <div className="form-all">
-    <form onSubmit={handleSubmit}>
-    <div className="form-top">
-      <div className='form-logo'><img src={logoSplash} style={{ height: 50 }} alt='logo'></img></div>
-      <div className="form-title">Log in</div>
-      <div className="form-top-member">Not a member yet? Sign up</div>
-    </div>
-    <div className="form-stuff"><br />
-      <ul className={errors.length ? "login-error-stuff" : 'no-errors'}>
-        {errors}
-      </ul>
-      <label>
-        <p>Email</p>
-        <input
-          type="text"
-          value={credential}
-          onChange={(e) => setCredential(e.target.value)}
-          required
-        />
-      </label>
-      <label>
-        <p>Password</p>
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-      </label>
-      <p></p>
-      <button type="submit" className="submit-button">Log in</button>
-      </div>
-    </form>
+    <div className="request-container">
+        {people.map((person, i) => {
+          return (
+            <div key={i} className="each-member">
+              <span className="member-name">{person.name}</span>
+              <span className="member-buttons">
+                <button onClick={() => approveMember(person.userId)} className="member-func-button">Approve</button>
+                <button onClick={() => denyMember(person.userId)} className="member-func-button">Deny</button>
+              </span>
+            </div>
+          )
+        })}
     </div>
   );
 }
 
-export default LoginForm;
+export default EditMembers;

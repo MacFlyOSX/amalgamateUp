@@ -402,11 +402,12 @@ Delete Membership to a Group by their ID
 */
 router.delete('/:groupId/membership', requireAuth, async(req, res) => {
 
-    const {user} = req;
-    // const { memberId } = req.body;
+    const { user } = req;
+    const { memberId } = req.body;
+    const { groupId } = req.params;
 
     const group = await Group.findByPk(req.params.groupId, {raw: true});
-    // const { organizerId } = group;
+    const { organizerId } = group;
     if (!group) {
 
         res.status(404);
@@ -416,21 +417,21 @@ router.delete('/:groupId/membership', requireAuth, async(req, res) => {
           });
     }
 
-    // const findUser = await User.findByPk(memberId);
-    // if (!findUser) {
+    const findUser = await User.findByPk(memberId);
+    if (!findUser) {
 
-    //     res.status(400);
-    //     res.json({
-    //         "message": "Validation Error",
-    //         "statusCode": 400,
-    //         "errors": {
-    //           "memberId": "User couldn't be found"
-    //         }
-    //       });
-    // }
+        res.status(400);
+        res.json({
+            "message": "Validation Error",
+            "statusCode": 400,
+            "errors": {
+              "memberId": "User couldn't be found"
+            }
+          });
+    }
 
     const membership = await Membership.findOne({raw: true,
-        where: { [Op.and]: [ { userId: user.id }, { groupId: req.params.groupId } ]} });
+        where: { [Op.and]: [ { userId: memberId }, { groupId: req.params.groupId } ]} });
     if (!membership) {
 
         res.status(404);
@@ -440,19 +441,19 @@ router.delete('/:groupId/membership', requireAuth, async(req, res) => {
           });
     }
 
-    // const { status } = membership;
+    const { status } = membership;
 
-    // if ((memberId === user.id || organizerId === user.id) && status !== 'organizer') {
+    if ((memberId === user.id || organizerId === user.id) && status !== 'organizer') {
 
-    //     const membershipToDelete = await Membership.findOne({
-    //         where: {
-    //             [Op.and]: [
-    //                 { userId: memberId },
-    //                 { groupId: groupId }
-    //             ]
-    //         }
-    //     });
-    const membershipToDelete = await Membership.findOne({where: { [Op.and]: [ { userId: user.id }, { groupId: req.params.groupId } ]} });
+        const membershipToDelete = await Membership.findOne({
+            where: {
+                [Op.and]: [
+                    { userId: memberId },
+                    { groupId: groupId }
+                ]
+            }
+        });
+    // const membershipToDelete = await Membership.findOne({where: { [Op.and]: [ { userId: user.id }, { groupId: req.params.groupId } ]} });
         // membershipToDelete.destroy();
     membershipToDelete.destroy();
 
@@ -460,14 +461,14 @@ router.delete('/:groupId/membership', requireAuth, async(req, res) => {
             "message": "Successfully deleted membership from group"
           });
 
-    // } else {
+    } else {
 
-    //     res.status(403);
-    //     res.json({
-    //         "message": "Forbidden",
-    //         "statusCode": 403
-    //       });
-    // }
+        res.status(403);
+        res.json({
+            "message": "Forbidden",
+            "statusCode": 403
+          });
+    }
 
 });
 
