@@ -378,3 +378,22 @@
     margin-left: 340px;
     font-weight: 400;
 }
+
+.name-tens-gap {
+    margin-left: 330px;
+    font-weight: 400;
+}
+
+.name-ones-gap {
+    margin-left: 340px;
+    font-weight: 400;
+}
+
+.name-one-gap {
+    margin-left: 350px;
+    font-weight: 400;
+}
+
+.zero {
+    color: red;
+}

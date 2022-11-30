@@ -135,41 +135,44 @@ const initialState = { allEvents: {}, singleEvent: {}, usersEvents: {} };
 
 const eventReducer = (state = initialState, action) => {
     switch(action.type) {
-        case LOAD:
+        case LOAD:{
+            const newState = {...state, singleEvent: {...state.singleEvent}, allEvents: {...state.allEvents}, usersEvents: {...state.usersEvents} };
             const allEvents = {};
             action.list.Events.forEach(event => {
                 allEvents[event.id] = event;
             });
-            return { allEvents: {...allEvents}, singleEvent: {}, usersEvents: {} };
-            case GET_ONE: {
-                const newState = {...state, singleEvent: {...state.singleEvent}, allEvents: {...state.allEvents}, usersEvents: {...state.usersEvents} };
-                newState.singleEvent = action.event;
-                return newState;
-            }
-            case ADD:{
-                const newState = {...state, singleEvent: {...state.singleEvent}, allEvents: {...state.allEvents}, usersEvents: {...state.usersEvents} };
-                newState.singleEvent = action.event;
-                newState.allEvents[action.event.id] = action.event;
-                return newState;
-            }
-            case UPDATE: {
-                const newState = {...state, allEvents:{...state.allEvents}, singleEvent: {...state.singleEvent}, usersEvents: {...state.usersEvents} };
-                newState.singleEvent = {...action.event};
-                newState.allEvents[action.event.id] = action.event;
-                return newState;
-            }
-            case DELETE:{
-                const newState = {...state, allEvents:{...state.allEvents}, singleEvent: {...state.singleEvent}, usersEvents: {...state.usersEvents} };
-                delete newState.allEvents[action.eventId];
-                return {allEvents: {...newState.allEvents}, singleEvent:{}, usersEvents: {} }
-            }
-            case GET_USERS: {
-                const newState = {...state, allEvents: { ...state.allEvents }, singleEvent: {...state.singleEvent}, usersEvents: {...state.usersEvents} };
-                newState.usersEvents = {...action.list};
-                return newState;
-            }
-            default:
-            return state;
+            newState.allEvents = allEvents;
+            return newState;
+        }
+        case GET_ONE: {
+            const newState = {...state, singleEvent: {...state.singleEvent}, allEvents: {...state.allEvents}, usersEvents: {...state.usersEvents} };
+            newState.singleEvent = action.event;
+            return newState;
+        }
+        case ADD:{
+            const newState = {...state, singleEvent: {...state.singleEvent}, allEvents: {...state.allEvents}, usersEvents: {...state.usersEvents} };
+            newState.singleEvent = action.event;
+            newState.allEvents[action.event.id] = action.event;
+            return newState;
+        }
+        case UPDATE: {
+            const newState = {...state, allEvents:{...state.allEvents}, singleEvent: {...state.singleEvent}, usersEvents: {...state.usersEvents} };
+            newState.singleEvent = {...action.event};
+            newState.allEvents[action.event.id] = action.event;
+            return newState;
+        }
+        case DELETE:{
+            const newState = {...state, allEvents:{...state.allEvents}, singleEvent: {...state.singleEvent}, usersEvents: {...state.usersEvents} };
+            delete newState.allEvents[action.eventId];
+            return {allEvents: {...newState.allEvents}, singleEvent:{}, usersEvents: {} }
+        }
+        case GET_USERS: {
+            const newState = {...state, allEvents: { ...state.allEvents }, singleEvent: {...state.singleEvent}, usersEvents: {...state.usersEvents} };
+            newState.usersEvents = {...action.list};
+            return newState;
+        }
+        default:
+        return state;
     }
 };
 

@@ -137,7 +137,7 @@ module.exports = {
         name: 'Food and Fun with Eagle Riders MCLV',
         description: 'We are a Las Vegas based, family-oriented motorcycle club. We are a group of motorcycle enthusiasts who enjoy frequent group rides, fun activities, community and charity support, and camaraderie among friends and family within our club. Our motorcycle club is open to male and female riders, riders of every ethnicity, riders of all brands and styles of motorcycles, and people from many different walks of life of all age groups. We are a prospecting club and we take great pride in how we organize and maintain a high level of safety standards for our members and guests of our rides. We average over 100 rides per year, both short and full-day rides as well as many overnight rides to further destinations and, of course, we always plan rides to some of the major motorcycle rallies like Sturgis, Reno Street Vibrations, and more. We always welcome guests to tag along for many of our rides so for more information on how to join us on future rides and activities through southern Nevada and the surrounding areas, or for membership rules to join our club, please visit our website at www.eagleridersmclv.com.',
         type: 'In person',
-        capacity: 20,
+        capacity: 40,
         price: 50,
         startDate: '2023-10-22 15:00:00',
         endDate: '2023-10-22 19:00:00'

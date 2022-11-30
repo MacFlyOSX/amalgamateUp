@@ -10,7 +10,8 @@ import { deleteOneEvent } from '../../store/events';
 import { NavLink } from 'react-router-dom';
 import dollar from '../../icons/dollar.svg';
 import people from '../../icons/people.svg';
-
+import { addAttendance, getAttendees } from '../../store/attendees';
+import userImage2 from '../../icons/userImage2.svg';
 
 const EventDetails = () => {
     const history = useHistory();
@@ -18,7 +19,18 @@ const EventDetails = () => {
     const { eventId } = useParams();
     const dispatch = useDispatch();
     const location = useLocation();
+    const attendeeList = useSelector(state => state.attendance.single.attendees);
+    const realAttendees = Object.values(attendeeList);
+    const pendingList = useSelector(state => state.attendance.single.pending);
+    const isPending = pendingList.userId;
     // console.log('this is the location eventDetails', location)
+    // let pending = [];
+    // let isPending = [];
+    // if (pendingList[eventId]) {
+    //     pending = Object.values(pendingList?.[eventId]);
+    //     isPending = pending.filter(ele => ele.userId === sessionUser.id);
+    // }
+    const isAttendee = sessionUser ? realAttendees.filter(ele => ele.userId === sessionUser.id).length : null;
 
     const event = useSelector(state => state.events.singleEvent);
     // console.log('this is the event', event);
@@ -29,9 +41,19 @@ const EventDetails = () => {
         history.push('/events');
     }
 
+    const attendEvent = async () => {
+        const result = await dispatch(addAttendance({
+            eventId,
+            userId: sessionUser.id,
+            status: 'pending'
+        }));
+        if(result) {
+            history.push(`/events/${eventId}`);
+        }
+    }
+
     let sessionLinks;
     if(sessionUser) {
-        // setPopup(false);
         if(sessionUser.id === event?.hostId) {
             sessionLinks = (
                 <>
@@ -40,11 +62,37 @@ const EventDetails = () => {
                 </button>
                 </>
             )
+        } else {
+            if (isPending) {
+                sessionLinks = (
+                    <button className='greyed-out-button'>
+                        <em>Attendance pending...</em>
+                    </button>
+                )
+            }
+            else if (+event?.capacity === +event?.numAttending) {
+                sessionLinks = (
+                    <>
+                    <button className='greyed-out-button'>
+                            <em>Capacity reached</em>
+                    </button>
+                    </>
+                )
+            }
+            // else if (!isAttendee) {
+            //     sessionLinks = (
+            //         <button onClick={() => attendEvent()} className='group-deets-button'>
+            //                 Attend this event
+            //         </button>
+            //     )
+            // }
         }
     }
 
     useEffect(() => {
         dispatch(getOneEvent(eventId));
+        dispatch(getAttendees(eventId));
+
     }, [dispatch, eventId]);
 
     return (
@@ -139,7 +187,23 @@ const EventDetails = () => {
                     <p className='event-deets-p'>
                         {event?.description}
                     </p>
-                </div>
+                </div><span></span>
+                <div className='container-for-attendees'>
+                        <h2 className='group-deets-title'>
+                            Attendees
+                        </h2>
+                        <div className='event-deets-attendee-grid'>
+                            {realAttendees.map((attendee, i) => {
+                                return (
+                                    <div key={i} className='indiv-member'>
+                                        <img className='user-image-icon' src={userImage2} alt='user' />
+                                        <span className='user-name'>{attendee.firstName}</span>
+                                        <span className='user-name'>{attendee.lastName}</span>
+                                    </div>
+                                )
+                            })}
+                        </div>
+                    </div>
             </div>
         </div>
         {/* </div> */}

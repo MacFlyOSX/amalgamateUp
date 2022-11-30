@@ -137,7 +137,8 @@
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
     padding-bottom: 60px;
-    width: 528px;
+    display: grid;
+    grid-template-columns: 528px 85px 1fr;
 }
 
 .event-deets-title {
@@ -312,4 +313,9 @@
 
 .event-place-addy {
     margin: 0 0;
+}
+
+.event-deets-attendee-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
 }

@@ -23,14 +23,8 @@ const GroupDetails = () => {
     // const [popup, setPopup] = useState(false);
     // console.log('this is the groupId', groupId)
     const realMembers = Object.values(memberList);
-    const pendingList = useSelector(state => state.memberships.allMembers.pending);
-    let pending = [];
-    let isPending = [];
-    if (pendingList[groupId]) {
-        pending = Object.values(pendingList?.[groupId]);
-        isPending = pending.filter(ele => ele.userId === sessionUser.id);
-    }
-    const isMember = realMembers.filter(ele => ele.userId === sessionUser.id);
+    const pendingList = useSelector(state => state.memberships.allMembers.pending?.[groupId]);
+    const isMember = sessionUser ? realMembers.filter(ele => ele.id === sessionUser.id).length : null;
     const group = useSelector(state => state.groups.singleGroup);
     // console.log('this is the group', group);
 
@@ -47,6 +41,7 @@ const GroupDetails = () => {
             status: 'pending'
         }));
         if(result) {
+            dispatch(getAllMembers());
             history.push(`/groups/${groupId}`);
         }
     }
@@ -73,13 +68,13 @@ const GroupDetails = () => {
             );
         }
         else {
-            if (isPending.length) {
+            if (pendingList && pendingList.filter(ele => ele.userId === sessionUser.id).length) {
                 sessionLinks = (
                     <button className='greyed-out-button'>
                         <em>Membership pending...</em>
                     </button>
                 )
-            } else if (!isMember.length) {
+            } else if (!isMember) {
                 sessionLinks = (
                     <button onClick={joinGroup} className='group-deets-button'>
                             Join this group

@@ -1,9 +1,9 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { NavLink, useHistory } from "react-router-dom";
 import { getUsersGroups } from "../../store/groups";
 import { getUsersEvents } from "../../store/events";
-import { getAllMembers } from "../../store/members";
+import { deleteMembership, getAllMembers } from "../../store/members";
 import MembershipModal from "../MembershipModal";
 import './MyStuff.css';
 import userorganizer from '../../icons/userorganizer.svg';
@@ -13,6 +13,8 @@ import startAgroup from '../../icons/startAgroup.svg';
 const UsersGroups = () => {
     const dispatch = useDispatch();
     const history = useHistory();
+    const [ deleteMem, setDeleteMem ] = useState(false);
+    const [ memArr, setMemArr ] = useState([]);
     const sessionUser = useSelector(state => state.session.user)
     const userGroups = useSelector(state => state.groups.usersGroups);
     const groups = Object.values(userGroups);
@@ -27,7 +29,20 @@ const UsersGroups = () => {
         dispatch(getUsersGroups());
         dispatch(getUsersEvents());
         dispatch(getAllMembers());
-    }, [dispatch]);
+        setDeleteMem(false);
+    }, [dispatch, deleteMem]);
+
+    async function delMem(groupId) {
+        if (memArr.includes(groupId)) {
+            const result = await dispatch(deleteMembership(groupId, user.id));
+            setDeleteMem(true);
+            setMemArr([]);
+        } else {
+            let temp = [...memArr];
+            temp.push(groupId);
+            setMemArr(temp);
+        }
+    }
 
     if (!groups) return null;
 
@@ -46,7 +61,7 @@ const UsersGroups = () => {
         <div className="user-container-mystuff">
             <div className='mystuff-usergroups'>
                 <nav>
-                    {groups.length ? groups.map((group, i) => {
+                    {groups?.length ? groups.map((group, i) => {
                         return (
                             <div key={i} className={i === 0 ? 'users-group-fun-town' : 'users-group-container'}>
                             <div className='group-preview-box'>
@@ -61,9 +76,9 @@ const UsersGroups = () => {
                                     </div>
                                     <div className="users-members-area">
                                         <p className='users-group-stats'>{`${!!group.numMembers ? group.numMembers : 0} ${group.numMembers > 1 || !group.numMembers ? 'members' : 'member'} `}</p>
-                                        {pending?.[group.id]?.length ?
-                                            <MembershipModal groupId={group.id} />
-                                            : null}
+                                        {sessionUser.id === group?.organizerId && pending?.[group.id]?.length ?
+                                            <MembershipModal groupId={group.id} /> :
+                                             null}
                                     </div>
                                     <div className='more-info-org-icon'>
                                         <button className='users-group-deets-button'>
@@ -72,6 +87,8 @@ const UsersGroups = () => {
                                             </NavLink>
                                         </button>
                                         {sessionUser.id === group?.organizerId ? <div className="tooltip"><img className="organizer-icon tooltip" src={userorganizer} alt='user' /><span className="tooltiptext tooltip-top">You are the{'\n'}organizer</span></div> : <span />}
+                                        {sessionUser.id !== group?.organizerId ?
+                                                <button onClick={() => delMem(group.id)} className='users-group-deets-button' id='leave-group'>{ memArr.includes(group.id) ? 'Confirm' : 'Leave Group' }</button> : null}
                                     </div>
                                 </div>
                             </div>
@@ -83,7 +100,7 @@ const UsersGroups = () => {
             <div className="users-gap"></div>
             <div className="mystuff-events">
             <nav>
-                    {events.length ? events.map((event, i) => {
+                    {events?.length ? events.map((event, i) => {
                         return (
                             <div key={i} className={i === 0 ? 'users-group-fun-town' : 'users-group-container'}>
                             <div className='group-preview-box'>

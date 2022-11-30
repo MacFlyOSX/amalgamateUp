@@ -32,6 +32,10 @@ const CreateEvent = () => {
     useEffect(() => {
       setCharLimit(600-description.length);
     }, [description]);
+    const [ nameLimit, setNameLimit ] = useState(50);
+    useEffect(() => {
+      setNameLimit(50-name.length);
+    }, [name]);
   // function isImage(url) {
   //   return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url);
   // }
@@ -202,10 +206,10 @@ const CreateEvent = () => {
                     {errors.map((error, idx) => <li key={idx}>{error}</li>)}
                   </ul> */}
                   <label className="create-event-labels">
-                    Title<br />
+                    Title<span className={nameLimit > 99 ? "title-gap" : nameLimit > 9 ? 'title-tens-gap' : nameLimit === 1 ? 'title-one-gap' : nameLimit === 0 ? 'title-ones-gap zero' : 'title-ones-gap'}>{nameLimit} {nameLimit === 1 ? 'character' : 'characters'} left</span>
                     <input
                       className="create-form-text-input create-input"
-                      maxLength={80}
+                      maxLength='50'
                       type="text"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
@@ -266,7 +270,7 @@ const CreateEvent = () => {
                     />
                   </label><br />
                   <label className="create-event-labels">
-                    Description<span className={charLimit > 99 ? "description-gap" : charLimit > 9 ? 'description-tens-gap' : charLimit === 1 ? 'description-one-gap' : 'description-ones-gap'}>{charLimit} {charLimit === 1 ? 'character' : 'characters'} left</span><br />
+                    Description<span className={charLimit > 99 ? "description-gap" : charLimit > 9 ? 'description-tens-gap' : charLimit === 1 ? 'description-one-gap' : charLimit === 0 ? 'description-ones-gap zero' : 'description-ones-gap'}>{charLimit} {charLimit === 1 ? 'character' : 'characters'} left</span><br />
                     <textarea
                       className="create-form-description-input create-input"
                       maxLength='600'

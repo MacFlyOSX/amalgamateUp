@@ -10,6 +10,29 @@ const router = express.Router();
 // ********************* GET REQUESTS *************************
 
 /*
+Get all Attendees ✅
+    /api/events/attendees
+*/
+
+router.get('/attendees', async (req, res) => {
+    const attendeeList = await Attendance.findAll({raw:true});
+    const attendees= {};
+    const pending = {};
+    for (const ele of attendeeList) {
+        const user = await User.findByPk(ele.userId, {raw:true});
+        ele.name = `${user.firstName} ${user.lastName}`;
+        if (ele.status === 'pending') {
+            if (pending[ele.eventId]) pending[ele.eventId] = [...pending[ele.eventId], ele]
+            else pending[ele.eventId] = [ele]
+        } else {
+            if (attendees[ele.eventId]) attendees[ele.eventId] = [...attendees[ele.eventId], ele]
+            else attendees[ele.eventId] = [ele]
+        }
+    };
+    res.json({attendees, pending});
+})
+
+/*
 Get all Events joined or organized by the Current User ✅
     /api/events/current
 */
@@ -145,10 +168,10 @@ router.get('/:eventId/attendees', async (req, res) => {
                 },
                 attributes: ['status']
             });
-            if (memStatus.status === 'co-host') {
+            if (memStatus && memStatus.status === 'co-host') {
                 cohost.push(result[i].id)
             }
-            if (attStatus.status !== 'pending') {
+            if (attStatus && attStatus.status !== 'pending') {
                 limited.push(result[i])
             }
         }
@@ -720,7 +743,7 @@ router.post('/:eventId/attendance', requireAuth, async (req, res) => {
             const memStatus = await Membership.findOne({raw: true,
                 where: { userId, groupId }, attributes: ['status'] });
 
-            if (memStatus.status === 'organizer' || memStatus.status === 'co-host') {
+            if (memStatus && (memStatus.status === 'organizer' || memStatus.status === 'co-host')) {
                 const count = await Attendance.max('id');
                 const newAttendee = await Attendance.create({
                     id: count + 1,

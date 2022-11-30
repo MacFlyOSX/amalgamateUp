@@ -3,8 +3,6 @@ import { csrfFetch } from './csrf';
 const LOAD = 'members/LOAD';
 const LOAD_ONE = 'members/LOAD_ONE';
 const ADD = 'members/ADD';
-const DELETE = 'members/DELETE';
-const UPDATE = 'members/UPDATE';
 
 const load = (members, pending) => ({
     type: LOAD,
@@ -20,16 +18,6 @@ const loadOne = (members, pending) => ({
 
 const addMember = member => ({
     type: ADD,
-    member
-});
-
-const deleteMember = memberId => ({
-    type: DELETE,
-    memberId
-});
-
-const updateMember = member => ({
-    type: UPDATE,
     member
 });
 
@@ -75,15 +63,14 @@ export const addMembership = (membership) => async dispatch => {
 };
 
 export const deleteMembership = (groupId, memberId) => async dispatch => {
-    const response = await csrfFetch(`/api/groups/${groupId}/membership`, {
+    console.log('we are in the delete membership');
+    const response = await csrfFetch(`/api/groups/${groupId}/membership/${memberId}`, {
         method: 'DELETE'
     });
 
     if (response.ok) {
         const cool = await response.json();
-
-        dispatch(deleteMember(memberId))
-        return cool;
+        return await getAllMembers();
     }
 };
 
@@ -101,8 +88,7 @@ export const updateMembership = (groupId, memberId) => async dispatch => {
 
     if (response.ok) {
         const updatedMember = await response.json();
-        dispatch(updateMember(updatedMember));
-        return updateMember;
+        return await getAllMembers();
     }
 };
 
@@ -111,11 +97,13 @@ const initialState = { allMembers: { members: {}, pending: {} }, members: {}, pe
 const memberReducer = (state = initialState, action) => {
     switch(action.type) {
         case LOAD: {
+            const newState = {...state, allMembers: {...state.allMembers, members: {...state.allMembers.members}, pending: {...state.allMembers.pending}}, members: {...state.members}, pending: {...state.pending}};
             const allMembers = {members: {...action.members}, pending: {...action.pending}};
-            return { allMembers, members: {...state.members}, pending: {...state.pending}}
+            newState.allMembers = allMembers;
+            return newState;
         }
         case LOAD_ONE: {
-            const newState = {...state, allMembers: {...state.allMembers}, members: {...state.members}, pending: {...state.pending}};
+            const newState = {...state, allMembers: {...state.allMembers, members: {...state.allMembers.members}, pending: {...state.allMembers.pending}}, members: {...state.members}, pending: {...state.pending}};
             const memberList = {};
             const pendingList = {};
             action.pending.forEach(ele => pendingList[ele.id] = ele);
@@ -123,24 +111,15 @@ const memberReducer = (state = initialState, action) => {
             return { allMembers: {...newState.allMembers}, members: {...memberList}, pending: {...pendingList} }
         }
         case ADD: {
-            const newState = {...state, allMembers: {...state.allMembers}, members: {...state.members}, pending: {...state.pending}};
-            action.member.status === 'pending' ?
-                            newState.pending[action.member.memberId] = action.member :
-                            newState.members[action.member.memberId] = action.member;
+            const newState = {...state, allMembers: {...state.allMembers, members: {...state.allMembers.members}, pending: {...state.allMembers.pending}}, members: {...state.members}, pending: {...state.pending}};
+            if (action.member.status === 'pending') {
+                newState.allMembers.pending[action.member.memberId] = action.member;
+                newState.pending[action.member.memberId] = action.member;
+            } else {
+                newState.members[action.member.memberId] = action.member;
+                newState.allMembers.members[action.member.memberId] = action.member;
+            }
             return newState;
-        }
-        case DELETE: {
-            const newState = {...state, allMembers: {...state.allMembers}, members: {...state.members}, pending: {...state.pending}};
-            delete newState.members[action.memberId];
-            return { members: {...newState.members}, pending: {...newState.pending} }
-        }
-        case UPDATE: {
-            const newState = {...state, allMembers: {...state.allMembers}, members: {...state.members}, pending: {...state.pending}};
-            // const member = newState.pending[action.memberId];
-            // delete newState.pending[action.memberId];
-            // member.status = 'member';
-            newState.allMembers[action.member.groupId][action.member.memberId] = action.member;
-            return { allMembers: {...newState.allMembers}, members: {...newState.members}, pending: {...newState.pending} };
         }
         default:
             return state;

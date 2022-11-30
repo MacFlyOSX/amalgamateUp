@@ -14,7 +14,10 @@ const CreateGroup = () => {
     const location = useLocation();
     if (!sessionUser) history.push(`/groups`);
     const dispatch = useDispatch();
-
+    const [ name, setName ] = useState('');
+    const [ type, setType ] = useState('');
+    const [ previewImage, setPreviewImage ] = useState('');
+    const [ validationErrors, setValidationErrors ] = useState([]);
     const [ about, setAbout ] = useState('');
     const [ privacy, setPrivacy ] = useState(false);
     const [ city, setCity ] = useState('');
@@ -23,10 +26,10 @@ const CreateGroup = () => {
     useEffect(() => {
       setCharLimit(600-about.length);
     }, [about]);
-    const [ name, setName ] = useState('');
-    const [ type, setType ] = useState('');
-    const [ previewImage, setPreviewImage ] = useState('');
-    const [ validationErrors, setValidationErrors ] = useState([]);
+    const [ nameLimit, setNameLimit ] = useState(50);
+    useEffect(() => {
+      setNameLimit(50-name.length);
+    }, [name]);
 
     const validate = () => {
       const validationErrors = [];
@@ -95,10 +98,11 @@ const CreateGroup = () => {
                     {errors.map((error, idx) => <li key={idx}>{error}</li>)}
                   </ul> */}
                   <label className="create-event-labels">
-                    Name<br />
+                    Name<span className={nameLimit > 9 ? 'name-tens-gap' : nameLimit === 1 ? 'name-one-gap' : nameLimit === 0 ? 'name-ones-gap zero' : 'name-ones-gap'}>{nameLimit} {nameLimit === 1 ? 'character' : 'characters'} left</span>
+                    {/* <br /><br /> */}
                     <input
                       className="create-form-text-input create-input"
-                      maxLength={80}
+                      maxLength='50'
                       type="text"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
@@ -189,7 +193,7 @@ const CreateGroup = () => {
                     />
                   </label><br />
                   <label className="create-event-labels">
-                    About<span className={charLimit > 99 ? "about-gap" : charLimit > 9 ? 'about-tens-gap' : charLimit === 1 ? 'about-one-gap' : 'about-ones-gap'}>{charLimit} {charLimit === 1 ? 'character' : 'characters'} left</span><br />
+                    About<span className={charLimit > 99 ? "about-gap" : charLimit > 9 ? 'about-tens-gap' : charLimit === 1 ? 'about-one-gap' : charLimit === 0 ? 'about-ones-gap zero' : 'about-ones-gap'}>{charLimit} {charLimit === 1 ? 'character' : 'characters'} left</span><br />
                     <textarea
                       className="create-form-description-input create-input"
                       maxLength='600'

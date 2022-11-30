@@ -158,12 +158,14 @@ const initialState = { allGroups: {}, singleGroup: { events: {} }, usersGroups: 
 const groupReducer = (state = initialState, action) => {
     switch(action.type) {
         case LOAD:{
+            const newState = {...state, singleGroup: {...state.singleGroup, events: {...state.singleGroup.events}}, allGroups: {...state.allGroups}, usersGroups: {...state.usersGroups} };
             const groupsList = {};
             action.list.Groups.forEach(group => groupsList[group.id] = group);
-            return { allGroups: {...groupsList}, singleGroup: { events: {} }, usersGroups: {} }
+            newState.allGroups = groupsList;
+            return newState;
         }
         case GET_ONE: {
-            const newState = {...state, singleGroup: {...state.singleGroup, events: {...state.singleGroup.events}}, usersGroups: {...state.usersGroups} };
+            const newState = {...state, singleGroup: {...state.singleGroup, events: {...state.singleGroup.events}}, allGroups: {...state.allGroups}, usersGroups: {...state.usersGroups} };
             newState.singleGroup = {...action.group, events: {...state.singleGroup.events} };
             const newEvents = {};
             action.events.Events.forEach(event => newEvents[event.id] = event);
@@ -185,12 +187,12 @@ const groupReducer = (state = initialState, action) => {
             return newState;
         }
         case DELETE:{
-            const newState = {...state, allGroups: { ...state.allGroups }, singleGroup: { events: {}}, usersGroups: {...state.usersGroups} };
+            const newState = {...state, singleGroup: {...state.singleGroup, events: {...state.singleGroup.events}}, allGroups: {...state.allGroups}, usersGroups: {...state.usersGroups} };
             delete newState.allGroups[action.groupId];
-            return {allGroups:{...newState.allGroups}, singleGroup:{events:{}}, usersGroups: {} };
+            return newState;
         }
         case GET_USERS: {
-            const newState = {...state, allGroups: { ...state.allGroups }, singleGroup: { events: {}}, usersGroups: {...state.usersGroups} };
+            const newState = {...state, singleGroup: {...state.singleGroup, events: {...state.singleGroup.events}}, allGroups: {...state.allGroups}, usersGroups: {...state.usersGroups} };
             newState.usersGroups = {...action.list};
             return newState;
         }
