@@ -162,8 +162,19 @@
 }
 
 .group-input-state {
-    width: 104px;
+    width: 150px;
+    border-radius: 4px;
+    font-size: 14px;
+    padding: 10px 50px 10px 10px;
+    margin-bottom: 20px;
 }
+
+.group-input-state:focus,
+.group-input-state:active {
+    border: 2px solid #0098ab;
+    outline: none;
+}
+
 
 .city-state-chunker {
     margin: 0 142px;

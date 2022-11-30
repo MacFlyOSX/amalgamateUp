@@ -35,7 +35,7 @@ const EventsIndex = () => {
                             <NavLink key={event.id} to={`/events/${event.id}`}>
                             <div className='event-preview-grid'>
                                 <div className='event-preview-image'>
-                                    <img className='event-thumbnail' src={`${event.previewImage}`} alt='thumbnail' />
+                                    <img className='event-thumbnail' src={`${event.previewImage}`} alt='thumbnail' onError={e => e.currentTarget.src = 'https://i.imgur.com/TXRPT7m.png'} />
                                 </div>
                                 <div className='event-preview-info'>
                                     <h3 className='event-date'>{`${event.startDay}, ${event.startMD}`} • {event.startTime}</h3>

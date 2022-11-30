@@ -114,6 +114,7 @@ const CreateGroup = () => {
                     <input
                       className="create-form-city-input create-input"
                       type="text"
+                      maxLength='20'
                       value={city}
                       onChange={(e) => setCity(e.target.value)}
                       required

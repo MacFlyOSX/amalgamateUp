@@ -52,7 +52,7 @@ function ProfileButton({ user }) {
           <li className="username-dropdown">{` ${user.firstName} ${user.lastName}`}</li>
           <li>
             <NavLink key={user.id} to={`/mystuff`}>
-              <button className="user-mygroups">My Groups</button>
+              <button className="user-mygroups">My Dashboard</button>
             </NavLink>
           </li>
           <li>
