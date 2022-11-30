@@ -9,6 +9,8 @@
 .group-preview-grid {
     display: grid;
     grid-template-columns: 267px 1fr;
+    box-sizing: border-box;
+    overflow-x: hidden;
 }
 
 .group-preview-info {
@@ -43,6 +45,9 @@
     font-size: 20px;
     font-weight: 600;
     margin: 0 0;
+    /* max-width: 400px; */
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .group-location {

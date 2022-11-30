@@ -10,18 +10,16 @@
 
 .event-main-image {
     width: 528px;
-    height: 297px;
-    background-size: cover;
-    background-position: center 40%;
+    height: 282px;
     border-radius: 10px;
 }
-/*
+
 .event-thumbnail {
-    width: 528px;
-    height: 297px;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
     border-radius: 10px;
-} */
+}
 
 .event-deets-icon {
     height: 20px;

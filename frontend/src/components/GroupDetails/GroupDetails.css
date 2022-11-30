@@ -10,17 +10,17 @@
 .group-main-image {
     width: 528px;
     height: 297px;
-    background-size: cover;
-    background-position: center 40%;
+    /* background-size: cover;
+    background-position: center 40%; */
     border-radius: 10px;
+    box-sizing: border-box;
 }
-/*
+
 .group-thumbnail {
-    width: 528px;
-    height: 297px;
+    width: 100%;
     object-fit: cover;
     border-radius: 10px;
-} */
+}
 
 .group-deets-icon {
     height: 20px;
@@ -28,6 +28,8 @@
 
 .group-deets-name {
     font-size: 32px;
+    overflow-wrap: break-word;
+    inline-size: 417px;
 }
 
 .group-information {
@@ -167,6 +169,7 @@
     font-weight: 300;
     white-space: pre-wrap;
     overflow-wrap: break-word;
+    inline-size: 445px;
 }
 
 .user-image-icon {

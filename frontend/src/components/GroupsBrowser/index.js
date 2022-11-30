@@ -34,7 +34,7 @@ const GroupsIndex = () => {
                             <NavLink key={group.id} to={`/groups/${group.id}`}>
                             <div className='group-preview-grid'>
                                 <div className='group-preview-image'>
-                                    <img className='thumbnail' src={`${group.previewImage}`} alt='thumbnail' />
+                                    <img className='thumbnail' src={`${group.previewImage}`} alt='thumbnail' onError={e => e.currentTarget.src = 'https://i.imgur.com/7EYSecN.png'} />
                                 </div>
                                 <div className='group-preview-info'>
                                     <h3 className='group-name'>{group.name}</h3>

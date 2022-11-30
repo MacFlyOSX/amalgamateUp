@@ -102,9 +102,9 @@ const GroupDetails = () => {
         <div className='group-details-container'>
             <div className='top-section-group-details'>
                 <div className='group-main-image'
-                style={{backgroundImage: `url(${!!group ? group?.previewImage : `https://i.imgur.com/7EYSecN.png`})`}}
+                // style={{backgroundImage: `url(${!!group ? group?.previewImage : `https://i.imgur.com/7EYSecN.png`})`}}
                 >
-                    {/* <img className='group-thumbail' src={`${!!group ? group?.previewImage : `https://i.imgur.com/7EYSecN.png`}`} alt='thumbnail' /> */}
+                    <img className='group-thumbnail' src={`${!!group ? group?.previewImage : `https://i.imgur.com/7EYSecN.png`}`} alt='thumbnail' onError={e => e.currentTarget.src = 'https://i.imgur.com/7EYSecN.png'}/>
                 </div>
                 <div className='group-information'>
                     <h2 className='group-deets-name'>{group?.name}</h2>

@@ -125,10 +125,8 @@ const EventDetails = () => {
             </div>
         <div className='event-details-container'>
             <div className='top-section-event-details'>
-                <div className='event-main-image'
-                style={{backgroundImage: `url(${!!event ? event?.previewImage : `https://i.imgur.com/7EYSecN.png`})`}}
-                >
-                    {/* <img className='event-thumbail' src={`${!!event ? event?.previewImage : `https://i.imgur.com/7EYSecN.png`}`} alt='thumbnail' /> */}
+                <div className='event-main-image'>
+                    <img className='event-thumbnail' src={`${!!event ? event?.previewImage : `https://i.imgur.com/TXRPT7m.png`}`} alt='thumbnail' onError={e => e.currentTarget.src = 'https://i.imgur.com/TXRPT7m.png'} />
                 </div>
                 <div className='event-information'>
                     <div className='event-deets-group-info'>
